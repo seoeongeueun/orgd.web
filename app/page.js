@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import Canvas from "./components/Canvas";
 import TextGroup from "./components/TextGroup";
 
 const fetchTexts = async () => {
@@ -48,11 +47,12 @@ export default function SharedPage() {
 	const [canvasState, setCanvasState] = useState({ elements: [] });
 	const [otherCursors, setOtherCursors] = useState({});
 	const [isMain, setIsMain] = useState(true);
-	const mainIp = "172.30.1.38"; // 메인 기기의 ip 주소
+	const mainIp = "172.30.1.21"; // 메인 기기의 ip 주소
 	const scaleFactor = 0.2; // 줌 레벨
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 	const [myColor, setMyColor] = useState("");
 	const [texts, setTexts] = useState([]);
+	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const colors = [
 		"red",
 		"blue",
@@ -74,18 +74,6 @@ export default function SharedPage() {
 			userId = Math.random().toString(36).substring(2);
 			localStorage.setItem("userId", userId);
 		}
-
-		const generateRandomColor = () => {
-			const letters = "0123456789ABCDEF";
-			let color = "#";
-			for (let i = 0; i < 6; i++) {
-				color += letters[Math.floor(Math.random() * 16)];
-			}
-			return color;
-		};
-
-		const assignedColor = generateRandomColor();
-		setMyColor(assignedColor);
 
 		console.log("User ID:", userId);
 		console.log("Main IP:", mainIp);
@@ -117,8 +105,9 @@ export default function SharedPage() {
 			console.error("Connection error:", error);
 		});
 
-		newSocket.on("initial_state", (initialState) => {
-			setCanvasState(initialState);
+		// 현재 활성화된 서브 텍스트가 있는지 받아옴
+		newSocket.on("initial_visibility", (initialVisibility) => {
+			setSubTextVisibility(initialVisibility);
 		});
 
 		newSocket.on("update_view", (updatedCanvasState) => {
@@ -154,6 +143,13 @@ export default function SharedPage() {
 			setIsMain(false);
 		});
 
+		newSocket.on("show_subtext", ({ mainTextId }) => {
+			setSubTextVisibility((prevVisibility) => ({
+				...prevVisibility,
+				[mainTextId]: true,
+			}));
+		});
+
 		setSocket(newSocket);
 
 		return () => {
@@ -183,58 +179,14 @@ export default function SharedPage() {
 	// 	}
 	// }, [isMain]);
 
-	useEffect(() => {
-		console.log(texts);
-	}, [texts]);
+	const handleMainTextClick = (mainTextId) => {
+		const newVisibility = !subTextVisibility[mainTextId];
+		socket.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
 
-	const renderElement = (element, scale = 1) => {
-		return (
-			<div
-				key={element.id}
-				className={element.className}
-				style={{
-					position: "absolute",
-					left: `${element.x * scale}px`,
-					top: `${element.y * scale}px`,
-					width: `${element.width * scale}px`,
-					height: `${element.height * scale}px`,
-				}}
-			/>
-		);
-	};
-
-	const renderCursor = (id, position, color) => {
-		const cursorSize = 10;
-
-		return (
-			<div
-				key={id}
-				className="cursor"
-				style={{
-					position: "absolute",
-					left: `${position.x}%`, // Use percentage for X position
-					top: `${position.y}%`, // Use percentage for Y position
-					width: `${cursorSize}px`, // Fixed size
-					height: `${cursorSize}px`, // Fixed size
-					backgroundColor: color || "red",
-					borderRadius: "50%",
-					pointerEvents: "none", // Ensure it doesn't interfere with interactions
-					transform: `translate(-${cursorSize / 2}px, -${cursorSize / 2}px)`, // Center the cursor
-				}}
-			/>
-		);
-	};
-
-	const renderCanvas = () => {
-		return canvasState.elements.map((element) =>
-			renderElement(element, isMain ? 1 : scaleFactor)
-		);
-	};
-
-	const renderCursors = () => {
-		return Object.keys(otherCursors).map((id) =>
-			renderCursor(id, otherCursors[id].position, otherCursors[id].color)
-		);
+		setSubTextVisibility((prevVisibility) => ({
+			...prevVisibility,
+			[mainTextId]: newVisibility,
+		}));
 	};
 
 	return (
@@ -247,7 +199,13 @@ export default function SharedPage() {
 					say something
 				</button>
 				{texts.map((text) => (
-					<TextGroup key={text.id} mainText={text} subText={text?.subText} />
+					<TextGroup
+						key={text.id}
+						mainText={text}
+						subText={text?.subText}
+						isVisible={subTextVisibility[text.uid]}
+						onMainTextClick={handleMainTextClick}
+					/>
 				))}
 			</div>
 		</div>

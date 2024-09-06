@@ -1,4 +1,9 @@
-export default function TextGroup({ mainText, subText = null }) {
+export default function TextGroup({
+	mainText,
+	subText = null,
+	isVisible,
+	onMainTextClick,
+}) {
 	if (mainText)
 		return (
 			<div
@@ -8,10 +13,13 @@ export default function TextGroup({ mainText, subText = null }) {
 					top: mainText.position?.y,
 				}}
 			>
-				<p className="absolute text-main p-0 m-0 whitespace-nowrap">
+				<p
+					className="absolute text-main p-0 m-0 whitespace-nowrap"
+					onClick={() => onMainTextClick(mainText.uid)}
+				>
 					{mainText.text}
 				</p>
-				{subText && (
+				{subText && isVisible && (
 					<div
 						className="relative"
 						style={{
