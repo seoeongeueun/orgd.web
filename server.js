@@ -68,6 +68,11 @@ app.prepare().then(() => {
 			socket.broadcast.emit("show_subtext", { mainTextId, subtextVisible });
 		});
 
+		socket.on("refresh_visibility", () => {
+			subTextVisibilityState = {};
+			io.emit("refresh_visibility");
+		});
+
 		socket.on("disconnect", () => {
 			console.log("User disconnected:", socket.id);
 		});

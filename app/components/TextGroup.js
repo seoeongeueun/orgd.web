@@ -14,7 +14,7 @@ export default function TextGroup({
 				}}
 			>
 				<p
-					className="absolute text-main p-0 m-0 whitespace-nowrap"
+					className="absolute text-main p-0 m-0 whitespace-nowrap cursor-pointer"
 					onClick={() => onMainTextClick(mainText.uid)}
 				>
 					{mainText.text}
