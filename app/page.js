@@ -139,6 +139,10 @@ export default function SharedPage() {
 			createSubText();
 		});
 
+		newSocket.on("refresh_visibility", () => {
+			setSubTextVisibility({});
+		});
+
 		newSocket.on("is_not_host", () => {
 			setIsMain(false);
 		});
@@ -198,9 +202,15 @@ export default function SharedPage() {
 				>
 					say something
 				</button>
+				<button
+					onClick={() => socket.emit("refresh_visibility")}
+					className="fixed right-4 top-4 text-black"
+				>
+					초기화
+				</button>
 				{texts.map((text) => (
 					<TextGroup
-						key={text.id}
+						key={text.uid}
 						mainText={text}
 						subText={text?.subText}
 						isVisible={subTextVisibility[text.uid]}
