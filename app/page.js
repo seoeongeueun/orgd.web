@@ -9,64 +9,18 @@ const fetchTexts = async () => {
 	return data;
 };
 
-const createButton = async () => {
-	const response = await fetch("/api/texts", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			text: "Say something",
-			position: { x: Math.random() * 1000, y: Math.random() * 1000 },
-		}),
-	});
-
+const fetchIp = async () => {
+	const response = await fetch("/api/ip");
 	const data = await response.json();
-	console.log(data);
-};
-
-const createSubText = async (mainTextId = null) => {
-	const response = await fetch("/api/texts", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-			text: "extra things to say",
-			backgroundColor: "#ffcc00",
-			position: { x: Math.random() * 1000, y: Math.random() * 1000 },
-			isSubText: true,
-			mainTextId,
-		}),
-	});
-
-	const data = await response.json();
-	console.log(data);
-	return data; // Return the created subtext
+	return data.ip;
 };
 
 export default function SharedPage() {
-	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [socket, setSocket] = useState(null);
-	const [canvasState, setCanvasState] = useState({ elements: [] });
-	const [otherCursors, setOtherCursors] = useState({});
 	const [isMain, setIsMain] = useState(true);
 	const mainIp = "172.30.1.21"; // 메인 기기의 ip 주소
-	const scaleFactor = 0.2; // 줌 레벨
-	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-	const [myColor, setMyColor] = useState("");
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
-	const colors = [
-		"red",
-		"blue",
-		"green",
-		"yellow",
-		"purple",
-		"orange",
-		"pink",
-		"cyan",
-		"magenta",
-		"lime",
-		"teal",
-		"white",
-	];
 
 	useEffect(() => {
 		let userId = localStorage.getItem("userId");
@@ -78,18 +32,14 @@ export default function SharedPage() {
 		console.log("User ID:", userId);
 		console.log("Main IP:", mainIp);
 
+		fetchIp().then((data) => {
+			setIsMain(data === mainIp || data === "localhost");
+		});
+
 		const newSocket = io(`http://${window.location.hostname}:3000`, {
 			transports: ["websocket", "polling"],
 			query: { userId },
 		});
-
-		// 메인 기기인지 확인
-		// fetch("/api/ip")
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		console.log("current ip:", data.ip);
-		// 		setIsMain(data.ip === mainIp);
-		// 	});
 
 		const loadTexts = async () => {
 			const data = await fetchTexts();
@@ -110,41 +60,8 @@ export default function SharedPage() {
 			setSubTextVisibility(initialVisibility);
 		});
 
-		newSocket.on("update_view", (updatedCanvasState) => {
-			setCanvasState(updatedCanvasState);
-		});
-
-		newSocket.on("existing_cursors", (cursors) => {
-			setOtherCursors(cursors);
-		});
-
-		newSocket.on("cursor_update", ({ id, position }) => {
-			setOtherCursors((prevCursors) => ({
-				...prevCursors,
-				[id]: position,
-			}));
-		});
-
-		newSocket.on("cursor_remove", ({ id }) => {
-			setOtherCursors((prevCursors) => {
-				const newCursors = { ...prevCursors };
-				delete newCursors[id];
-				return newCursors;
-			});
-		});
-
-		newSocket.on("open_dialog", () => {
-			setIsDialogOpen(true);
-			createButton();
-			createSubText();
-		});
-
 		newSocket.on("refresh_visibility", () => {
 			setSubTextVisibility({});
-		});
-
-		newSocket.on("is_not_host", () => {
-			setIsMain(false);
 		});
 
 		newSocket.on("show_subtext", ({ mainTextId }) => {
@@ -194,14 +111,8 @@ export default function SharedPage() {
 	};
 
 	return (
-		<div className={`${isMain ? "main" : "main"} canvas`}>
+		<div className={`${isMain ? "main" : "zoomed-main"} canvas`}>
 			<div id="canvas" className="w-full h-full">
-				<button
-					onClick={() => socket.emit("open_dialog")}
-					className="text-white"
-				>
-					say something
-				</button>
 				<button
 					onClick={() => socket.emit("refresh_visibility")}
 					className="fixed right-4 top-4 text-black"

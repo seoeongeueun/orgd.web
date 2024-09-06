@@ -1,19 +1,12 @@
 import { NextResponse } from "next/server";
-import os from "os";
 
-function getLocalIpAddress() {
-	const interfaces = os.networkInterfaces();
-	for (const name of Object.keys(interfaces)) {
-		for (const iface of interfaces[name]) {
-			if (iface.family === "IPv4" && !iface.internal) {
-				return iface.address;
-			}
-		}
+export async function GET(req) {
+	const forwarded = req.headers.get("x-forwarded-for");
+	const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
+
+	if (ip === "::1" || ip === "127.0.0.1") {
+		return NextResponse.json({ ip: "localhost" });
 	}
-	return "127.0.0.1";
-}
 
-export async function GET() {
-	const ip = getLocalIpAddress();
 	return NextResponse.json({ ip });
 }
