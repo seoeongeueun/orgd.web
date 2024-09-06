@@ -1,0 +1,50 @@
+[
+	{
+		"uid": "j1k2l3m4n5o6p7q8r9s0",
+		"text": "Keep moving forward.",
+		"background_color": "lightgray",
+		"position": { "x": 8, "y": -4 },
+		"rotation": -15,
+		"main_text_uid": "a1b2c3d4e5f6g7h8i9j0"
+	},
+	{
+		"uid": "m3n4o5p6q7r8s9t0u1v2",
+		"text": "Failure is part of success.",
+		"background_color": "black",
+		"position": { "x": -5, "y": 7 },
+		"rotation": 30,
+		"main_text_uid": "c3d4e5f6g7h8i9j0k1l2"
+	},
+	{
+		"uid": "p5q6r7s8t9u0v1w2x3y4",
+		"text": "Stay focused and never give up.",
+		"background_color": "lightgray",
+		"position": { "x": 2, "y": -3 },
+		"rotation": -45,
+		"main_text_uid": "e5f6g7h8i9j0k1l2m3n4"
+	},
+	{
+		"uid": "q1r2s3t4u5v6w7x8y9z0",
+		"text": "Every step you take is progress.",
+		"background_color": "lightgray",
+		"position": { "x": -6, "y": 4 },
+		"rotation": -10,
+		"main_text_uid": "f1g2h3i4j5k6l7m8n9o0"
+	},
+	{
+		"uid": "r2s3t4u5v6w7x8y9z0a1",
+		"text": "Keep moving forward, no matter what.",
+		"background_color": "black",
+		"position": { "x": 7, "y": -5 },
+		"rotation": 20,
+		"main_text_uid": "h3i4j5k6l7m8n9o0p1q2"
+	},
+	{
+		"uid": "s3t4u5v6w7x8y9z0a1b2",
+		"text": "The strength within is all you need.",
+		"background_color": "lightgray",
+		"position": { "x": -3, "y": 3 },
+		"rotation": 15,
+		"main_text_uid": "j5k6l7m8n9o0p1q2r3s4"
+	}
+]
