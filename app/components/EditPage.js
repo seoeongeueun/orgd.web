@@ -1,7 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import TextGroup from "./TextGroup";
+import DraggableTextGroup from "./DraggableTextGroup";
+import Draggable from "react-draggable";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -86,10 +88,11 @@ export default function EditPage({ isEditMode = true }) {
 				>
 					초기화
 				</button>
-				{texts.map((text) => (
-					<TextGroup
+				{texts.map((text, index) => (
+					<DraggableTextGroup
 						key={text.uid}
 						mainText={text}
+						scale={scale || 1}
 						subText={text?.subText}
 						isVisible={subTextVisibility[text.uid]}
 						onMainTextClick={handleMainTextClick}
