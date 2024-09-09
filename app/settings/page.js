@@ -37,8 +37,14 @@ export default function Page() {
 	};
 
 	return (
-		<div className="flex flex-col justify-center items-start gap-4">
-			<h1>설정</h1>
+		<div className="flex flex-col justify-center items-start gap-4 w-full h-full">
+			<div className="flex flex-row justify-between items-center w-full p-4 text-2xl">
+				<h1>데이터 설정</h1>
+				<div className="flex flex-row gap-2">
+					<button type="button">초기화</button>
+					<button type="submit">저장</button>
+				</div>
+			</div>
 			<div className="flex flex-row gap-4">
 				<input
 					onChange={handleIpChange}
@@ -47,11 +53,12 @@ export default function Page() {
 					className="text-main w-40"
 				/>
 				<button onClick={handleSubmit} type="submit">
-					저장
+					입력
 				</button>
 			</div>
 
 			{message && <p>{message}</p>}
+
 			<EditPage />
 		</div>
 	);
