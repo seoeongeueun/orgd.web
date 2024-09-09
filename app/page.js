@@ -21,12 +21,7 @@ export default function SharedPage() {
 	const mainIp = "172.30.1.21"; // 메인 기기의 ip 주소
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
-	const [nonMainViewport, setNonMainViewport] = useState({
-		width: 0,
-		height: 0,
-		scrollLeft: 0,
-		scrollTop: 0,
-	});
+	const [userFrames, setUserFrames] = useState({});
 	const scaleFactor = 10;
 
 	useEffect(() => {
@@ -152,17 +147,13 @@ export default function SharedPage() {
 
 	useEffect(() => {
 		if (isMain && socket) {
-			socket.on(
-				"update_viewport_frame",
-				({ scaledWidth, scaledHeight, scrollLeft, scrollTop }) => {
-					setNonMainViewport({
-						width: scaledWidth, // The scaled width of the viewport
-						height: scaledHeight, // The scaled height of the viewport
-						scrollLeft, // The scaled scroll left position
-						scrollTop, // The scaled scroll top position
-					});
-				}
-			);
+			socket.on("update_viewport_frames", (frames) => {
+				setUserFrames(frames);
+			});
+
+			socket.on("initial_frames", (frames) => {
+				setUserFrames(frames);
+			});
 		}
 	}, [isMain, socket]);
 
@@ -203,19 +194,24 @@ export default function SharedPage() {
 						onMainTextClick={handleMainTextClick}
 					/>
 				))}
-				{isMain && (
-					<div
-						style={{
-							position: "absolute",
-							top: `${nonMainViewport.scrollTop}px`,
-							left: `${nonMainViewport.scrollLeft}px`,
-							width: `${nonMainViewport.width}px`,
-							height: `${nonMainViewport.height}px`,
-							border: "1px solid red", // 1px border to mark the non-main viewport
-							zIndex: 1000, // Make sure it's on top
-						}}
-					/>
-				)}
+				{isMain &&
+					Object.keys(userFrames).map((userId) => {
+						const frame = userFrames[userId];
+						return (
+							<div
+								key={userId} // Unique key for each frame
+								style={{
+									position: "absolute",
+									top: `${frame.scrollTop}px`,
+									left: `${frame.scrollLeft}px`,
+									width: `${frame.scaledWidth}px`,
+									height: `${frame.scaledHeight}px`,
+									border: "1px solid red", // 1px border for each user frame
+									zIndex: 1000,
+								}}
+							/>
+						);
+					})}
 			</div>
 		</div>
 	);
