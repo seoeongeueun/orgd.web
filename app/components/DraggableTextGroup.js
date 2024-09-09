@@ -1,5 +1,6 @@
 import Draggable from "react-draggable";
 import { useRef, useState } from "react";
+import { useMode } from "@/app/contexts/ModeContext";
 
 export default function DraggableTextGroup({
 	mainText,
@@ -9,7 +10,15 @@ export default function DraggableTextGroup({
 	scale,
 }) {
 	const [isDragging, setIsDragging] = useState(false);
-	const [deltaPosition, setDeltaPosition] = useState({ x: 0, y: 0 });
+	const [deltaPosition, setDeltaPosition] = useState({
+		x: mainText.position?.x || 0,
+		y: mainText.position?.y || 0,
+	});
+	const [subTextPosition, setSubTextPosition] = useState({
+		x: subText?.position?.x || 0,
+		y: subText?.position?.y || 0,
+	});
+	const { mode } = useMode();
 	const nodeRef = useRef(null);
 	const subNodeRef = useRef(null);
 
@@ -38,13 +47,20 @@ export default function DraggableTextGroup({
 		}
 	};
 
-	if (mainText)
+	const handleSubTextDrag = (e, data) => {
+		setSubTextPosition({
+			x: data.x,
+			y: data.y,
+		});
+	};
+
+	if (mode === "main")
 		return (
 			<Draggable
 				bounds="parent"
 				nodeRef={nodeRef}
-				disabled={false}
-				defaultPosition={{ x: mainText.position?.x, y: mainText.position?.y }}
+				disabled={mode !== "main"}
+				position={{ x: mainText.position?.x, y: mainText.position?.y }}
 				scale={scale}
 				handle=".text-main"
 				onDrag={handleDragStart}
@@ -52,10 +68,12 @@ export default function DraggableTextGroup({
 			>
 				<div
 					ref={nodeRef}
-					className="relative w-fit p-0 m-0 flex flex-col justify-center items-center"
+					className="relative w-fit h-fit p-0 m-0 flex flex-col justify-center items-center"
 				>
 					<p
-						className="absolute text-main whitespace-nowrap cursor-pointer"
+						className={`absolute text-main whitespace-nowrap ${
+							mode === "main" ? "cursor-pointer" : "cursor-default"
+						}`}
 						onClick={handleClick}
 					>
 						{mainText.text}
@@ -69,7 +87,7 @@ export default function DraggableTextGroup({
 									: "bg-black"
 							}`}
 							style={{
-								transform: `rotate(${subText.rotation || 0}deg)`,
+								transform: `rotate(${subText.rotation || 0}deg) `,
 							}}
 						>
 							{subText.text}
@@ -78,5 +96,52 @@ export default function DraggableTextGroup({
 				</div>
 			</Draggable>
 		);
-	return null;
+	else {
+		return (
+			<div
+				className="absolute p-0 m-0 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center"
+				style={{
+					left: mainText.position?.x,
+					top: mainText.position?.y,
+				}}
+			>
+				<p
+					className="absolute text-main p-0 m-0 whitespace-nowrap cursor-pointer"
+					onClick={() => onMainTextClick(mainText.uid)}
+				>
+					{mainText.text}
+				</p>
+				{subText && isVisible && (
+					<Draggable
+						nodeRef={subNodeRef}
+						position={subTextPosition}
+						scale={scale}
+						onDrag={handleSubTextDrag}
+						defaultPosition={{
+							x: subText.position?.x,
+							y: subText.position?.y,
+						}}
+					>
+						<div
+							ref={subNodeRef}
+							className="relative text-sub whitespace-nowrap"
+						>
+							<div
+								className="w-fit h-fit bg-black"
+								style={{
+									transform: `rotate(${subText.rotation || 0}deg)`,
+									backgroundColor:
+										subText.background_color === "lightgray"
+											? "bg-gray-300"
+											: "bg-black",
+								}}
+							>
+								{subText.text}
+							</div>
+						</div>
+					</Draggable>
+				)}
+			</div>
+		);
+	}
 }

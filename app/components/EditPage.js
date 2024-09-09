@@ -18,7 +18,7 @@ const fetchIp = async () => {
 };
 
 // edit mode인 경우 소켓 통신 x
-export default function EditPage({ isEditMode = true }) {
+export default function EditPage() {
 	const [isMain, setIsMain] = useState(true);
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
