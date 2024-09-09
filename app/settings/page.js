@@ -1,10 +1,20 @@
 "use client";
 import { useState } from "react";
 import EditPage from "../components/EditPage";
+import { ModeProvider, useMode } from "@/app/contexts/ModeContext";
 
 export default function Page() {
+	return (
+		<ModeProvider>
+			<EditPageContent />
+		</ModeProvider>
+	);
+}
+
+export function EditPageContent() {
 	const [ip, setIp] = useState("");
-	const [message, setMessage] = useState(""); // For feedback after submission
+	const [message, setMessage] = useState("");
+	const { mode, handleModeChange } = useMode();
 
 	const handleIpChange = (e) => {
 		setIp(e.target.value);
@@ -45,6 +55,7 @@ export default function Page() {
 					<button type="submit">저장</button>
 				</div>
 			</div>
+			<button onClick={handleModeChange}>{mode.toUpperCase()}</button>
 			<div className="flex flex-row gap-4">
 				<input
 					onChange={handleIpChange}

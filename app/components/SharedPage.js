@@ -23,6 +23,7 @@ export default function SharedPage({ isEditMode = true }) {
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
+	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
 	const scaleFactor = 10;
 
 	useEffect(() => {
@@ -78,10 +79,31 @@ export default function SharedPage({ isEditMode = true }) {
 
 		setSocket(newSocket);
 
+		const handleResize = () => {
+			const windowWidth = window.innerWidth;
+			const windowHeight = window.innerHeight;
+
+			// 기본 비율은 1920 / 1080 = 16 / 9
+			const baseWidth = 1920;
+			const baseHeight = 1080;
+
+			const scaleFactorWidth = windowWidth / baseWidth;
+			const scaledHeight = baseHeight * scaleFactorWidth;
+			if (scaledHeight <= windowHeight) {
+				setScale(scaleFactorWidth);
+			} else {
+				const scaleFactorHeight = windowHeight / baseHeight;
+				setScale(scaleFactorHeight);
+			}
+		};
+		handleResize();
+		window.addEventListener("resize", handleResize);
+
 		return () => {
 			if (newSocket.connected) {
 				newSocket.disconnect();
 			}
+			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
 
@@ -93,7 +115,6 @@ export default function SharedPage({ isEditMode = true }) {
 				const canvasWidth = 1920;
 				const canvasHeight = 1080;
 
-				// Calculate the scaled viewport size and scroll position
 				const scaledWidth =
 					((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
 				const scaledHeight =
@@ -148,7 +169,10 @@ export default function SharedPage({ isEditMode = true }) {
 	};
 
 	return (
-		<div className={`${isMain ? "main" : "zoomed-main"} canvas`}>
+		<div
+			className={`${isMain ? "main" : "zoomed-main"} canvas`}
+			style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
+		>
 			<div id="canvas" className="w-full h-full">
 				<button
 					onClick={() => socket.emit("refresh_visibility")}
