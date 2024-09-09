@@ -57,11 +57,14 @@ app.prepare().then(() => {
 
 	// 	});
 	let subTextVisibilityState = {}; // 현재 활성화된 서브텍스트를 저장
+	let userFrames = {}; // 유저의 뷰포트를 저장
 
 	io.on("connection", (socket) => {
 		console.log("A user connected:", socket.id);
+		const userId = socket.handshake.query.userId;
 
 		socket.emit("initial_visibility", subTextVisibilityState);
+		socket.emit("initial_frame", userFrames[userId] || {});
 
 		socket.on("show_subtext", ({ mainTextId, subtextVisible }) => {
 			subTextVisibilityState[mainTextId] = subtextVisible;
@@ -72,6 +75,19 @@ app.prepare().then(() => {
 			subTextVisibilityState = {};
 			io.emit("refresh_visibility");
 		});
+
+		socket.on(
+			"send_viewport",
+			({ scaledWidth, scaledHeight, scrollLeft, scrollTop }) => {
+				// Broadcast to the main device about the viewport size and scroll position
+				socket.broadcast.emit("update_viewport_frame", {
+					scaledWidth,
+					scaledHeight,
+					scrollLeft,
+					scrollTop,
+				});
+			}
+		);
 
 		socket.on("disconnect", () => {
 			console.log("User disconnected:", socket.id);

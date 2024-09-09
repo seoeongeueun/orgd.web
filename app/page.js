@@ -21,6 +21,13 @@ export default function SharedPage() {
 	const mainIp = "172.30.1.21"; // 메인 기기의 ip 주소
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
+	const [nonMainViewport, setNonMainViewport] = useState({
+		width: 0,
+		height: 0,
+		scrollLeft: 0,
+		scrollTop: 0,
+	});
+	const scaleFactor = 10;
 
 	useEffect(() => {
 		let userId = localStorage.getItem("userId");
@@ -32,9 +39,11 @@ export default function SharedPage() {
 		console.log("User ID:", userId);
 		console.log("Main IP:", mainIp);
 
-		fetchIp().then((data) => {
-			setIsMain(data === mainIp || data === "localhost");
-		});
+		// fetchIp().then((data) => {
+		// 	setIsMain(data === mainIp || data === "localhost");
+		// 	console.log("current IP: ", data);
+		// });
+		setIsMain(window.location.hostname === "localhost");
 
 		const newSocket = io(`http://${window.location.hostname}:3000`, {
 			transports: ["websocket", "polling"],
@@ -82,23 +91,80 @@ export default function SharedPage() {
 
 	// useEffect(() => {
 	// 	if (!isMain) {
-	// 		const maxScrollLeft =
-	// 			document.documentElement.scrollWidth - window.innerWidth;
-	// 		const maxScrollTop =
-	// 			document.documentElement.scrollHeight - window.innerHeight;
+	// 		const canvasWidth = 1920; // Full canvas width
+	// 		const canvasHeight = 1080; // Full canvas height
 
-	// 		if (maxScrollLeft > 0 || maxScrollTop > 0) {
-	// 			const randomScrollLeft = Math.random() * maxScrollLeft;
-	// 			const randomScrollTop = Math.random() * maxScrollTop;
+	// 		// Get the physical viewport size of the non-main device
+	// 		const deviceWidth = window.innerWidth; // Non-main device's screen width
+	// 		const deviceHeight = window.innerHeight; // Non-main device's screen height
 
-	// 			window.scrollTo({
-	// 				left: randomScrollLeft,
-	// 				top: randomScrollTop,
-	// 				behavior: "instant",
-	// 			});
-	// 		}
+	// 		// Calculate the visible area relative to the full canvas and the zoom level (scaleFactor = 10)
+	// 		const scaledWidth =
+	// 			((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
+	// 		const scaledHeight =
+	// 			((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
+
+	// 		// Get the current scroll position and adjust it by the zoom factor
+	// 		const scrollLeft = window.scrollX / scaleFactor;
+	// 		const scrollTop = window.scrollY / scaleFactor;
+
+	// 		// Emit the calculated viewport and scroll position to the server
+	// 		socket.emit("send_viewport", {
+	// 			scaledWidth,
+	// 			scaledHeight,
+	// 			scrollLeft,
+	// 			scrollTop,
+	// 		});
 	// 	}
-	// }, [isMain]);
+	// }, [isMain, scaleFactor]);
+
+	useEffect(() => {
+		if (!isMain) {
+			const handleScroll = () => {
+				const deviceWidth = window.innerWidth;
+				const deviceHeight = window.innerHeight;
+				const canvasWidth = 1920;
+				const canvasHeight = 1080;
+
+				// Calculate the scaled viewport size and scroll position
+				const scaledWidth =
+					((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
+				const scaledHeight =
+					((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
+				const scrollLeft = window.scrollX / scaleFactor;
+				const scrollTop = window.scrollY / scaleFactor;
+
+				socket.emit("send_viewport", {
+					scaledWidth,
+					scaledHeight,
+					scrollLeft,
+					scrollTop,
+				});
+			};
+
+			window.addEventListener("scroll", handleScroll);
+
+			return () => {
+				window.removeEventListener("scroll", handleScroll);
+			};
+		}
+	}, [isMain, scaleFactor, socket]);
+
+	useEffect(() => {
+		if (isMain && socket) {
+			socket.on(
+				"update_viewport_frame",
+				({ scaledWidth, scaledHeight, scrollLeft, scrollTop }) => {
+					setNonMainViewport({
+						width: scaledWidth, // The scaled width of the viewport
+						height: scaledHeight, // The scaled height of the viewport
+						scrollLeft, // The scaled scroll left position
+						scrollTop, // The scaled scroll top position
+					});
+				}
+			);
+		}
+	}, [isMain, socket]);
 
 	const handleMainTextClick = (mainTextId) => {
 		const newVisibility = !subTextVisibility[mainTextId];
@@ -108,6 +174,15 @@ export default function SharedPage() {
 			...prevVisibility,
 			[mainTextId]: newVisibility,
 		}));
+	};
+
+	const handleViewportScroll = (event) => {
+		if (isMain) {
+			const { scrollLeft, scrollTop } = event.target;
+			const scaledWidth = scrollLeft / scaleFactor;
+			const scaledHeight = scrollTop / scaleFactor;
+			socket.emit("send_viewport", { scaledWidth, scaledHeight });
+		}
 	};
 
 	return (
@@ -128,6 +203,19 @@ export default function SharedPage() {
 						onMainTextClick={handleMainTextClick}
 					/>
 				))}
+				{isMain && (
+					<div
+						style={{
+							position: "absolute",
+							top: `${nonMainViewport.scrollTop}px`,
+							left: `${nonMainViewport.scrollLeft}px`,
+							width: `${nonMainViewport.width}px`,
+							height: `${nonMainViewport.height}px`,
+							border: "1px solid red", // 1px border to mark the non-main viewport
+							zIndex: 1000, // Make sure it's on top
+						}}
+					/>
+				)}
 			</div>
 		</div>
 	);
