@@ -20,6 +20,10 @@ module.exports = {
 				main: "#000000",
 				sub: "#ffffff",
 			},
+			spacing: {
+				"main-width": 1920,
+				"main-height": 1080,
+			},
 		},
 	},
 	plugins: [],
