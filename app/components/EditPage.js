@@ -82,12 +82,6 @@ export default function EditPage({ isEditMode = true }) {
 			}}
 		>
 			<div id="canvas" className="w-full h-full">
-				<button
-					onClick={() => socket.emit("refresh_visibility")}
-					className="fixed right-4 top-4 text-black"
-				>
-					초기화
-				</button>
 				{texts.map((text, index) => (
 					<DraggableTextGroup
 						key={text.uid}
