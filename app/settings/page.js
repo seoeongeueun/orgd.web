@@ -47,7 +47,7 @@ export function EditPageContent() {
 	};
 
 	return (
-		<div className="flex flex-col justify-center items-start gap-4 w-full h-full">
+		<div className="flex flex-col justify-start items-start gap-4 w-full h-full">
 			<div className="flex flex-row justify-between items-center w-full p-4 text-2xl">
 				<h1>데이터 설정</h1>
 				<div className="flex flex-row gap-2">
