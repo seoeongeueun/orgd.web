@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { debounce } from "../utils/tools";
 import TextGroup from "./TextGroup";
 
 const fetchTexts = async () => {
@@ -79,23 +80,32 @@ export default function SharedPage({ isEditMode = true }) {
 
 		setSocket(newSocket);
 
-		const handleResize = () => {
-			const windowWidth = window.innerWidth;
-			const windowHeight = window.innerHeight;
+		// const handleResize = () => {
+		// 	const windowWidth = window.innerWidth;
+		// 	const windowHeight = window.innerHeight;
 
-			// 기본 비율은 1920 / 1080 = 16 / 9
+		// 	// 기본 비율은 1920 / 1080 = 16 / 9
+		// 	const baseWidth = 1920;
+		// 	const baseHeight = 1080;
+
+		// 	const scaleFactorWidth = windowWidth / baseWidth;
+		// 	const scaledHeight = baseHeight * scaleFactorWidth;
+		// 	if (scaledHeight <= windowHeight) {
+		// 		setScale(scaleFactorWidth);
+		// 	} else {
+		// 		const scaleFactorHeight = windowHeight / baseHeight;
+		// 		setScale(scaleFactorHeight);
+		// 	}
+		// };
+		// handleResize();
+
+		const handleResize = debounce(() => {
+			//const windowWidth = window.innerWidth;
+			const windowWidth = document.body.clientWidth;
 			const baseWidth = 1920;
-			const baseHeight = 1080;
+			setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
+		}, 100);
 
-			const scaleFactorWidth = windowWidth / baseWidth;
-			const scaledHeight = baseHeight * scaleFactorWidth;
-			if (scaledHeight <= windowHeight) {
-				setScale(scaleFactorWidth);
-			} else {
-				const scaleFactorHeight = windowHeight / baseHeight;
-				setScale(scaleFactorHeight);
-			}
-		};
 		handleResize();
 		window.addEventListener("resize", handleResize);
 
