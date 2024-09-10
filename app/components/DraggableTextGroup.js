@@ -12,6 +12,7 @@ export default function DraggableTextGroup({
 	scale,
 	lastModified,
 	setLastModified,
+	onUpdateText,
 }) {
 	const [isDragging, setIsDragging] = useState(false);
 	const [deltaPosition, setDeltaPosition] = useState({
@@ -66,7 +67,7 @@ export default function DraggableTextGroup({
 				rotation:
 					mode === "main" ? mainText?.rotation || 0 : subText?.rotation || 0,
 			});
-		}, 100),
+		}, 50),
 		[isDragging, mode, deltaPosition, subTextPosition, setLastModified]
 	);
 
@@ -76,8 +77,20 @@ export default function DraggableTextGroup({
 			x: mode === "main" ? deltaPosition.x : subTextPosition.x,
 			y: mode === "main" ? deltaPosition.y : subTextPosition.y,
 		}));
+
+		onUpdateText(mainText.uid, {
+			...mainText,
+			position: { x: deltaPosition.x, y: deltaPosition.y },
+			subText: subText
+				? {
+						...subText,
+						position: { x: subTextPosition.x, y: subTextPosition.y },
+				  }
+				: null,
+		});
+
 		setTimeout(() => setIsDragging(false), 0);
-	}, [mode, deltaPosition, subTextPosition, setLastModified]);
+	}, [mode, deltaPosition, subTextPosition, onUpdateText, setLastModified]);
 
 	const handleClick = useCallback(
 		(e) => {

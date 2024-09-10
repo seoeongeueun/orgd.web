@@ -1,4 +1,5 @@
 import connectDB from "@/app/utils/mongodb";
+import { NextResponse } from "next/server";
 import MainText from "@/app/models/mainText";
 import SubText from "@/app/models/subText";
 
@@ -24,6 +25,48 @@ export async function GET(req) {
 	} catch (error) {
 		return new Response(
 			JSON.stringify({ error: "Failed to fetch main texts" }),
+			{ status: 500 }
+		);
+	}
+}
+
+export async function POST(req) {
+	await connectDB();
+
+	try {
+		const { updatedTexts } = await req.json();
+		console.log("Received updatedTexts", updatedTexts); // Add logging
+
+		for (const text of updatedTexts) {
+			console.log("Processing MainText", text); // Add logging
+
+			// Update MainText
+			await MainText.findOneAndUpdate(
+				{ uid: text.uid },
+				{
+					position: text.position,
+				}
+			);
+
+			// Update SubText if it exists
+			if (text.subText) {
+				console.log("Processing SubText", text.subText); // Add logging
+
+				await SubText.findOneAndUpdate(
+					{ uid: text.subText.uid },
+					{
+						position: text.subText.position,
+						rotation: text.subText.rotation,
+					}
+				);
+			}
+		}
+
+		return NextResponse.json({ message: "Texts updated successfully" });
+	} catch (error) {
+		console.error("Error updating texts:", error);
+		return NextResponse.json(
+			{ error: "Failed to update texts" },
 			{ status: 500 }
 		);
 	}

@@ -57,6 +57,45 @@ export default function EditPage() {
 		}));
 	}, []);
 
+	const handleUpdateText = useCallback((uid, updatedText) => {
+		setTexts((prevTexts) =>
+			prevTexts.map((text) => (text.uid === uid ? updatedText : text))
+		);
+	}, []);
+
+	const handleSavePositions = async () => {
+		try {
+			const updatedTexts = texts.map((text) => ({
+				uid: text.uid,
+				position: text.position,
+				subText: text.subText
+					? {
+							uid: text.subText.uid,
+							position: text.subText.position,
+							rotation: text.subText.rotation,
+					  }
+					: null,
+			}));
+
+			const response = await fetch("/api/texts", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ updatedTexts }),
+			});
+
+			if (!response.ok) {
+				throw new Error("Failed to save positions");
+			}
+
+			alert("Positions saved successfully!");
+		} catch (error) {
+			console.error("Error saving positions:", error);
+			alert("Failed to save positions");
+		}
+	};
+
 	return (
 		<div
 			className="canvas bg-white text-black"
@@ -69,6 +108,13 @@ export default function EditPage() {
 				position: "relative",
 			}}
 		>
+			<button
+				type="submit"
+				className="ml-auto fixed top-0 "
+				onClick={handleSavePositions}
+			>
+				저장
+			</button>
 			<div id="canvas" className="w-full aspect-video">
 				{texts?.length > 0 &&
 					texts.map((text, index) => (
@@ -81,6 +127,7 @@ export default function EditPage() {
 							lastModified={lastModified}
 							setLastModified={setLastModified}
 							onMainTextClick={handleMainTextClick}
+							onUpdateText={handleUpdateText}
 						/>
 					))}
 			</div>

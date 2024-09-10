@@ -20,7 +20,7 @@ const InputBox = memo(function InputBox({
 	);
 
 	return (
-		<div className="absolute flex flex-row gap-px text-main ml-auto bottom-8 right-0 z-[99] opacity-80">
+		<div className="absolute flex flex-row gap-px text-base ml-auto bottom-8 right-0 z-[99] opacity-80">
 			{!isRotating ? (
 				<>
 					{renderInputField(
@@ -40,7 +40,7 @@ const InputBox = memo(function InputBox({
 
 			<button
 				onClick={setIsRotating ? () => setIsRotating((prev) => !prev) : null}
-				className="bg-gray-50 border border-gray-300 w-fit rounded-sm shrink-0"
+				className="bg-gray-50 border border-gray-300 w-8 flex justify-center items-center rounded-sm shrink-0"
 			>
 				<Image
 					src={isRotating ? "/icons/rotate.svg" : "/icons/move.svg"}
