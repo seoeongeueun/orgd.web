@@ -1,20 +1,12 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
-import { io } from "socket.io-client";
-import TextGroup from "./TextGroup";
+import { useEffect, useState, useCallback } from "react";
 import DraggableTextGroup from "./DraggableTextGroup";
-import Draggable from "react-draggable";
+import { debounce } from "../utils/tools";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
 	const data = await response.json();
 	return data;
-};
-
-const fetchIp = async () => {
-	const response = await fetch("/api/ip");
-	const data = await response.json();
-	return data.ip;
 };
 
 // edit mode인 경우 소켓 통신 x
@@ -31,21 +23,16 @@ export default function EditPage() {
 			setTexts(data);
 		};
 		loadTexts();
+	}, []);
 
-		const handleResize = () => {
+	useEffect(() => {
+		// 기기 너비가 바뀔 때 마다 가로 100%로 유지하기 위해 스케일 조정
+		const handleResize = debounce(() => {
 			const windowWidth = window.innerWidth;
-			const windowHeight = window.innerHeight;
-
-			// The aspect ratio is 1920 / 1080 = 16 / 9
 			const baseWidth = 1920;
+			setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
+		}, 100);
 
-			if (windowWidth < baseWidth) {
-				const scaleFactorWidth = windowWidth / baseWidth;
-				setScale(scaleFactorWidth);
-			} else {
-				setScale(1);
-			}
-		};
 		handleResize();
 		window.addEventListener("resize", handleResize);
 
@@ -55,6 +42,7 @@ export default function EditPage() {
 	}, []);
 
 	useEffect(() => {
+		//모든 서브텍스트는 처음에는 보이지 않도록 설정
 		if (texts.length > 0) {
 			setSubTextVisibility(
 				Object.fromEntries(texts.map((text) => [text.uid, false]))
@@ -62,14 +50,12 @@ export default function EditPage() {
 		}
 	}, [texts]);
 
-	const handleMainTextClick = (mainTextId) => {
-		const newVisibility = !subTextVisibility[mainTextId];
-
+	const handleMainTextClick = useCallback((mainTextId) => {
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
-			[mainTextId]: newVisibility,
+			[mainTextId]: !prevVisibility[mainTextId],
 		}));
-	};
+	}, []);
 
 	return (
 		<div
@@ -77,9 +63,9 @@ export default function EditPage() {
 			style={{
 				width: "1920px",
 				height: "1080px",
-				transform: `scale(${scale})`, // Scales the canvas
+				transform: `scale(${scale})`,
 				transformOrigin: "top left",
-				margin: "0 auto", // Center it horizontally
+				margin: "0 auto",
 				position: "relative",
 			}}
 		>
