@@ -2,6 +2,7 @@ import Draggable from "react-draggable";
 import { useRef, useState } from "react";
 import { useMode } from "@/app/contexts/ModeContext";
 import { set } from "mongoose";
+import Image from "next/image";
 
 export default function DraggableTextGroup({
 	mainText,
@@ -21,6 +22,7 @@ export default function DraggableTextGroup({
 		x: subText?.position?.x || 0,
 		y: subText?.position?.y || 0,
 	});
+	const [isRotating, setIsRotating] = useState(false);
 	const { mode } = useMode();
 	const nodeRef = useRef(null);
 	const subNodeRef = useRef(null);
@@ -35,10 +37,16 @@ export default function DraggableTextGroup({
 			});
 		} else {
 			isMain = false;
-			setSubTextPosition({
-				x: data.x,
-				y: data.y,
-			});
+			const deltaX = data.x - subTextPosition.x;
+			const deltaY = data.y - subTextPosition.y;
+			if (isRotating) {
+				const deltaRotation = (deltaX + deltaY) / 50;
+				subText.rotation = subText.rotation + deltaRotation;
+			} else
+				setSubTextPosition({
+					x: data.x,
+					y: data.y,
+				});
 		}
 		setLastModified({
 			uid: isMain ? mainText.uid : subText.uid,
@@ -99,6 +107,20 @@ export default function DraggableTextGroup({
 			...prev,
 			[field]: clampedValue,
 		}));
+	};
+
+	const handleManualRotationChange = (e) => {
+		const value = parseInt(e.target.value, 10) || 0;
+		const normalizedValue = ((value + 180) % 360) - 180;
+		subText.rotation = normalizedValue;
+		setLastModified((prev) => ({
+			...prev,
+			rotation: normalizedValue,
+		}));
+	};
+
+	const handleRotationStateChange = () => {
+		setIsRotating(!isRotating);
 	};
 
 	if (mode === "main")
@@ -172,6 +194,7 @@ export default function DraggableTextGroup({
 				</p>
 				{subText && (
 					<Draggable
+						axis={isRotating ? "none" : "both"}
 						nodeRef={subNodeRef}
 						position={subTextPosition}
 						scale={scale}
@@ -180,25 +203,63 @@ export default function DraggableTextGroup({
 					>
 						<div ref={subNodeRef} className="absolute">
 							{lastModified?.uid === subText.uid && (
-								<div className="absolute flex flex-row text-main ml-auto bottom-8 right-0 z-[99] opacity-80">
-									<input
-										type="number"
-										value={lastModified?.x.toFixed(0)}
-										onChange={(e) => handleManualPositionChange(e, "x")}
-										onClick={(e) => e.stopPropagation()}
-										className="w-16 input-border mr-px"
-									/>
-									<input
-										type="number"
-										value={lastModified?.y.toFixed(0)}
-										onChange={(e) => handleManualPositionChange(e, "y")}
-										onClick={(e) => e.stopPropagation()}
-										className="w-16 input-border"
-									/>
+								<div className="absolute flex flex-row gap-px text-main ml-auto bottom-8 right-0 z-[99] opacity-80">
+									{!isRotating && (
+										<input
+											type="number"
+											value={lastModified?.x.toFixed(0)}
+											onChange={(e) => handleManualPositionChange(e, "x")}
+											onClick={(e) => e.stopPropagation()}
+											className="w-16 input-border"
+										/>
+									)}
+									{!isRotating && (
+										<input
+											type="number"
+											value={lastModified?.y.toFixed(0)}
+											onChange={(e) => handleManualPositionChange(e, "y")}
+											onClick={(e) => e.stopPropagation()}
+											className="w-16 input-border"
+										/>
+									)}
+									{isRotating && (
+										<input
+											type="number"
+											value={subText.rotation.toFixed(0)}
+											onChange={(e) => handleManualRotationChange(e)}
+											onClick={(e) => e.stopPropagation()}
+											className="w-16 input-border mr-px"
+										/>
+									)}
+									<button
+										onClick={handleRotationStateChange}
+										className="bg-gray-50 border border-gray-300 w-fit rounded-sm shrink-0"
+									>
+										{isRotating ? (
+											<Image
+												src="/icons/rotate.svg"
+												width={10}
+												height={10}
+												alt="회전 아이콘"
+												className="pointer-events-none"
+											/>
+										) : (
+											<Image
+												src="/icons/move.svg"
+												width={10}
+												height={10}
+												alt="이동 아이콘"
+												className="pointer-events-none"
+											/>
+										)}
+									</button>
 								</div>
 							)}
+							{isRotating && (
+								<div className="absolute flex flex-row text-main ml-auto bottom-8 right-0 z-[99] opacity-80"></div>
+							)}
 							<div
-								className="w-fit h-fit text-sub text-white bg-black"
+								className="w-fit h-fit text-sub text-white bg-black cursor-pointer"
 								style={{
 									transform: `rotate(${subText.rotation || 0}deg)`,
 								}}
