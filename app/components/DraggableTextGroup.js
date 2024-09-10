@@ -1,8 +1,8 @@
 import Draggable from "react-draggable";
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback, useMemo } from "react";
 import { useMode } from "@/app/contexts/ModeContext";
-import { set } from "mongoose";
-import Image from "next/image";
+import { throttle } from "../utils/tools";
+import InputBox from "./InputBox";
 
 export default function DraggableTextGroup({
 	mainText,
@@ -27,173 +27,160 @@ export default function DraggableTextGroup({
 	const nodeRef = useRef(null);
 	const subNodeRef = useRef(null);
 
-	const handleDragStart = (e, data) => {
-		if (!isDragging) setIsDragging(true);
-		let isMain = true;
-		if (mode === "main") {
-			setDeltaPosition({
+	//회전 값의 범위를 -180도 ~ 180도로 정규화
+	const normalizeRotation = (rotation) =>
+		((((rotation + 180) % 360) + 360) % 360) - 180;
+
+	const handleDragStart = useCallback(
+		throttle((e, data) => {
+			const deltaX =
+				data.x - (mode === "main" ? deltaPosition.x : subTextPosition.x);
+			const deltaY =
+				data.y - (mode === "main" ? deltaPosition.y : subTextPosition.y);
+
+			if (!isDragging) setIsDragging(true);
+
+			// 메인 텍스트를 드래그할 때 이동한 값만큼 서브 텍스트도 같이 이동
+			if (mode === "main") {
+				setDeltaPosition({ x: data.x, y: data.y });
+				setSubTextPosition((prev) => ({
+					x: prev.x + deltaX,
+					y: prev.y + deltaY,
+				}));
+			} else {
+				if (isRotating) {
+					const deltaRotation = (deltaX + deltaY) / 50;
+					const newRotation = normalizeRotation(
+						subText.rotation + deltaRotation
+					);
+					subText.rotation = newRotation;
+				} else {
+					setSubTextPosition({ x: data.x, y: data.y });
+				}
+			}
+			// 마지막으로 수정한 텍스트의 정보를 저장 (inputbox에 값을 표시하기 위함)
+			setLastModified({
+				uid: mode === "main" ? mainText.uid : subText.uid,
 				x: data.x,
 				y: data.y,
+				rotation:
+					mode === "main" ? mainText?.rotation || 0 : subText?.rotation || 0,
 			});
-		} else {
-			isMain = false;
-			const deltaX = data.x - subTextPosition.x;
-			const deltaY = data.y - subTextPosition.y;
-			if (isRotating) {
-				const deltaRotation = (deltaX + deltaY) / 50;
-				subText.rotation = subText.rotation + deltaRotation;
-			} else
-				setSubTextPosition({
-					x: data.x,
-					y: data.y,
-				});
-		}
-		setLastModified({
-			uid: isMain ? mainText.uid : subText.uid,
-			x: data.x,
-			y: data.y,
-			rotation: isMain ? mainText?.rotation || 0 : subText?.rotation || 0,
-		}); // 마지막으로 수정한 텍스트의 정보를 저장
-	};
+		}, 100),
+		[isDragging, mode, deltaPosition, subTextPosition, setLastModified]
+	);
 
-	const handleDragStop = () => {
-		// mainText.position = {
-		// 	x: deltaPosition.x,
-		// 	y: deltaPosition.y,
-		// };
-		if (mode === "main") {
-			setLastModified({
-				...lastModified,
-				x: deltaPosition.x,
-				y: deltaPosition.y,
-			});
-		} else {
-			setLastModified({
-				...lastModified,
-				x: subTextPosition.x,
-				y: subTextPosition.y,
-			});
-		}
-		setTimeout(() => setIsDragging(false), 0);
-	};
-
-	const handleClick = (e) => {
-		if (isDragging) {
-			e.preventDefault();
-		} else {
-			onMainTextClick(mainText.uid);
-		}
-	};
-
-	const handleManualPositionChange = (e, field) => {
-		const value = parseInt(e.target.value, 10) || 0;
-		const clampedValue =
-			field === "x"
-				? Math.min(Math.max(value, 0), 1920)
-				: Math.min(Math.max(value, 0), 1080); // Clamp value
-		if (mode === "main") {
-			setDeltaPosition((prev) => ({
-				...prev,
-				[field]: clampedValue,
-			}));
-		} else {
-			setSubTextPosition((prev) => ({
-				...prev,
-				[field]: clampedValue,
-			}));
-		}
-
+	const handleDragStop = useCallback(() => {
 		setLastModified((prev) => ({
 			...prev,
-			[field]: clampedValue,
+			x: mode === "main" ? deltaPosition.x : subTextPosition.x,
+			y: mode === "main" ? deltaPosition.y : subTextPosition.y,
 		}));
+		setTimeout(() => setIsDragging(false), 0);
+	}, [mode, deltaPosition, subTextPosition, setLastModified]);
+
+	const handleClick = useCallback(
+		(e) => {
+			if (isDragging) {
+				e.preventDefault();
+			} else {
+				onMainTextClick(mainText.uid);
+			}
+		},
+		[isDragging, onMainTextClick, mainText.uid]
+	);
+
+	const handleManualPositionChange = (e, field) => {
+		const value = Math.max(
+			0,
+			Math.min(parseInt(e.target.value, 10) || 0, field === "x" ? 1920 : 1080)
+		);
+
+		if (mode === "main") {
+			setDeltaPosition((prev) => ({ ...prev, [field]: value }));
+		} else {
+			setSubTextPosition((prev) => ({ ...prev, [field]: value }));
+		}
+
+		setLastModified((prev) => ({ ...prev, [field]: value }));
 	};
 
 	const handleManualRotationChange = (e) => {
 		const value = parseInt(e.target.value, 10) || 0;
-		const normalizedValue = ((value + 180) % 360) - 180;
+		const normalizedValue = normalizeRotation(value);
 		subText.rotation = normalizedValue;
-		setLastModified((prev) => ({
-			...prev,
-			rotation: normalizedValue,
-		}));
+		setLastModified((prev) => ({ ...prev, rotation: normalizedValue }));
 	};
 
-	const handleRotationStateChange = () => {
-		setIsRotating(!isRotating);
-	};
+	const subTextStyle = useMemo(
+		() => ({
+			transform: `rotate(${subText?.rotation || 0}deg)`,
+			left: subTextPosition?.x,
+			top: subTextPosition?.y,
+		}),
+		[subText?.rotation, subTextPosition]
+	);
 
 	if (mode === "main")
 		return (
-			<Draggable
-				bounds="parent"
-				nodeRef={nodeRef}
-				disabled={mode !== "main"}
-				position={{ x: deltaPosition?.x, y: deltaPosition?.y }}
-				scale={scale}
-				handle=".text-main"
-				onDrag={handleDragStart}
-				onStop={handleDragStop}
-			>
-				<div
-					ref={nodeRef}
-					className="relative w-fit h-fit p-0 m-0 flex flex-col justify-center items-center"
+			<>
+				<Draggable
+					bounds="parent"
+					nodeRef={nodeRef}
+					disabled={mode !== "main"}
+					position={{ x: deltaPosition?.x, y: deltaPosition?.y }}
+					scale={scale}
+					handle=".text-main"
+					onDrag={handleDragStart}
+					onStop={handleDragStop}
 				>
 					<div
-						className={`absolute text-main whitespace-nowrap ${
-							mode === "main" ? "cursor-pointer" : "cursor-default"
-						} flex flex-col-reverse`}
-						onClick={handleClick}
+						ref={nodeRef}
+						className="absolute w-fit h-fit p-0 m-0 flex flex-col justify-center items-center"
 					>
-						<span>{mainText.text}</span>
-						{lastModified?.uid === mainText.uid && (
-							<div className="ml-auto z-[99] opacity-80">
-								<input
-									type="number"
-									value={lastModified?.x.toFixed(0)}
-									onChange={(e) => handleManualPositionChange(e, "x")}
-									onClick={(e) => e.stopPropagation()}
-									className="w-16 input-border mr-px"
-								/>
-								<input
-									type="number"
-									value={lastModified?.y.toFixed(0)}
-									onChange={(e) => handleManualPositionChange(e, "y")}
-									onClick={(e) => e.stopPropagation()}
-									className="w-16 input-border"
-								/>
-							</div>
-						)}
-					</div>
-					{subText && isVisible && (
 						<div
-							ref={subNodeRef}
-							className={`text-sub absolute whitespace-nowrap ${
-								subText.background_color === "lightgray"
-									? "bg-gray-300"
-									: "bg-black"
-							}`}
-							style={{
-								transform: `rotate(${subText.rotation || 0}deg) `,
-							}}
+							className={`absolute text-main whitespace-nowrap ${
+								mode === "main" ? "cursor-pointer" : "cursor-default"
+							} flex flex-col-reverse`}
+							onClick={handleClick}
 						>
-							{subText.text}
+							<span>{mainText.text}</span>
+							{lastModified?.uid === mainText.uid && (
+								<InputBox
+									handleManualPositionChange={handleManualPositionChange}
+									lastModified={lastModified}
+									setLastModified={setLastModified}
+								/>
+							)}
 						</div>
-					)}
-				</div>
-			</Draggable>
+					</div>
+				</Draggable>
+				{subText && isVisible && (
+					<div
+						className={`text-sub absolute whitespace-nowrap -translate-x-1/2 -translate-y-1/2 ${
+							subText.background_color === "lightgray"
+								? "bg-gray-300"
+								: "bg-black"
+						}`}
+						style={subTextStyle}
+					>
+						{subText.text}
+					</div>
+				)}
+			</>
 		);
 	else {
 		return (
-			<div className="">
+			<>
 				<p
 					className="absolute -translate-x-1/2 -translate-y-1/2 opacity-30 text-main"
-					style={{ left: mainText.position?.x, top: mainText.position?.y }}
+					style={{ left: deltaPosition?.x, top: deltaPosition?.y }}
 				>
 					{mainText.text}
 				</p>
 				{subText && (
 					<Draggable
+						bounds="#canvas"
 						axis={isRotating ? "none" : "both"}
 						nodeRef={subNodeRef}
 						position={subTextPosition}
@@ -203,58 +190,17 @@ export default function DraggableTextGroup({
 					>
 						<div ref={subNodeRef} className="absolute">
 							{lastModified?.uid === subText.uid && (
-								<div className="absolute flex flex-row gap-px text-main ml-auto bottom-8 right-0 z-[99] opacity-80">
-									{!isRotating && (
-										<input
-											type="number"
-											value={lastModified?.x.toFixed(0)}
-											onChange={(e) => handleManualPositionChange(e, "x")}
-											onClick={(e) => e.stopPropagation()}
-											className="w-16 input-border"
-										/>
-									)}
-									{!isRotating && (
-										<input
-											type="number"
-											value={lastModified?.y.toFixed(0)}
-											onChange={(e) => handleManualPositionChange(e, "y")}
-											onClick={(e) => e.stopPropagation()}
-											className="w-16 input-border"
-										/>
-									)}
-									{isRotating && (
-										<input
-											type="number"
-											value={subText.rotation.toFixed(0)}
-											onChange={(e) => handleManualRotationChange(e)}
-											onClick={(e) => e.stopPropagation()}
-											className="w-16 input-border mr-px"
-										/>
-									)}
-									<button
-										onClick={handleRotationStateChange}
-										className="bg-gray-50 border border-gray-300 w-fit rounded-sm shrink-0"
-									>
-										{isRotating ? (
-											<Image
-												src="/icons/rotate.svg"
-												width={10}
-												height={10}
-												alt="회전 아이콘"
-												className="pointer-events-none"
-											/>
-										) : (
-											<Image
-												src="/icons/move.svg"
-												width={10}
-												height={10}
-												alt="이동 아이콘"
-												className="pointer-events-none"
-											/>
-										)}
-									</button>
-								</div>
+								<InputBox
+									handleManualPositionChange={handleManualPositionChange}
+									handleManualRotationChange={handleManualRotationChange}
+									setIsRotating={setIsRotating}
+									isRotating={isRotating}
+									lastModified={lastModified}
+									setLastModified={setLastModified}
+									rotation={subText.rotation}
+								/>
 							)}
+
 							{isRotating && (
 								<div className="absolute flex flex-row text-main ml-auto bottom-8 right-0 z-[99] opacity-80"></div>
 							)}
@@ -269,51 +215,7 @@ export default function DraggableTextGroup({
 						</div>
 					</Draggable>
 				)}
-			</div>
-			// <div
-			// 	className="absolute p-0 m-0 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center"
-			// 	style={{
-			// 		left: mainText.position?.x,
-			// 		top: mainText.position?.y,
-			// 	}}
-			// >
-			// 	<p
-			// 		className="absolute text-main p-0 m-0 whitespace-nowrap cursor-pointer"
-			// 		onClick={() => onMainTextClick(mainText.uid)}
-			// 	>
-			// 		{mainText.text}
-			// 	</p>
-			// 	{subText && isVisible && (
-			// 		<Draggable
-			// 			nodeRef={subNodeRef}
-			// 			position={subTextPosition}
-			// 			scale={scale}
-			// 			onDrag={handleSubTextDrag}
-			// 			defaultPosition={{
-			// 				x: subText.position?.x,
-			// 				y: subText.position?.y,
-			// 			}}
-			// 		>
-			// 			<div
-			// 				ref={subNodeRef}
-			// 				className="relative text-sub whitespace-nowrap"
-			// 			>
-			// 				<div
-			// 					className="w-fit h-fit bg-black"
-			// 					style={{
-			// 						transform: `rotate(${subText.rotation || 0}deg)`,
-			// 						backgroundColor:
-			// 							subText.background_color === "lightgray"
-			// 								? "bg-gray-300"
-			// 								: "bg-black",
-			// 					}}
-			// 				>
-			// 					{subText.text}
-			// 				</div>
-			// 			</div>
-			// 		</Draggable>
-			// 	)}
-			// </div>
+			</>
 		);
 	}
 }
