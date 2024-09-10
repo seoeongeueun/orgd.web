@@ -52,7 +52,6 @@ export function EditPageContent() {
 				<h1>데이터 설정</h1>
 				<div className="flex flex-row gap-2">
 					<button type="button">초기화</button>
-					<button type="submit">저장</button>
 				</div>
 			</div>
 			<button onClick={handleModeChange}>{mode.toUpperCase()}</button>
