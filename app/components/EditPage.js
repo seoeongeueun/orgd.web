@@ -23,6 +23,7 @@ export default function EditPage() {
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [scale, setScale] = useState(1);
+	const [lastModified, setLastModified] = useState(null);
 
 	useEffect(() => {
 		const loadTexts = async () => {
@@ -37,13 +38,10 @@ export default function EditPage() {
 
 			// The aspect ratio is 1920 / 1080 = 16 / 9
 			const baseWidth = 1920;
-			const baseHeight = 1080;
 
 			if (windowWidth < baseWidth) {
 				const scaleFactorWidth = windowWidth / baseWidth;
-				const scaleFactorHeight = windowHeight / baseHeight;
-				const newScale = Math.min(scaleFactorWidth, scaleFactorHeight);
-				setScale(newScale);
+				setScale(scaleFactorWidth);
 			} else {
 				setScale(1);
 			}
@@ -57,9 +55,11 @@ export default function EditPage() {
 	}, []);
 
 	useEffect(() => {
-		setSubTextVisibility(
-			Object.fromEntries(texts.map((text) => [text.uid, false]))
-		);
+		if (texts.length > 0) {
+			setSubTextVisibility(
+				Object.fromEntries(texts.map((text) => [text.uid, false]))
+			);
+		}
 	}, [texts]);
 
 	const handleMainTextClick = (mainTextId) => {
@@ -73,25 +73,30 @@ export default function EditPage() {
 
 	return (
 		<div
-			className="canvas bg-white"
+			className="canvas bg-white text-black"
 			style={{
-				transform: `scale(${scale})`,
-				transformOrigin: "top left", // Keeps the scaling anchored to the top left
+				width: "1920px",
+				height: "1080px",
+				transform: `scale(${scale})`, // Scales the canvas
+				transformOrigin: "top left",
 				margin: "0 auto", // Center it horizontally
 				position: "relative",
 			}}
 		>
-			<div id="canvas" className="w-full h-full">
-				{texts.map((text, index) => (
-					<DraggableTextGroup
-						key={text.uid}
-						mainText={text}
-						scale={scale || 1}
-						subText={text?.subText}
-						isVisible={subTextVisibility[text.uid]}
-						onMainTextClick={handleMainTextClick}
-					/>
-				))}
+			<div id="canvas" className="w-full aspect-video">
+				{texts?.length > 0 &&
+					texts.map((text, index) => (
+						<DraggableTextGroup
+							key={text.uid}
+							mainText={text}
+							scale={scale || 1}
+							subText={text?.subText}
+							isVisible={subTextVisibility[text.uid]}
+							lastModified={lastModified}
+							setLastModified={setLastModified}
+							onMainTextClick={handleMainTextClick}
+						/>
+					))}
 			</div>
 		</div>
 	);
