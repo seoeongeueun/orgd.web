@@ -6,22 +6,20 @@ export default function TextGroup({
 }) {
 	if (mainText)
 		return (
-			<div
-				className="absolute p-0 m-0 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center"
-				style={{
-					left: mainText.position?.x,
-					top: mainText.position?.y,
-				}}
-			>
+			<>
 				<p
-					className="absolute text-main p-0 m-0 whitespace-nowrap cursor-pointer"
+					className="absolute -translate-x-1/2 -translate-y-1/2 text-main p-0 m-0 whitespace-nowrap cursor-pointer"
 					onClick={() => onMainTextClick(mainText.uid)}
+					style={{
+						left: mainText.position?.x,
+						top: mainText.position?.y,
+					}}
 				>
 					{mainText.text}
 				</p>
 				{subText && isVisible && (
 					<div
-						className="relative"
+						className="absolute"
 						style={{
 							left: subText.position?.x,
 							top: subText.position?.y,
@@ -39,7 +37,7 @@ export default function TextGroup({
 						</span>
 					</div>
 				)}
-			</div>
+			</>
 		);
 	return null;
 }
