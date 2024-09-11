@@ -8,7 +8,7 @@ export default function TextGroup({
 		return (
 			<>
 				<p
-					className="absolute -translate-x-1/2 -translate-y-1/2 text-main p-0 m-0 whitespace-nowrap cursor-pointer"
+					className="absolute text-main p-0 m-0 whitespace-nowrap cursor-pointer"
 					onClick={() => onMainTextClick(mainText.uid)}
 					style={{
 						left: mainText.position?.x,
@@ -19,22 +19,18 @@ export default function TextGroup({
 				</p>
 				{subText && isVisible && (
 					<div
-						className="absolute"
+						className={`absolute text-sub whitespace-nowrap ${
+							subText.background_color.startsWith("light")
+								? "bg-gray-300"
+								: "bg-black"
+						}`}
 						style={{
 							left: subText.position?.x,
 							top: subText.position?.y,
 							transform: `rotate(${subText.rotation || 0}deg)`,
 						}}
 					>
-						<span
-							className={`text-sub ${
-								subText.background_color === "lightgray"
-									? "bg-gray-300"
-									: "bg-black"
-							}`}
-						>
-							{subText.text}
-						</span>
+						{subText.text}
 					</div>
 				)}
 			</>

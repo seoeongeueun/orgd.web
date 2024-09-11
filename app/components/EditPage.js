@@ -2,6 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 import DraggableTextGroup from "./DraggableTextGroup";
 import { debounce } from "../utils/tools";
+import { useTrigger } from "../contexts/TriggerContext";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -16,6 +17,7 @@ export default function EditPage() {
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [scale, setScale] = useState(1);
 	const [lastModified, setLastModified] = useState(null);
+	const { triggerState, setTrigger } = useTrigger();
 
 	useEffect(() => {
 		const loadTexts = async () => {
@@ -50,6 +52,12 @@ export default function EditPage() {
 			);
 		}
 	}, [texts]);
+
+	useEffect(() => {
+		if (triggerState?.trigger === "save") {
+			handleSavePositions();
+		}
+	}, [triggerState?.trigger]);
 
 	const handleMainTextClick = useCallback((mainTextId) => {
 		setSubTextVisibility((prevVisibility) => ({
@@ -89,10 +97,10 @@ export default function EditPage() {
 			if (!response.ok) {
 				throw new Error("Failed to save positions");
 			}
-
-			alert("Positions saved successfully!");
+			setTrigger("saved", "저장 완료 되었습니다.");
 		} catch (error) {
 			console.error("Error saving positions:", error);
+			setTrigger("error", "저장 실패했습니다.");
 			alert("Failed to save positions");
 		}
 	};
@@ -109,13 +117,6 @@ export default function EditPage() {
 				position: "relative",
 			}}
 		>
-			<button
-				type="submit"
-				className="ml-auto fixed top-0 "
-				onClick={handleSavePositions}
-			>
-				저장
-			</button>
 			<div id="canvas" className="w-full aspect-video">
 				{texts?.length > 0 &&
 					texts.map((text, index) => (
