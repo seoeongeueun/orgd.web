@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import MainText from "@/app/models/mainText";
 import SubText from "@/app/models/subText";
 
+// 등록된 모든 메인과 서브 텍스트를 반환
 export async function GET(req) {
 	await connectDB();
 
@@ -30,17 +31,17 @@ export async function GET(req) {
 	}
 }
 
+// 이미 등록된 텍스트를 한번에 수정할 때 사용 (위치 이동, 회전 등)
 export async function POST(req) {
 	await connectDB();
 
 	try {
 		const { updatedTexts } = await req.json();
-		console.log("Received updatedTexts", updatedTexts); // Add logging
+		console.log("Received updatedTexts", updatedTexts);
 
 		for (const text of updatedTexts) {
-			console.log("Processing MainText", text); // Add logging
+			console.log("Processing MainText", text);
 
-			// Update MainText
 			await MainText.findOneAndUpdate(
 				{ uid: text.uid },
 				{
@@ -48,9 +49,8 @@ export async function POST(req) {
 				}
 			);
 
-			// Update SubText if it exists
 			if (text.subText) {
-				console.log("Processing SubText", text.subText); // Add logging
+				console.log("Processing SubText", text.subText);
 
 				await SubText.findOneAndUpdate(
 					{ uid: text.subText.uid },

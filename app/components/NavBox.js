@@ -1,13 +1,84 @@
+"use client";
+
 import Draggable from "react-draggable";
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { useMode } from "@/app/contexts/ModeContext";
+import { useTrigger } from "@/app/contexts/TriggerContext";
+
+const createText = (data) => {};
 
 export default function NavBox() {
 	const [hasSubText, setHasSubText] = useState(false);
 	const [isMinimized, setIsMinimized] = useState(false);
 	const nodeRef = useRef(null);
 	const { mode, handleModeChange } = useMode();
+	const { triggerState, setTrigger } = useTrigger();
+	const [message, setMessage] = useState("");
+
+	useEffect(() => {
+		if (triggerState?.message) {
+			setMessage(triggerState?.message);
+
+			setTimeout(() => {
+				setMessage("");
+			}, 4000);
+		}
+	}, [triggerState?.message]);
+
+	const triggerSaveState = () => {
+		setTrigger("save", "");
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		const mainText = document.getElementById("main-text-info").value;
+		const positionX =
+			parseInt(document.getElementById("position-x").value) || 0;
+		const positionY =
+			parseInt(document.getElementById("position-y").value) || 0;
+		const subText = document.getElementById("sub-text-info")?.value;
+		const subTextColor = document.querySelector(
+			'input[name="sub-text-color"]:checked'
+		)?.value;
+
+		const hasSubText = subText !== undefined && subText !== "";
+
+		const data = {
+			text: mainText,
+			position: { x: positionX, y: positionY },
+			subText: hasSubText ? subText : null,
+			subTextColor: hasSubText ? subTextColor : null,
+		};
+
+		console.log("Sending data:", data);
+
+		try {
+			const response = await fetch("/api/single", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
+
+			if (response.ok) {
+				const responseData = await response.json();
+				console.log("Text created successfully:", responseData);
+				setMessage("등록 완료 되었습니다.");
+				alert("Text created successfully!");
+			} else {
+				const errorData = await response.json();
+				console.error("Error creating text:", errorData);
+				setMessage("등록 실패했습니다.");
+				alert("Failed to create text.");
+			}
+		} catch (error) {
+			console.error("An error occurred:", error);
+			alert("An error occurred while creating the text.");
+		}
+	};
 
 	return (
 		<Draggable
@@ -17,13 +88,27 @@ export default function NavBox() {
 		>
 			<div
 				ref={nodeRef}
-				className="fixed w-nav-width z-[99] cursor-move h-fit flex flex-col gap-4 opacity-70 text-black"
+				className="fixed w-nav-width z-[99] cursor-move h-fit flex flex-col gap-2 opacity-70 text-black"
 			>
-				<div className="-my-2 self-start flex flex-row items-center gap-1 text-xs">
-					<div className="bg-theme-gray px-2 rounded-sm">
-						{mode.toUpperCase()}
+				<div className="flex flex-row justify-between items-center text-sm">
+					<div className="flex flex-row gap-1">
+						<button
+							className="bg-theme-gray px-2 rounded-sm"
+							onClick={() => handleModeChange(mode === "main" ? "sub" : "main")}
+						>
+							{mode.toUpperCase()}
+						</button>
+						수정 중...
 					</div>
-					수정 중...
+					{message && (
+						<span
+							className={`${
+								triggerState?.trigger === "error" && "text-red-500"
+							}`}
+						>
+							{message}
+						</span>
+					)}
 				</div>
 				<div
 					className={`h-fit flex flex-col gap-4 justify-start px-4 ${
@@ -36,7 +121,11 @@ export default function NavBox() {
 							<button type="button" className="nav-input">
 								초기화
 							</button>
-							<button type="button" className="nav-input">
+							<button
+								type="button"
+								className="nav-input"
+								onClick={triggerSaveState}
+							>
 								저장
 							</button>
 						</div>
@@ -120,7 +209,11 @@ export default function NavBox() {
 									</label>
 								</div>
 							)}
-							<button type="submit" className="btn-gray w-full">
+							<button
+								type="submit"
+								className="btn-gray w-full"
+								onClick={handleSubmit}
+							>
 								등록
 							</button>
 						</>

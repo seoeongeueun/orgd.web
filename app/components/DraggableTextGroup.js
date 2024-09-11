@@ -147,17 +147,14 @@ export default function DraggableTextGroup({
 					onDrag={handleDragStart}
 					onStop={handleDragStop}
 				>
-					<div
-						ref={nodeRef}
-						className="absolute w-fit h-fit p-0 m-0 flex flex-col justify-center items-center"
-					>
+					<div ref={nodeRef} className="absolute w-fit h-fit p-0 m-0 ">
 						<div
-							className={`absolute text-main whitespace-nowrap ${
+							className={`text-main whitespace-nowrap ${
 								mode === "main" ? "cursor-pointer" : "cursor-default"
 							} flex flex-col-reverse`}
 							onClick={handleClick}
 						>
-							<span>{mainText.text}</span>
+							{mainText.text}
 							{lastModified?.uid === mainText.uid && (
 								<InputBox
 									handleManualPositionChange={handleManualPositionChange}
@@ -170,7 +167,7 @@ export default function DraggableTextGroup({
 				</Draggable>
 				{subText && isVisible && (
 					<div
-						className={`text-sub absolute whitespace-nowrap -translate-x-1/2 -translate-y-1/2 ${
+						className={`absolute text-sub whitespace-nowrap ${
 							subText.background_color === "lightgray"
 								? "bg-gray-300"
 								: "bg-black"
@@ -186,7 +183,7 @@ export default function DraggableTextGroup({
 		return (
 			<>
 				<p
-					className="absolute -translate-x-1/2 -translate-y-1/2 opacity-30 text-main"
+					className="absolute opacity-30 text-main"
 					style={{ left: deltaPosition?.x, top: deltaPosition?.y }}
 				>
 					{mainText.text}
