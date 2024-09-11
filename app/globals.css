@@ -21,6 +21,7 @@ body, html {
   height: 100%;
   font-size: 10px;
   background-color: rgb(216, 216, 216);
+  overflow: hidden;
 }
 
 .zoomed-main {
