@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { debounce } from "../utils/tools";
+import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 
 const fetchTexts = async () => {
@@ -99,27 +99,110 @@ export default function SharedPage({ isEditMode = true }) {
 		// };
 		// handleResize();
 
-		const handleResize = debounce(() => {
-			//const windowWidth = window.innerWidth;
-			const windowWidth = document.body.clientWidth;
-			const baseWidth = 1920;
-			setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
-		}, 100);
-
-		handleResize();
-		window.addEventListener("resize", handleResize);
-
 		return () => {
 			if (newSocket.connected) {
 				newSocket.disconnect();
 			}
-			window.removeEventListener("resize", handleResize);
 		};
 	}, []);
 
 	useEffect(() => {
-		if (!isMain) {
-			const handleScroll = () => {
+		const handleResize = () => {
+			console.log("Debounced resize with isMain:", isMain);
+			const windowWidth = document.body.clientWidth;
+			const baseWidth = 1920;
+			if (isMain) {
+				setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
+			} else {
+				setScale(scaleFactor);
+			}
+		};
+		if (!isMain) setScale(scaleFactor);
+		else {
+			handleResize();
+
+			window.addEventListener("resize", handleResize);
+
+			return () => {
+				window.removeEventListener("resize", handleResize);
+			};
+		}
+	}, [isMain]);
+
+	// useEffect(() => {
+	// 	if (!isMain) {
+	// 		const handleTouchMove = () => {
+	// 			const deviceWidth = document.body.clientWidth;
+	// 			const deviceHeight = document.body.clientHeight;
+	// 			const canvasWidth = 1920;
+	// 			const canvasHeight = 1080;
+
+	// 			// Calculate scaling based on touch movement
+	// 			const scaledWidth =
+	// 				((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
+	// 			const scaledHeight =
+	// 				((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
+	// 			const scrollLeft = window.scrollX / scaleFactor;
+	// 			const scrollTop = window.scrollY / scaleFactor;
+
+	// 			socket.emit("send_viewport", {
+	// 				scaledWidth,
+	// 				scaledHeight,
+	// 				scrollLeft,
+	// 				scrollTop,
+	// 			});
+	// 		};
+
+	// 		// Listen to both scroll and touchmove events
+	// 		window.addEventListener("scroll", handleTouchMove);
+	// 		window.addEventListener("touchmove", handleTouchMove);
+
+	// 		return () => {
+	// 			// Remove both listeners when the component unmounts or dependencies change
+	// 			window.removeEventListener("scroll", handleTouchMove);
+	// 			window.removeEventListener("touchmove", handleTouchMove);
+	// 		};
+	// 	}
+	// }, [isMain, scaleFactor, socket]);
+
+	// useEffect(() => {
+	// 	const handleViewportUpdate = throttle(() => {
+	// 		const deviceWidth = document.body.clientWidth;
+	// 		const deviceHeight = document.body.clientHeight;
+	// 		const canvasWidth = 1920;
+	// 		const canvasHeight = 1080;
+
+	// 		const scaledWidth =
+	// 			((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
+	// 		const scaledHeight =
+	// 			((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
+	// 		const scrollLeft = window.scrollX / scaleFactor;
+	// 		const scrollTop = window.scrollY / scaleFactor;
+
+	// 		// Emit viewport data through WebSocket
+	// 		socket.emit("send_viewport", {
+	// 			scaledWidth,
+	// 			scaledHeight,
+	// 			scrollLeft,
+	// 			scrollTop,
+	// 		});
+	// 	}, 100);
+
+	// 	if (!isMain) {
+	// 		window.addEventListener("scroll", handleViewportUpdate);
+	// 		window.addEventListener("touchmove", handleViewportUpdate);
+	// 	}
+
+	// 	return () => {
+	// 		window.removeEventListener("scroll", handleViewportUpdate);
+	// 		window.removeEventListener("touchmove", handleViewportUpdate);
+	// 	};
+	// }, [isMain, scaleFactor, socket]);
+
+	useEffect(() => {
+		const handleViewportUpdate = throttle(() => {
+			const scrollDiv = document.querySelector("#scroll-div");
+			if (scrollDiv) {
 				const deviceWidth = window.innerWidth;
 				const deviceHeight = window.innerHeight;
 				const canvasWidth = 1920;
@@ -129,8 +212,8 @@ export default function SharedPage({ isEditMode = true }) {
 					((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
 				const scaledHeight =
 					((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
-				const scrollLeft = window.scrollX / scaleFactor;
-				const scrollTop = window.scrollY / scaleFactor;
+				const scrollLeft = scrollDiv.scrollLeft / scaleFactor;
+				const scrollTop = scrollDiv.scrollTop / scaleFactor;
 
 				socket.emit("send_viewport", {
 					scaledWidth,
@@ -138,14 +221,21 @@ export default function SharedPage({ isEditMode = true }) {
 					scrollLeft,
 					scrollTop,
 				});
-			};
+			}
+		}, 100);
 
-			window.addEventListener("scroll", handleScroll);
-
-			return () => {
-				window.removeEventListener("scroll", handleScroll);
-			};
+		const scrollDiv = document.querySelector("#scroll-div");
+		if (scrollDiv && !isMain) {
+			scrollDiv.addEventListener("scroll", handleViewportUpdate);
+			scrollDiv.addEventListener("touchmove", handleViewportUpdate);
 		}
+
+		return () => {
+			if (scrollDiv) {
+				scrollDiv.removeEventListener("scroll", handleViewportUpdate);
+				scrollDiv.removeEventListener("touchmove", handleViewportUpdate);
+			}
+		};
 	}, [isMain, scaleFactor, socket]);
 
 	useEffect(() => {
@@ -180,7 +270,7 @@ export default function SharedPage({ isEditMode = true }) {
 
 	return (
 		<div
-			className={`${isMain ? "main" : "zoomed-main"} canvas`}
+			className="main canvas"
 			style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
 		>
 			<div id="canvas" className="w-full h-full">
@@ -204,14 +294,14 @@ export default function SharedPage({ isEditMode = true }) {
 						const frame = userFrames[userId];
 						return (
 							<div
-								key={userId} // Unique key for each frame
+								key={userId}
 								style={{
 									position: "absolute",
 									top: `${frame.scrollTop}px`,
 									left: `${frame.scrollLeft}px`,
 									width: `${frame.scaledWidth}px`,
 									height: `${frame.scaledHeight}px`,
-									border: "1px solid red", // 1px border for each user frame
+									border: "1px solid red",
 									zIndex: 1000,
 								}}
 							/>

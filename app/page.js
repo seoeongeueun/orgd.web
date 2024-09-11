@@ -1,5 +1,9 @@
 import SharedPage from "./components/SharedPage";
 
 export default function Page() {
-	return <SharedPage isEditMode={false} />;
+	return (
+		<div id="scroll-div" className="overflow-auto">
+			<SharedPage isEditMode={false} />
+		</div>
+	);
 }
