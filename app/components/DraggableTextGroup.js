@@ -164,7 +164,7 @@ export default function DraggableTextGroup({
 					<div ref={nodeRef} className="absolute w-fit h-fit p-0 m-0 ">
 						<div
 							className={`text-main whitespace-nowrap ${
-								mode === "main" ? "cursor-pointer" : "cursor-default"
+								mode === "main" ? "cursor-move" : "cursor-default"
 							} flex flex-col-reverse`}
 							onClick={handleClick}
 						>
@@ -229,7 +229,7 @@ export default function DraggableTextGroup({
 								<div className="absolute flex flex-row text-main ml-auto bottom-8 right-0 z-[99] opacity-80"></div>
 							)}
 							<div
-								className="w-fit h-fit text-sub text-white bg-black cursor-pointer"
+								className="w-fit h-fit text-sub text-white bg-black cursor-move"
 								style={{
 									transform: `rotate(${subText.rotation || 0}deg)`,
 								}}

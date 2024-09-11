@@ -18,10 +18,12 @@ export default function EditPage() {
 	const [scale, setScale] = useState(1);
 	const [lastModified, setLastModified] = useState(null);
 	const { triggerState, setTrigger } = useTrigger();
+	const [initialLoad, setInitialLoad] = useState(true);
 
 	const loadTexts = async () => {
 		const data = await fetchTexts();
 		setTexts(data);
+		setInitialLoad(true);
 	};
 
 	useEffect(() => {
@@ -46,22 +48,14 @@ export default function EditPage() {
 	}, []);
 
 	useEffect(() => {
-		//모든 서브텍스트는 처음에는 보이지 않도록 설정
-		if (texts.length > 0) {
+		// 첫 로드시에 모든 서브 텍스트를 숨김처리
+		if (initialLoad && texts.length > 0) {
 			setSubTextVisibility(
 				Object.fromEntries(texts.map((text) => [text.uid, false]))
 			);
+			setInitialLoad(false);
 		}
-	}, [texts]);
-
-	useEffect(() => {
-		if (triggerState?.trigger === "save") {
-			handleSavePositions();
-		} else if (triggerState?.trigger === "refresh") {
-			loadTexts(); // 텍스트 데이터 다시 불러오기
-			setTrigger("refreshed", "새로고침 되었습니다");
-		}
-	}, [triggerState?.trigger]);
+	}, [texts, initialLoad]);
 
 	const handleMainTextClick = useCallback((mainTextId) => {
 		setSubTextVisibility((prevVisibility) => ({
@@ -108,6 +102,34 @@ export default function EditPage() {
 			alert("Failed to save positions");
 		}
 	};
+
+	useEffect(() => {
+		const triggerActions = {
+			save: () => handleSavePositions(),
+			refresh: () => {
+				loadTexts(); //초기화시 텍스트 다시 불러오기
+				setTrigger("refreshed", "새로고침 되었습니다");
+			},
+			visible: () => {
+				setSubTextVisibility((prevVisibility) =>
+					Object.fromEntries(
+						Object.keys(prevVisibility).map((key) => [key, true])
+					)
+				);
+			},
+			hide: () => {
+				setSubTextVisibility((prevVisibility) =>
+					Object.fromEntries(
+						Object.keys(prevVisibility).map((key) => [key, false])
+					)
+				);
+			},
+		};
+
+		if (triggerState?.trigger && triggerActions[triggerState.trigger]) {
+			triggerActions[triggerState.trigger]();
+		}
+	}, [triggerState?.trigger, loadTexts, setTrigger, handleSavePositions]);
 
 	return (
 		<div
