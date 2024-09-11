@@ -48,6 +48,20 @@ export default function EditPage() {
 	}, []);
 
 	useEffect(() => {
+		const handleOutsideClick = (e) => {
+			if (!e.target.closest(".drag-text-group")) {
+				setLastModified(null);
+			}
+		};
+
+		document.addEventListener("click", handleOutsideClick);
+
+		return () => {
+			document.removeEventListener("click", handleOutsideClick);
+		};
+	}, []);
+
+	useEffect(() => {
 		// 첫 로드시에 모든 서브 텍스트를 숨김처리
 		if (initialLoad && texts.length > 0) {
 			setSubTextVisibility(
@@ -133,6 +147,7 @@ export default function EditPage() {
 
 	return (
 		<div
+			id="edit-canvas"
 			className="canvas bg-white text-black"
 			style={{
 				width: "1920px",

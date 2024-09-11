@@ -105,7 +105,7 @@ export default function NavBox() {
 		>
 			<div
 				ref={nodeRef}
-				className="fixed w-nav-width z-[99] cursor-move h-fit flex flex-col gap-2 opacity-70 text-black"
+				className="fixed w-nav-width z-[99] cursor-move h-fit flex flex-col gap-2 opacity-80 text-black"
 			>
 				<div className="flex flex-row justify-between items-center text-sm">
 					<div className="flex flex-row gap-1">
