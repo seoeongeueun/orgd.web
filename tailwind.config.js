@@ -23,6 +23,10 @@ module.exports = {
 			spacing: {
 				"main-width": 1920,
 				"main-height": 1080,
+				"nav-width": 200,
+			},
+			colors: {
+				"theme-gray": "rgb(204,204,204)",
 			},
 		},
 	},
