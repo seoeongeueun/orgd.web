@@ -6,8 +6,6 @@ import Image from "next/image";
 import { useMode } from "@/app/contexts/ModeContext";
 import { useTrigger } from "@/app/contexts/TriggerContext";
 
-const createText = (data) => {};
-
 export default function NavBox() {
 	const [hasSubText, setHasSubText] = useState(false);
 	const [isMinimized, setIsMinimized] = useState(false);
@@ -15,6 +13,7 @@ export default function NavBox() {
 	const { mode, handleModeChange } = useMode();
 	const { triggerState, setTrigger } = useTrigger();
 	const [message, setMessage] = useState("");
+	const [navMode, setNavMode] = useState("default");
 
 	useEffect(() => {
 		if (triggerState?.message) {
@@ -25,6 +24,11 @@ export default function NavBox() {
 			}, 4000);
 		}
 	}, [triggerState?.message]);
+
+	//설정 모드가 바뀌면 최소화 상태를 해제
+	useEffect(() => {
+		setIsMinimized(false);
+	}, [navMode]);
 
 	const triggerSaveState = () => {
 		setTrigger("save", "");
@@ -80,6 +84,14 @@ export default function NavBox() {
 		}
 	};
 
+	const handleNavMode = () => {
+		setNavMode((prev) => (prev === "default" ? "view" : "default"));
+	};
+
+	const triggerRefresh = () => {
+		setTrigger("refresh", "");
+	};
+
 	return (
 		<Draggable
 			nodeRef={nodeRef}
@@ -96,7 +108,7 @@ export default function NavBox() {
 							className="bg-theme-gray px-2 rounded-sm"
 							onClick={() => handleModeChange(mode === "main" ? "sub" : "main")}
 						>
-							{mode.toUpperCase()}
+							{mode === "main" ? "메인" : "해설"}
 						</button>
 						수정 중...
 					</div>
@@ -116,9 +128,15 @@ export default function NavBox() {
 					} border border-theme-gray rounded-md bg-white text-black`}
 				>
 					<div className="flex flex-row justify-end items-center gap-2">
-						<h1 className="text-xl mr-auto">설정</h1>
+						<h1 className="text-xl mr-auto" onClick={handleNavMode}>
+							{navMode === "default" ? "텍스트 등록" : "뷰 설정"}
+						</h1>
 						<div className="flex flex-row justify-between items-center gap-2">
-							<button type="button" className="nav-input">
+							<button
+								type="button"
+								className="nav-input"
+								onClick={triggerRefresh}
+							>
 								초기화
 							</button>
 							<button
@@ -139,85 +157,105 @@ export default function NavBox() {
 							/>
 						</button>
 					</div>
-					{!isMinimized && (
-						<>
-							<label className="flex flex-col items-start">
-								<span className="block">메인 텍스트</span>
-								<input
-									type="text"
-									id="main-text-info"
-									className="nav-input mt-px w-full"
-									placeholder="메인 텍스트 내용"
-								/>
-							</label>
-							<label>
-								텍스트 좌표 (x, y)
-								<div className="flex flex-row gap-2">
+					{!isMinimized &&
+						(navMode === "default" ? (
+							<>
+								<label className="flex flex-col items-start">
+									<span className="block">메인 텍스트</span>
 									<input
-										type="number"
-										id="position-x"
-										className="nav-input mt-px w-16"
-										defaultValue={0}
-									></input>
-									<input
-										type="number"
-										id="position-y"
-										className="nav-input mt-px w-16"
-										defaultValue={0}
-									></input>
-								</div>
-							</label>
-							<label className="flex flex-row items-center gap-2">
-								서브 텍스트가 있나요?
-								<input
-									type="checkbox"
-									id="has-sub-text"
-									onChange={(e) => setHasSubText(e.target.checked)}
-								></input>
-							</label>
-							{hasSubText && (
-								<div className="flex flex-col gap-4">
-									<label>
-										서브 텍스트
+										type="text"
+										id="main-text-info"
+										className="nav-input mt-px w-full"
+										placeholder="메인 텍스트 내용"
+									/>
+								</label>
+								<label>
+									텍스트 좌표 (x, y)
+									<div className="flex flex-row gap-2">
 										<input
-											type="text"
-											id="sub-text-info"
-											className="nav-input mt-px w-full"
-											placeholder="서브 텍스트 내용"
+											type="number"
+											id="position-x"
+											className="nav-input mt-px w-16"
+											defaultValue={0}
 										></input>
-									</label>
-									<label>
-										서브 텍스트 컬러
-										<div className="flex flex-row gap-2 items-center mt-px">
+										<input
+											type="number"
+											id="position-y"
+											className="nav-input mt-px w-16"
+											defaultValue={0}
+										></input>
+									</div>
+								</label>
+								<label className="flex flex-row items-center gap-2">
+									해설이 있나요?
+									<input
+										type="checkbox"
+										id="has-sub-text"
+										onChange={(e) => setHasSubText(e.target.checked)}
+									></input>
+								</label>
+								{hasSubText && (
+									<div className="flex flex-col gap-4">
+										<label>
+											해설 텍스트
 											<input
-												type="radio"
-												id="sub-dark"
-												name="sub-text-color"
-												value="dark"
-											/>
-											<label htmlFor="sub-dark" className="mr-4">
-												다크
-											</label>
-											<input
-												type="radio"
-												id="sub-light"
-												name="sub-text-color"
-												value="light"
-											/>
-											<label htmlFor="sub-light">라이트</label>
-										</div>
-									</label>
-								</div>
-							)}
-							<button
-								type="submit"
-								className="btn-gray w-full"
-								onClick={handleSubmit}
-							>
-								등록
-							</button>
-						</>
-					)}
+												type="text"
+												id="sub-text-info"
+												className="nav-input mt-px w-full"
+												placeholder="해설 내용"
+											></input>
+										</label>
+										<label>
+											해설 배경 컬러
+											<div className="flex flex-row gap-2 items-center mt-px">
+												<input
+													type="radio"
+													id="sub-dark"
+													name="sub-text-color"
+													value="dark"
+												/>
+												<label htmlFor="sub-dark" className="mr-4">
+													다크
+												</label>
+												<input
+													type="radio"
+													id="sub-light"
+													name="sub-text-color"
+													value="light"
+												/>
+												<label htmlFor="sub-light">라이트</label>
+											</div>
+										</label>
+									</div>
+								)}
+								<button
+									type="submit"
+									className="btn-gray w-full"
+									onClick={handleSubmit}
+								>
+									등록
+								</button>
+							</>
+						) : (
+							<>
+								<label className="flex flex-row items-center gap-2">
+									모든 해설 보이기
+									<input type="checkbox" id="sub-text-visibility"></input>
+								</label>
+								<label className="flex flex-row items-center gap-2">
+									현재
+									<button
+										className="nav-input px-2 rounded-sm"
+										onClick={() =>
+											handleModeChange(mode === "main" ? "sub" : "main")
+										}
+									>
+										{mode === "main" ? "메인" : "해설"}
+									</button>
+									텍스트를 수정 중입니다.
+								</label>
+							</>
+						))}
 				</div>
 			</div>
 		</Draggable>

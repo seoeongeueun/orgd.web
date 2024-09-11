@@ -19,11 +19,12 @@ export default function EditPage() {
 	const [lastModified, setLastModified] = useState(null);
 	const { triggerState, setTrigger } = useTrigger();
 
+	const loadTexts = async () => {
+		const data = await fetchTexts();
+		setTexts(data);
+	};
+
 	useEffect(() => {
-		const loadTexts = async () => {
-			const data = await fetchTexts();
-			setTexts(data);
-		};
 		loadTexts();
 	}, []);
 
@@ -56,6 +57,9 @@ export default function EditPage() {
 	useEffect(() => {
 		if (triggerState?.trigger === "save") {
 			handleSavePositions();
+		} else if (triggerState?.trigger === "refresh") {
+			loadTexts(); // 텍스트 데이터 다시 불러오기
+			setTrigger("refreshed", "새로고침 되었습니다");
 		}
 	}, [triggerState?.trigger]);
 

@@ -1,5 +1,5 @@
 import Draggable from "react-draggable";
-import { useRef, useState, useCallback, useMemo } from "react";
+import { useRef, useState, useCallback, useMemo, useEffect } from "react";
 import { useMode } from "@/app/contexts/ModeContext";
 import { throttle } from "../utils/tools";
 import InputBox from "./InputBox";
@@ -27,6 +27,20 @@ export default function DraggableTextGroup({
 	const { mode } = useMode();
 	const nodeRef = useRef(null);
 	const subNodeRef = useRef(null);
+
+	useEffect(() => {
+		setDeltaPosition({
+			x: mainText.position?.x || 0,
+			y: mainText.position?.y || 0,
+		});
+	}, [mainText.position]);
+
+	useEffect(() => {
+		setSubTextPosition({
+			x: subText?.position?.x || 0,
+			y: subText?.position?.y || 0,
+		});
+	}, [subText?.position]);
 
 	//회전 값의 범위를 -180도 ~ 180도로 정규화
 	const normalizeRotation = (rotation) =>
