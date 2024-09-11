@@ -1,62 +1,884 @@
 [
-	{
-		"uid": "a1b2c3d4e5f6g7h8i9j0",
-		"text": "Believe in yourself and all that you are.",
-		"position": { "x": 180, "y": 102 },
-		"sub_text_uid": "j1k2l3m4n5o6p7q8r9s0"
-	},
-	{
-		"uid": "b2c3d4e5f6g7h8i9j0k1",
-		"text": "You are capable of amazing things.",
-		"position": { "x": 192, "y": 847 },
-		"sub_text_uid": null
-	},
-	{
-		"uid": "c3d4e5f6g7h8i9j0k1l2",
-		"text": "Dream big and dare to fail.",
-		"position": { "x": 764, "y": 432 },
-		"sub_text_uid": "m3n4o5p6q7r8s9t0u1v2"
-	},
-	{
-		"uid": "d4e5f6g7h8i9j0k1l2m3",
-		"text": "Stay positive, work hard, make it happen.",
-		"position": { "x": 1014, "y": 804 },
-		"sub_text_uid": null
-	},
-	{
-		"uid": "e5f6g7h8i9j0k1l2m3n4",
-		"text": "The best way to predict the future is to create it.",
-		"position": { "x": 1432, "y": 256 },
-		"sub_text_uid": "p5q6r7s8t9u0v1w2x3y4"
-	},
-	{
-		"uid": "f1g2h3i4j5k6l7m8n9o0",
-		"text": "Success is not final, failure is not fatal.",
-		"position": { "x": 560, "y": 780 },
-		"sub_text_uid": "q1r2s3t4u5v6w7x8y9z0"
-	},
-	{
-		"uid": "g2h3i4j5k6l7m8n9o0p1",
-		"text": "Act as if what you do makes a difference. It does.",
-		"position": { "x": 320, "y": 150 },
-		"sub_text_uid": null
-	},
-	{
-		"uid": "h3i4j5k6l7m8n9o0p1q2",
-		"text": "Don’t watch the clock; do what it does. Keep going.",
-		"position": { "x": 1200, "y": 540 },
-		"sub_text_uid": "r2s3t4u5v6w7x8y9z0a1"
-	},
-	{
-		"uid": "i4j5k6l7m8n9o0p1q2r3",
-		"text": "Keep your face always toward the sunshine.",
-		"position": { "x": 960, "y": 720 },
-		"sub_text_uid": null
-	},
-	{
-		"uid": "j5k6l7m8n9o0p1q2r3s4",
-		"text": "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
-		"position": { "x": 400, "y": 400 },
-		"sub_text_uid": "s3t4u5v6w7x8y9z0a1b2"
-	}
+    {
+        "uid": "main_0000",
+        "text": "내일 미팅 몇 명 갈까요?",
+        "position": {
+            "x": 615,
+            "y": 520
+        },
+        "sub_text_uid": "sub_0000"
+    },
+    {
+        "uid": "main_0001",
+        "text": "다음주 미팅 날짜 몇 개 제안하실 거에요? ",
+        "position": {
+            "x": 174,
+            "y": 630
+        },
+        "sub_text_uid": "sub_0001"
+    },
+    {
+        "uid": "main_0002",
+        "text": "이 분들 의사결정 방식은 어떤 스타일일까?",
+        "position": {
+            "x": 275,
+            "y": 296
+        },
+        "sub_text_uid": "sub_0002"
+    },
+    {
+        "uid": "main_0003",
+        "text": "요즘 우리랑 그 고객사 관계가 괜찮나요?",
+        "position": {
+            "x": 1686,
+            "y": 931
+        },
+        "sub_text_uid": "sub_0003"
+    },
+    {
+        "uid": "main_0004",
+        "text": "이거 받아보실 담당자분이 디자이너인가요, 아님 기획직군인가요?",
+        "position": {
+            "x": 106,
+            "y": 701
+        },
+        "sub_text_uid": "sub_0004"
+    },
+    {
+        "uid": "main_0005",
+        "text": "내일 미팅 어떤 모드로 갈까요?",
+        "position": {
+            "x": 1117,
+            "y": 476
+        },
+        "sub_text_uid": "sub_0005"
+    },
+    {
+        "uid": "main_0006",
+        "text": "미리 레퍼런스를 보여드릴까, 말까?",
+        "position": {
+            "x": 1254,
+            "y": 723
+        },
+        "sub_text_uid": "sub_0006"
+    },
+    {
+        "uid": "main_0007",
+        "text": "전화? 메일? 카톡?",
+        "position": {
+            "x": 1728,
+            "y": 949
+        },
+        "sub_text_uid": "sub_0007"
+    },
+    {
+        "uid": "main_0008",
+        "text": "담당자분이 좀 별로인데 이거 해도 괜찮을까요?",
+        "position": {
+            "x": 1589,
+            "y": 413
+        },
+        "sub_text_uid": "sub_0008"
+    },
+    {
+        "uid": "main_0009",
+        "text": "주말에 업무 메일 보내면 좀 개념 없어보일까?",
+        "position": {
+            "x": 1744,
+            "y": 477
+        },
+        "sub_text_uid": "sub_0009"
+    },
+    {
+        "uid": "main_0010",
+        "text": "내일 미팅 때 어디에 앉으실 예정이에요?",
+        "position": {
+            "x": 831,
+            "y": 792
+        },
+        "sub_text_uid": "sub_0010"
+    },
+    {
+        "uid": "main_0011",
+        "text": "미팅 장소에 10분 전 도착했는데, 그냥 좀 일찍 왔다고 전화할까?",
+        "position": {
+            "x": 1519,
+            "y": 282
+        },
+        "sub_text_uid": "sub_0011"
+    },
+    {
+        "uid": "main_0012",
+        "text": "거기 구글 드라이브가 막혀 있던가?",
+        "position": {
+            "x": 328,
+            "y": 248
+        },
+        "sub_text_uid": "sub_0012"
+    },
+    {
+        "uid": "main_0013",
+        "text": "글에 동어 반복이 너무 많은데 보기에 괜찮나요?",
+        "position": {
+            "x": 695,
+            "y": 159
+        },
+        "sub_text_uid": "sub_0013"
+    },
+    {
+        "uid": "main_0014",
+        "text": "메일 보냈다고 문자 드리는 건 좀 촌스러운 거 맞나요?",
+        "position": {
+            "x": 705,
+            "y": 984
+        },
+        "sub_text_uid": "sub_0014"
+    },
+    {
+        "uid": "main_0015",
+        "text": "오늘 회의에 OO님이 꼭 계셔야 하나요?",
+        "position": {
+            "x": 981,
+            "y": 798
+        },
+        "sub_text_uid": "sub_0015"
+    },
+    {
+        "uid": "main_0016",
+        "text": "리서치 할 때 미리 방향을 정할 필요는 없을까요?",
+        "position": {
+            "x": 867,
+            "y": 596
+        },
+        "sub_text_uid": "sub_0016"
+    },
+    {
+        "uid": "main_0017",
+        "text": "식사를 한 번 하면 어때요?",
+        "position": {
+            "x": 1329,
+            "y": 729
+        },
+        "sub_text_uid": "sub_0017"
+    },
+    {
+        "uid": "main_0018",
+        "text": "오늘 그 쪽에서 어떤 분이 미팅 들어오셨어요?",
+        "position": {
+            "x": 932,
+            "y": 496
+        },
+        "sub_text_uid": "sub_0018"
+    },
+    {
+        "uid": "main_0019",
+        "text": "뿌린 메일이에요, 아니면 우리를 찍어서 보냈어요?",
+        "position": {
+            "x": 583,
+            "y": 766
+        },
+        "sub_text_uid": "sub_0019"
+    },
+    {
+        "uid": "main_0020",
+        "text": "왜 이렇게 말을 중간에 끊고 들어오시는 걸까?",
+        "position": {
+            "x": 841,
+            "y": 297
+        },
+        "sub_text_uid": "sub_0020"
+    },
+    {
+        "uid": "main_0021",
+        "text": "바톤에서는 무슨 안을 추천하냐고 하면 뭐라고 할까요?",
+        "position": {
+            "x": 1707,
+            "y": 619
+        },
+        "sub_text_uid": "sub_0021"
+    },
+    {
+        "uid": "main_0022",
+        "text": "저 그럼 이제 이 방향성으로 접근하는 건 잊어도 되는 거죠?",
+        "position": {
+            "x": 678,
+            "y": 141
+        },
+        "sub_text_uid": "sub_0022"
+    },
+    {
+        "uid": "main_0023",
+        "text": "혹시 공휴일 안 끼어있나?",
+        "position": {
+            "x": 932,
+            "y": 620
+        },
+        "sub_text_uid": "sub_0023"
+    },
+    {
+        "uid": "main_0024",
+        "text": "이 회사랑 일할 때 이 일정으로 괜찮을까요?",
+        "position": {
+            "x": 960,
+            "y": 681
+        },
+        "sub_text_uid": "sub_0024"
+    },
+    {
+        "uid": "main_0025",
+        "text": "OO님이 기록 좀 해주실래요?",
+        "position": {
+            "x": 1226,
+            "y": 469
+        },
+        "sub_text_uid": "sub_0025"
+    },
+    {
+        "uid": "main_0026",
+        "text": "저 좀 도와주실 수 있을까요?",
+        "position": {
+            "x": 356,
+            "y": 311
+        },
+        "sub_text_uid": "sub_0026"
+    },
+    {
+        "uid": "main_0027",
+        "text": "고객사의 디자인 감도가 어떤가요?",
+        "position": {
+            "x": 1264,
+            "y": 699
+        },
+        "sub_text_uid": "sub_0027"
+    },
+    {
+        "uid": "main_0028",
+        "text": "시안 A, B, C 스펙트럼은 이 정도 넓이면 되겠지?",
+        "position": {
+            "x": 580,
+            "y": 128
+        },
+        "sub_text_uid": "sub_0028"
+    },
+    {
+        "uid": "main_0029",
+        "text": "시안 A, B, C 제안 순서는 어떻게 할까?",
+        "position": {
+            "x": 1010,
+            "y": 130
+        },
+        "sub_text_uid": "sub_0029"
+    },
+    {
+        "uid": "main_0030",
+        "text": "OO님이 스스로 볼 때 지금 완성도가 어느 정도인 것 같나요?",
+        "position": {
+            "x": 219,
+            "y": 29
+        },
+        "sub_text_uid": "sub_0030"
+    },
+    {
+        "uid": "main_0031",
+        "text": "오늘 컨디션 어떠세요?",
+        "position": {
+            "x": 1335,
+            "y": 938
+        },
+        "sub_text_uid": "sub_0031"
+    },
+    {
+        "uid": "main_0032",
+        "text": "이걸로 가려고 하는데 혹시 우려되는 점이 있나요?",
+        "position": {
+            "x": 702,
+            "y": 870
+        },
+        "sub_text_uid": "sub_0032"
+    },
+    {
+        "uid": "main_0033",
+        "text": "논리? 아님 스타일?",
+        "position": {
+            "x": 367,
+            "y": 927
+        },
+        "sub_text_uid": "sub_0033"
+    },
+    {
+        "uid": "main_0034",
+        "text": "내일 미팅은 고객사 키컬러를 좀 고려해서 입을까?",
+        "position": {
+            "x": 875,
+            "y": 840
+        },
+        "sub_text_uid": "sub_0034"
+    },
+    {
+        "uid": "main_0035",
+        "text": "이번 프로젝트를 다시 하게 된다면 다르게 해보고 싶은 게 있나요?",
+        "position": {
+            "x": 1744,
+            "y": 133
+        },
+        "sub_text_uid": "sub_0035"
+    },
+    {
+        "uid": "main_0036",
+        "text": "스터디 스케치들도 장표 하나로 넣을까요?",
+        "position": {
+            "x": 1568,
+            "y": 109
+        },
+        "sub_text_uid": "sub_0036"
+    },
+    {
+        "uid": "main_0037",
+        "text": "1차 제안때 어디까지 제안하면 좋을까?",
+        "position": {
+            "x": 1227,
+            "y": 55
+        },
+        "sub_text_uid": "sub_0037"
+    },
+    {
+        "uid": "main_0038",
+        "text": "이걸 위해서 했던 시도들도 좀 보여주실 수 있을까요?",
+        "position": {
+            "x": 429,
+            "y": 723
+        },
+        "sub_text_uid": "sub_0038"
+    },
+    {
+        "uid": "main_0039",
+        "text": "이거 그리드 어떻게 짜셨어요?",
+        "position": {
+            "x": 322,
+            "y": 317
+        },
+        "sub_text_uid": "sub_0039"
+    },
+    {
+        "uid": "main_0040",
+        "text": "시안 작업하신 거 중에서 OO님이 미는 안은 뭐예요?",
+        "position": {
+            "x": 1118,
+            "y": 654
+        },
+        "sub_text_uid": "sub_0040"
+    },
+    {
+        "uid": "main_0041",
+        "text": "제가 알아야 하는 상황이 혹시 있나요?",
+        "position": {
+            "x": 1645,
+            "y": 935
+        },
+        "sub_text_uid": "sub_0041"
+    },
+    {
+        "uid": "main_0042",
+        "text": "같은 성인들끼리 이래도 되나?",
+        "position": {
+            "x": 1211,
+            "y": 97
+        },
+        "sub_text_uid": "sub_0042"
+    },
+    {
+        "uid": "main_0043",
+        "text": "나 너무 했던 말 또 하나?",
+        "position": {
+            "x": 1631,
+            "y": 252
+        },
+        "sub_text_uid": "sub_0043"
+    },
+    {
+        "uid": "main_0044",
+        "text": "앞으로 제가 못 보는 게 있으면 좀 알려줄 수 있을까요?",
+        "position": {
+            "x": 1130,
+            "y": 201
+        },
+        "sub_text_uid": "sub_0044"
+    },
+    {
+        "uid": "main_0045",
+        "text": "끊어서 죄송하지만 방금 말씀해주신 부분에 대해 한번만 더 확인해도 될까요?",
+        "position": {
+            "x": 679,
+            "y": 659
+        },
+        "sub_text_uid": "sub_0045"
+    },
+    {
+        "uid": "main_0046",
+        "text": "혹시 모르니 기초적인 부분부터 여쭤보려고 하는데 괜찮으시죠?",
+        "position": {
+            "x": 490,
+            "y": 141
+        },
+        "sub_text_uid": "sub_0046"
+    },
+    {
+        "uid": "main_0047",
+        "text": "우리 최초 기획안 다시 한 번 볼까요?",
+        "position": {
+            "x": 482,
+            "y": 126
+        },
+        "sub_text_uid": "sub_0047"
+    },
+    {
+        "uid": "main_0048",
+        "text": "이건 디자인팀에 오늘 말고 다음주에 알리는 게 좋지 않을까요?",
+        "position": {
+            "x": 940,
+            "y": 313
+        },
+        "sub_text_uid": "sub_0048"
+    },
+    {
+        "uid": "main_0049",
+        "text": "이 질문은 고객사가 답하기 좀 어려워하실 거 같은데, 질문의 뉘앙스를 바꿔볼까요?",
+        "position": {
+            "x": 803,
+            "y": 317
+        },
+        "sub_text_uid": "sub_0049"
+    },
+    {
+        "uid": "main_0050",
+        "text": "고객사에 이런 질문은 긁어 부스럼이겠죠?",
+        "position": {
+            "x": 1724,
+            "y": 318
+        },
+        "sub_text_uid": "sub_0050"
+    },
+    {
+        "uid": "main_0051",
+        "text": "이쪽에는 PPT로 변환해서 보낼까요?",
+        "position": {
+            "x": 882,
+            "y": 884
+        },
+        "sub_text_uid": "sub_0051"
+    },
+    {
+        "uid": "main_0052",
+        "text": "혹시 고민이 더 필요하시면, 일단 다음 주제로 넘어가고 이따 다시 이야기해 볼까요?",
+        "position": {
+            "x": 407,
+            "y": 597
+        },
+        "sub_text_uid": "sub_0052"
+    },
+    {
+        "uid": "main_0053",
+        "text": "끌어당겨야 하는 자리인가요, 아니면 함께 할지 말지 판단해야 하는 자리인가요?",
+        "position": {
+            "x": 1593,
+            "y": 377
+        },
+        "sub_text_uid": "sub_0053"
+    },
+    {
+        "uid": "main_0054",
+        "text": "지금 단계에서 고객사에 물어보는 게 맞을까?",
+        "position": {
+            "x": 1700,
+            "y": 26
+        },
+        "sub_text_uid": "sub_0054"
+    },
+    {
+        "uid": "main_0055",
+        "text": "나는 방향성을 알고 싶은 걸까? 아니면 솔루션을 듣고 싶은 걸까?",
+        "position": {
+            "x": 596,
+            "y": 883
+        },
+        "sub_text_uid": "sub_0055"
+    },
+    {
+        "uid": "main_0056",
+        "text": "정보 전달과 인상 전달의 비중을 어느 정도로 잡아볼까요?",
+        "position": {
+            "x": 1486,
+            "y": 628
+        },
+        "sub_text_uid": "sub_0056"
+    },
+    {
+        "uid": "main_0057",
+        "text": "메일 발신자 주소가 회사 메일이에요, 개인 메일이에요?",
+        "position": {
+            "x": 1198,
+            "y": 460
+        },
+        "sub_text_uid": "sub_0057"
+    },
+    {
+        "uid": "main_0058",
+        "text": "연매출이 어느 정도인지 알아봐주실래요?",
+        "position": {
+            "x": 317,
+            "y": 3
+        },
+        "sub_text_uid": "sub_0058"
+    },
+    {
+        "uid": "main_0059",
+        "text": "잡플래닛이랑 블라인드 리뷰 체크하셨죠?",
+        "position": {
+            "x": 354,
+            "y": 135
+        },
+        "sub_text_uid": "sub_0059"
+    },
+    {
+        "uid": "main_0060",
+        "text": "버퍼를 몇 일 정도 잡으셨어요?",
+        "position": {
+            "x": 22,
+            "y": 399
+        },
+        "sub_text_uid": "sub_0060"
+    },
+    {
+        "uid": "main_0061",
+        "text": "하루 평균 몇 시간 정도 쓰게 될까요?",
+        "position": {
+            "x": 521,
+            "y": 656
+        },
+        "sub_text_uid": "sub_0061"
+    },
+    {
+        "uid": "main_0062",
+        "text": "혹시 오늘 회의에서 원하는 결론이 있나요? ",
+        "position": {
+            "x": 938,
+            "y": 585
+        },
+        "sub_text_uid": "sub_0062"
+    },
+    {
+        "uid": "main_0063",
+        "text": "오늘 회의 때 이 얘기를 할 건데, 얘기가 잘 풀릴 수 있게 OO님이 좀 도와주실 수 있을까요?",
+        "position": {
+            "x": 1671,
+            "y": 241
+        },
+        "sub_text_uid": "sub_0063"
+    },
+    {
+        "uid": "main_0064",
+        "text": "오늘 컨디션을 0점부터 10점 중 하나로 고른다면?",
+        "position": {
+            "x": 244,
+            "y": 225
+        },
+        "sub_text_uid": "sub_0064"
+    },
+    {
+        "uid": "main_0065",
+        "text": "그렇게 판단하시게 된 배경에 대해 좀 말씀해주실 수 있을까요?",
+        "position": {
+            "x": 1710,
+            "y": 332
+        },
+        "sub_text_uid": "sub_0065"
+    },
+    {
+        "uid": "main_0066",
+        "text": "혹시 짐작하셨던 질문들 중에 제가 하지 않은 게 있을까요?",
+        "position": {
+            "x": 1252,
+            "y": 638
+        },
+        "sub_text_uid": "sub_0066"
+    },
+    {
+        "uid": "main_0067",
+        "text": "저희 고민은 그러한데, 어떻게 생각하시는지 궁금합니다.",
+        "position": {
+            "x": 294,
+            "y": 735
+        },
+        "sub_text_uid": "sub_0067"
+    },
+    {
+        "uid": "main_0068",
+        "text": "아니라고 생각하시는 사례를 여쭤봐도 될까요?",
+        "position": {
+            "x": 1001,
+            "y": 518
+        },
+        "sub_text_uid": "sub_0068"
+    },
+    {
+        "uid": "main_0069",
+        "text": "이건 어떤 점이 마음에 드셨어요?",
+        "position": {
+            "x": 285,
+            "y": 335
+        },
+        "sub_text_uid": "sub_0069"
+    },
+    {
+        "uid": "main_0070",
+        "text": "그럼 저희가 그 방향성 안에서 다른 시도를 해봐도 되는 상황일까요?",
+        "position": {
+            "x": 1404,
+            "y": 493
+        },
+        "sub_text_uid": "sub_0070"
+    },
+    {
+        "uid": "main_0071",
+        "text": "그냥 떠오르는 대로 말씀해주실 수 있을까요?",
+        "position": {
+            "x": 932,
+            "y": 35
+        },
+        "sub_text_uid": "sub_0071"
+    },
+    {
+        "uid": "main_0072",
+        "text": "그건 저희가 손을 좀 움직여보고 말씀드려도 될까요?",
+        "position": {
+            "x": 904,
+            "y": 171
+        },
+        "sub_text_uid": "sub_0072"
+    },
+    {
+        "uid": "main_0073",
+        "text": "말씀해주신 브랜드 인상을 내부 구성원의 인상이라고 보는 것도 가능할까요?",
+        "position": {
+            "x": 964,
+            "y": 526
+        },
+        "sub_text_uid": "sub_0073"
+    },
+    {
+        "uid": "main_0074",
+        "text": "결국은 본질은 커머스라고 보면 되겠지요?",
+        "position": {
+            "x": 724,
+            "y": 913
+        },
+        "sub_text_uid": "sub_0074"
+    },
+    {
+        "uid": "main_0075",
+        "text": "너무 실험적인 건 지양이라고 해주셨는데, 혹시 이런 건 실험적으로 느껴지시나요?",
+        "position": {
+            "x": 1117,
+            "y": 187
+        },
+        "sub_text_uid": "sub_0075"
+    },
+    {
+        "uid": "main_0076",
+        "text": "일하실 때 이걸 보통 뭐라고 부르시나요?",
+        "position": {
+            "x": 1732,
+            "y": 890
+        },
+        "sub_text_uid": "sub_0076"
+    },
+    {
+        "uid": "main_0077",
+        "text": "최종 의견이 아니어도 괜찮으니 말씀해주시겠어요?",
+        "position": {
+            "x": 1480,
+            "y": 76
+        },
+        "sub_text_uid": "sub_0077"
+    },
+    {
+        "uid": "main_0078",
+        "text": "내부에 디자이너가 계실까요?",
+        "position": {
+            "x": 1459,
+            "y": 271
+        },
+        "sub_text_uid": "sub_0078"
+    },
+    {
+        "uid": "main_0079",
+        "text": "포스터가 가장 많이 노출되는 환경은 어떻게 되나요?",
+        "position": {
+            "x": 1378,
+            "y": 256
+        },
+        "sub_text_uid": "sub_0079"
+    },
+    {
+        "uid": "main_0080",
+        "text": "유료 폰트 구입이 가능하신 상황일까요?",
+        "position": {
+            "x": 1514,
+            "y": 250
+        },
+        "sub_text_uid": "sub_0080"
+    },
+    {
+        "uid": "main_0081",
+        "text": "이 외부 사인은 조명 타입인가요?",
+        "position": {
+            "x": 268,
+            "y": 700
+        },
+        "sub_text_uid": "sub_0081"
+    },
+    {
+        "uid": "main_0082",
+        "text": "이번 작업을 통해서 현재의 타겟군에 변화가 있게 될까요?",
+        "position": {
+            "x": 855,
+            "y": 669
+        },
+        "sub_text_uid": "sub_0082"
+    },
+    {
+        "uid": "main_0083",
+        "text": "브랜드 이름에 담긴 뜻이 무엇인가요?",
+        "position": {
+            "x": 321,
+            "y": 396
+        },
+        "sub_text_uid": "sub_0083"
+    },
+    {
+        "uid": "main_0084",
+        "text": "이때 이후론 안돼'에 해당하는 런칭 시점이 있을까요?",
+        "position": {
+            "x": 755,
+            "y": 935
+        },
+        "sub_text_uid": "sub_0084"
+    },
+    {
+        "uid": "main_0085",
+        "text": "잡아두신 예산 범위가 있을까요?",
+        "position": {
+            "x": 1429,
+            "y": 357
+        },
+        "sub_text_uid": "sub_0085"
+    },
+    {
+        "uid": "main_0086",
+        "text": "3천만원 이하로는 어려운데 괜찮을까요?",
+        "position": {
+            "x": 473,
+            "y": 415
+        },
+        "sub_text_uid": "sub_0086"
+    },
+    {
+        "uid": "main_0087",
+        "text": "우려되시거나 신경 쓰이는 점이 혹시 있을까요?",
+        "position": {
+            "x": 403,
+            "y": 968
+        },
+        "sub_text_uid": "sub_0087"
+    },
+    {
+        "uid": "main_0088",
+        "text": "우리 타겟이 OOO브랜드를 모르는 지인에게 이 브랜드를 어떤 문장으로 소개할 것 같으신가요?",
+        "position": {
+            "x": 1636,
+            "y": 99
+        },
+        "sub_text_uid": "sub_0088"
+    },
+    {
+        "uid": "main_0089",
+        "text": "어떤 분께 주로 연락드리면 될까요?",
+        "position": {
+            "x": 1169,
+            "y": 218
+        },
+        "sub_text_uid": "sub_0089"
+    },
+    {
+        "uid": "main_0090",
+        "text": "저희가 먼저 설명을 드릴까요? 아니면 먼저 해주시겠어요?",
+        "position": {
+            "x": 993,
+            "y": 215
+        },
+        "sub_text_uid": "sub_0090"
+    },
+    {
+        "uid": "main_0091",
+        "text": "내일 몇 분이 오시나요?",
+        "position": {
+            "x": 155,
+            "y": 817
+        },
+        "sub_text_uid": "sub_0091"
+    },
+    {
+        "uid": "main_0092",
+        "text": "혹시 이 기간 중에 휴가 가시는 일정이 있을까요?",
+        "position": {
+            "x": 572,
+            "y": 499
+        },
+        "sub_text_uid": "sub_0092"
+    },
+    {
+        "uid": "main_0093",
+        "text": "OOO 브랜드가 사람이라면, 어떤 성향일까요?",
+        "position": {
+            "x": 212,
+            "y": 256
+        },
+        "sub_text_uid": "sub_0093"
+    },
+    {
+        "uid": "main_0094",
+        "text": "언제까지 필요하세요?",
+        "position": {
+            "x": 793,
+            "y": 124
+        },
+        "sub_text_uid": "sub_0094"
+    },
+    {
+        "uid": "main_0095",
+        "text": "요즘 여러 업체들을 만나보고 계신 거죠?",
+        "position": {
+            "x": 1281,
+            "y": 782
+        },
+        "sub_text_uid": "sub_0095"
+    },
+    {
+        "uid": "main_0096",
+        "text": "회사가 강남인가요? 그럼 2시반쯤 어떠세요?",
+        "position": {
+            "x": 1171,
+            "y": 32
+        },
+        "sub_text_uid": "sub_0096"
+    },
+    {
+        "uid": "main_0097",
+        "text": "대표님은 원래 어떤 일을 하시던 분이셨어요?",
+        "position": {
+            "x": 1623,
+            "y": 783
+        },
+        "sub_text_uid": "sub_0097"
+    }
 ]
