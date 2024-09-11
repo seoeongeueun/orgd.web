@@ -37,11 +37,8 @@ export async function POST(req) {
 
 	try {
 		const { updatedTexts } = await req.json();
-		console.log("Received updatedTexts", updatedTexts);
 
 		for (const text of updatedTexts) {
-			console.log("Processing MainText", text);
-
 			await MainText.findOneAndUpdate(
 				{ uid: text.uid },
 				{
@@ -50,8 +47,6 @@ export async function POST(req) {
 			);
 
 			if (text.subText) {
-				console.log("Processing SubText", text.subText);
-
 				await SubText.findOneAndUpdate(
 					{ uid: text.subText.uid },
 					{

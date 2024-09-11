@@ -3,6 +3,7 @@ import { useRef, useState, useCallback, useMemo, useEffect } from "react";
 import { useMode } from "@/app/contexts/ModeContext";
 import { throttle } from "../utils/tools";
 import InputBox from "./InputBox";
+import { useTrigger } from "@/app/contexts/TriggerContext";
 
 export default function DraggableTextGroup({
 	mainText,
@@ -25,6 +26,7 @@ export default function DraggableTextGroup({
 	});
 	const [isRotating, setIsRotating] = useState(false);
 	const { mode } = useMode();
+	const { triggerState, setTrigger } = useTrigger();
 	const nodeRef = useRef(null);
 	const subNodeRef = useRef(null);
 
@@ -161,7 +163,10 @@ export default function DraggableTextGroup({
 					onDrag={handleDragStart}
 					onStop={handleDragStop}
 				>
-					<div ref={nodeRef} className="absolute w-fit h-fit p-0 m-0 ">
+					<div
+						ref={nodeRef}
+						className="absolute w-fit h-fit p-0 m-0 drag-text-group"
+					>
 						<div
 							className={`text-main whitespace-nowrap ${
 								mode === "main" ? "cursor-move" : "cursor-default"
@@ -197,7 +202,12 @@ export default function DraggableTextGroup({
 		return (
 			<>
 				<p
-					className="absolute opacity-30 text-main"
+					className={`absolute ${
+						triggerState?.trigger !== "visible" &&
+						mainText.sub_text_uid === lastModified?.uid
+							? "opacity-90"
+							: "opacity-20"
+					} text-main`}
 					style={{ left: deltaPosition?.x, top: deltaPosition?.y }}
 				>
 					{mainText.text}
@@ -212,7 +222,7 @@ export default function DraggableTextGroup({
 						onDrag={handleDragStart}
 						onStop={handleDragStop}
 					>
-						<div ref={subNodeRef} className="absolute">
+						<div ref={subNodeRef} className="absolute drag-text-group">
 							{lastModified?.uid === subText.uid && (
 								<InputBox
 									handleManualPositionChange={handleManualPositionChange}
