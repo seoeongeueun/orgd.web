@@ -92,11 +92,16 @@ export default function NavBox() {
 		setTrigger("refresh", "");
 	};
 
+	const triggerVisibility = (e) => {
+		if (e.target.checked) setTrigger("visible", "");
+		else setTrigger("hide", "");
+	};
+
 	return (
 		<Draggable
 			nodeRef={nodeRef}
 			bounds="#edit-page"
-			defaultPosition={{ x: 0, y: 0 }}
+			defaultPosition={{ x: 20, y: 20 }}
 		>
 			<div
 				ref={nodeRef}
@@ -240,7 +245,11 @@ export default function NavBox() {
 							<>
 								<label className="flex flex-row items-center gap-2">
 									모든 해설 보이기
-									<input type="checkbox" id="sub-text-visibility"></input>
+									<input
+										type="checkbox"
+										id="sub-text-visibility"
+										onChange={(e) => triggerVisibility(e)}
+									></input>
 								</label>
 								<label className="flex flex-row items-center gap-2">
 									현재
@@ -252,7 +261,7 @@ export default function NavBox() {
 									>
 										{mode === "main" ? "메인" : "해설"}
 									</button>
-									텍스트를 수정 중입니다.
+									텍스트를 수정 중입니다
 								</label>
 							</>
 						))}
