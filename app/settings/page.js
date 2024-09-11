@@ -2,6 +2,7 @@
 import { useState } from "react";
 import EditPage from "../components/EditPage";
 import { ModeProvider, useMode } from "@/app/contexts/ModeContext";
+import NavBox from "../components/NavBox";
 
 export default function Page() {
 	return (
@@ -47,7 +48,10 @@ export function EditPageContent() {
 	};
 
 	return (
-		<div className="flex flex-col justify-start items-start gap-4 w-full h-full overflow-y-auto overflow-x-hidden">
+		<div
+			id="edit-page"
+			className="flex flex-col justify-start items-start gap-4 w-full h-full overflow-y-auto overflow-x-hidden"
+		>
 			<div className="flex flex-row justify-between items-center w-full p-4 text-2xl">
 				<h1>데이터 설정</h1>
 				<div className="flex flex-row gap-2">
@@ -68,7 +72,7 @@ export function EditPageContent() {
 			</div>
 
 			{message && <p>{message}</p>}
-
+			<NavBox />
 			<EditPage />
 		</div>
 	);
