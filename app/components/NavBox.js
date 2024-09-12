@@ -23,17 +23,17 @@ const updateSettings = async (data) => {
 export default function NavBox({ setFontSizes, fontSizes }) {
 	const [hasSubText, setHasSubText] = useState(false);
 	const [isMinimized, setIsMinimized] = useState(false);
-	const nodeRef = useRef(null);
 	const { mode, handleModeChange } = useMode();
 	const { triggerState, setTrigger } = useTrigger();
 	const [message, setMessage] = useState("");
-	const [navMode, setNavMode] = useState("default");
+	const [navMode, setNavMode] = useState("view");
 	const [shiftLeft, setShiftLeft] = useState(false);
 	const [shiftValue, setShiftValue] = useState(0);
 	const [ogFontSizes, setOgFontSizes] = useState({
 		default: "5px",
 		sub: "6px",
 	});
+	const nodeRef = useRef(null);
 
 	useEffect(() => {
 		const loadSettings = async () => {
@@ -98,28 +98,14 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 		};
 
 		try {
-			const response = await fetch("/api/single", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
-			});
-
-			if (response.ok) {
-				const responseData = await response.json();
-				console.log("Text created successfully:", responseData);
-				setMessage("등록 완료 되었습니다.");
-				setTrigger("refresh", "");
-			} else {
-				const errorData = await response.json();
-				console.error("Error creating text:", errorData);
-				setMessage("등록 실패했습니다.");
-				alert("Failed to create text.");
-			}
+			const responseData = await apiRequest("/api/single", "POST", data);
+			console.log("Text created successfully:", responseData);
+			setMessage("등록 완료 되었습니다.");
+			setTrigger("refresh", "");
 		} catch (error) {
-			console.error("An error occurred:", error);
-			alert("An error occurred while creating the text.");
+			console.error("Error creating text:", error);
+			setMessage("등록 실패했습니다.");
+			alert("Failed to create text.");
 		}
 	};
 
@@ -312,6 +298,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 									<input
 										type="checkbox"
 										id="sub-text-visibility"
+										disabled={mode === "sub"}
 										onChange={(e) => triggerVisibility(e)}
 									></input>
 								</label>
