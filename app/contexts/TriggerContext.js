@@ -8,7 +8,7 @@ export function useTrigger() {
 
 export function TriggerProvider({ children }) {
 	const [triggerState, setTriggerState] = useState({
-		trigger: "save",
+		trigger: "",
 		message: "",
 	});
 

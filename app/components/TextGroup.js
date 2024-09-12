@@ -3,6 +3,7 @@ export default function TextGroup({
 	subText = null,
 	isVisible,
 	onMainTextClick,
+	fontSize,
 }) {
 	if (mainText)
 		return (
@@ -13,21 +14,23 @@ export default function TextGroup({
 					style={{
 						left: mainText.position?.x,
 						top: mainText.position?.y,
+						fontSize: fontSize?.default || "5px",
 					}}
 				>
 					{mainText.text}
 				</p>
 				{subText && isVisible && (
 					<div
-						className={`absolute text-sub whitespace-nowrap ${
+						className={`absolute text-sub px-1 whitespace-nowrap ${
 							subText.background_color.startsWith("light")
-								? "bg-gray-300"
+								? "bg-gray-500"
 								: "bg-black"
 						}`}
 						style={{
 							left: subText.position?.x,
 							top: subText.position?.y,
 							transform: `rotate(${subText.rotation || 0}deg)`,
+							fontSize: fontSize?.sub || "5px",
 						}}
 					>
 						{subText.text}

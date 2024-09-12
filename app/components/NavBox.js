@@ -6,7 +6,32 @@ import Image from "next/image";
 import { useMode } from "@/app/contexts/ModeContext";
 import { useTrigger } from "@/app/contexts/TriggerContext";
 
-export default function NavBox() {
+const fetchSettings = async () => {
+	const response = await fetch("/api/settings");
+	const data = await response.json();
+	return data;
+};
+
+const updateSettings = async (data) => {
+	console.log("Data passed to updateSettings:", data);
+	const response = await fetch("/api/settings", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(data),
+	});
+
+	if (response.ok) {
+		const responseData = await response.json();
+		console.log("Settings updated successfully:", responseData);
+	} else {
+		const errorData = await response.json();
+		console.error("Error updating settings:", errorData);
+	}
+};
+
+export default function NavBox({ setFontSizes, fontSizes }) {
 	const [hasSubText, setHasSubText] = useState(false);
 	const [isMinimized, setIsMinimized] = useState(false);
 	const nodeRef = useRef(null);
@@ -14,6 +39,18 @@ export default function NavBox() {
 	const { triggerState, setTrigger } = useTrigger();
 	const [message, setMessage] = useState("");
 	const [navMode, setNavMode] = useState("default");
+	const [ogFontSizes, setOgFontSizes] = useState({
+		default: "5px",
+		sub: "6px",
+	});
+
+	// useEffect(() => {
+	// 	const loadSettings = async () => {
+	// 		const data = await fetchSettings();
+	// 		setOgFontSizes(data.fontSizes);
+	// 	};
+	// 	loadSettings();
+	// }, []);
 
 	useEffect(() => {
 		if (triggerState?.message) {
@@ -32,8 +69,16 @@ export default function NavBox() {
 
 	const triggerSaveState = () => {
 		setTrigger("save", "");
+		if (
+			ogFontSizes.default !== fontSizes.default ||
+			ogFontSizes.sub !== fontSizes.sub
+		) {
+			console.log(fontSizes);
+			updateSettings({ fontSizes });
+		}
 	};
 
+	// 신규 텍스트 등록시
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -55,8 +100,6 @@ export default function NavBox() {
 			subText: hasSubText ? subText : null,
 			subTextColor: hasSubText ? subTextColor : null,
 		};
-
-		console.log("Sending data:", data);
 
 		try {
 			const response = await fetch("/api/single", {
@@ -95,6 +138,11 @@ export default function NavBox() {
 	const triggerVisibility = (e) => {
 		if (e.target.checked) setTrigger("visible", "");
 		else setTrigger("hide", "");
+	};
+
+	const handleFontSizeChange = (e, type) => {
+		const value = Math.max(0, parseInt(e.target.value, 10) || 0);
+		setFontSizes((prev) => ({ ...prev, [type]: value + "px" }));
 	};
 
 	return (
@@ -262,6 +310,26 @@ export default function NavBox() {
 										{mode === "main" ? "메인" : "해설"}
 									</button>
 									텍스트를 수정 중입니다
+								</label>
+								<label>
+									기본 폰트 크기
+									<input
+										type="number"
+										id="font-size"
+										className="nav-input mt-px w-16 ml-2"
+										defaultValue={ogFontSizes.default}
+										onChange={(e) => handleFontSizeChange(e, "default")}
+									></input>
+								</label>
+								<label>
+									해설 폰트 크기
+									<input
+										type="number"
+										id="sub-font-size"
+										className="nav-input mt-px w-16 ml-2"
+										defaultValue={ogFontSizes.sub}
+										onChange={(e) => handleFontSizeChange(e, "sub")}
+									></input>
 								</label>
 							</>
 						))}

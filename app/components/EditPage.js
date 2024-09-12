@@ -11,7 +11,7 @@ const fetchTexts = async () => {
 };
 
 // edit mode인 경우 소켓 통신 x
-export default function EditPage() {
+export default function EditPage({ fontSizes }) {
 	const [isMain, setIsMain] = useState(true);
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
@@ -64,6 +64,7 @@ export default function EditPage() {
 	useEffect(() => {
 		// 첫 로드시에 모든 서브 텍스트를 숨김처리
 		if (initialLoad && texts.length > 0) {
+			setTrigger("loaded", "데이터 로드 완료");
 			setSubTextVisibility(
 				Object.fromEntries(texts.map((text) => [text.uid, false]))
 			);
@@ -171,6 +172,7 @@ export default function EditPage() {
 							setLastModified={setLastModified}
 							onMainTextClick={handleMainTextClick}
 							onUpdateText={handleUpdateText}
+							fontSizes={fontSizes}
 						/>
 					))}
 			</div>
