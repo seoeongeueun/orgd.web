@@ -42,7 +42,6 @@ export const apiRequest = async (url, method = "GET", data = null) => {
 	}
 
 	try {
-		console.log(url, options);
 		const response = await fetch(url, options);
 		if (response.ok) {
 			return await response.json();
