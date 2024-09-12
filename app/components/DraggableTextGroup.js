@@ -171,7 +171,7 @@ export default function DraggableTextGroup({
 				...mainText,
 				text: e.target.value,
 			});
-		else
+		else {
 			onUpdateText(mainText.uid, {
 				...mainText,
 				subText: {
@@ -179,6 +179,8 @@ export default function DraggableTextGroup({
 					text: e.target.value,
 				},
 			});
+			subText.text = e.target.value;
+		}
 	};
 
 	if (mode === "main")
@@ -281,16 +283,14 @@ export default function DraggableTextGroup({
 									isEditSubText={isEditSubText}
 								/>
 							)}
-
-							{/* {isRotating && (
-								<div className="absolute flex flex-row text-main ml-auto bottom-8 right-0 z-[99] opacity-80"></div>
-							)} */}
 							<div
 								className={`w-fit h-fit px-1 text-white ${
 									subText.background_color.startsWith("light")
 										? "bg-gray-500"
 										: "bg-black"
-								} cursor-move whitespace-pre-wrap text-center`}
+								} ${
+									isRotating ? "cursor-alias" : "cursor-move"
+								} whitespace-pre-wrap text-center`}
 								style={{
 									transform: `rotate(${
 										isEditSubText ? 0 : subText.rotation || 0

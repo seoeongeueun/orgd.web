@@ -125,6 +125,7 @@ export default function EditPage({ fontSizes }) {
 
 			const response = await apiRequest("/api/texts", "POST", { updatedTexts });
 			setTrigger("saved", "저장 완료 되었습니다.");
+			alert("저장 완료 되었습니다.");
 		} catch (error) {
 			console.error("Error saving positions:", error);
 			setTrigger("error", "저장 실패했습니다.");
