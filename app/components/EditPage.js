@@ -86,16 +86,39 @@ export default function EditPage({ fontSizes }) {
 		);
 	}, []);
 
+	// const handleUpdateText = useCallback((uid, updatedText) => {
+	// 	setTexts((prevTexts) =>
+	// 		prevTexts.map((text) => {
+	// 			if (text.uid === uid) {
+	// 				return updatedText;
+	// 			}
+
+	// 			if (text.subText && text.subText.uid === uid) {
+	// 				return {
+	// 					...text,
+	// 					subText: {
+	// 						...text.subText,
+	// 						text: updatedText.text,
+	// 					},
+	// 				};
+	// 			}
+	// 			return text;
+	// 		})
+	// 	);
+	// }, []);
+
 	const handleSavePositions = async () => {
 		try {
 			const updatedTexts = texts.map((text) => ({
 				uid: text.uid,
 				position: text.position,
+				text: text.text,
 				subText: text.subText
 					? {
 							uid: text.subText.uid,
 							position: text.subText.position,
 							rotation: text.subText.rotation,
+							text: text.subText.text,
 					  }
 					: null,
 			}));
@@ -129,6 +152,30 @@ export default function EditPage({ fontSizes }) {
 					Object.fromEntries(
 						Object.keys(prevVisibility).map((key) => [key, false])
 					)
+				);
+				setTrigger("", "");
+			},
+			shiftLeft: () => {
+				setTexts((prevTexts) =>
+					prevTexts.map((text) => ({
+						...text,
+						position: {
+							...text.position,
+							x: text.position.x - parseInt(triggerState.message),
+						},
+					}))
+				);
+				setTrigger("", "");
+			},
+			shiftRight: () => {
+				setTexts((prevTexts) =>
+					prevTexts.map((text) => ({
+						...text,
+						position: {
+							...text.position,
+							x: text.position.x + parseInt(triggerState.message),
+						},
+					}))
 				);
 				setTrigger("", "");
 			},

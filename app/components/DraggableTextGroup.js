@@ -28,6 +28,7 @@ export default function DraggableTextGroup({
 	const [isRotating, setIsRotating] = useState(false);
 	const { mode } = useMode();
 	const { triggerState, setTrigger } = useTrigger();
+	const [isEditSubText, setIsEditSubText] = useState(false);
 	const nodeRef = useRef(null);
 	const subNodeRef = useRef(null);
 
@@ -108,12 +109,24 @@ export default function DraggableTextGroup({
 		setTimeout(() => setIsDragging(false), 0);
 	}, [mode, deltaPosition, subTextPosition, onUpdateText, setLastModified]);
 
+	useEffect(() => {
+		setIsDragging(false);
+	}, [mode]);
+
 	const handleClick = useCallback(
 		(e) => {
 			if (isDragging) {
 				e.preventDefault();
 			} else {
 				onMainTextClick(mainText.uid);
+				const targetText = mode === "main" ? mainText : subText;
+				if (targetText) {
+					setLastModified({
+						uid: targetText.uid,
+						x: targetText.position.x,
+						y: targetText.position.y,
+					});
+				}
 			}
 		},
 		[isDragging, onMainTextClick, mainText.uid]
@@ -151,6 +164,22 @@ export default function DraggableTextGroup({
 		[subText?.rotation, subTextPosition, fontSizes]
 	);
 
+	const handleSingleChange = (e) => {
+		if (mode === "main")
+			onUpdateText(mainText.uid, {
+				...mainText,
+				text: e.target.value,
+			});
+		else
+			onUpdateText(mainText.uid, {
+				...mainText,
+				subText: {
+					...subText,
+					text: e.target.value,
+				},
+			});
+	};
+
 	if (mode === "main")
 		return (
 			<>
@@ -166,16 +195,25 @@ export default function DraggableTextGroup({
 				>
 					<div
 						ref={nodeRef}
-						className="absolute w-fit h-fit p-0 m-0 drag-text-group"
+						className="absolute w-fit text-center h-fit p-0 m-0 drag-text-group whitespace-nowrap"
 					>
 						<div
-							className={`text-main whitespace-nowrap ${
+							className={`text-main whitespace-pre-wrap ${
 								mode === "main" ? "cursor-move" : "cursor-default"
-							} flex flex-col-reverse`}
+							} flex flex-col-reverse w-fit z-20`}
 							onClick={handleClick}
 							style={{ fontSize: fontSizes?.default || "5px" }}
 						>
-							{mainText.text}
+							{lastModified?.uid === mainText?.uid ? (
+								<textarea
+									value={mainText?.text}
+									id="maintext-text"
+									className="whitespace-pre-wrap min-w-[200px] w-full nav-input !p-0"
+									onChange={handleSingleChange}
+								/>
+							) : (
+								mainText.text
+							)}
 							{lastModified?.uid === mainText.uid && (
 								<InputBox
 									handleManualPositionChange={handleManualPositionChange}
@@ -188,7 +226,7 @@ export default function DraggableTextGroup({
 				</Draggable>
 				{subText && isVisible && (
 					<div
-						className={`absolute text-sub px-1 whitespace-nowrap ${
+						className={`absolute text-sub text-center px-1 whitespace-pre-wrap z-10 ${
 							subText.background_color.startsWith("light")
 								? "bg-gray-500"
 								: "bg-black"
@@ -204,7 +242,7 @@ export default function DraggableTextGroup({
 		return (
 			<>
 				<p
-					className={`absolute ${
+					className={`absolute whitespace-pre-wrap text-center pointer-events-none ${
 						triggerState?.trigger !== "visible" &&
 						mainText.sub_text_uid === lastModified?.uid
 							? "opacity-90"
@@ -238,24 +276,39 @@ export default function DraggableTextGroup({
 									lastModified={lastModified}
 									setLastModified={setLastModified}
 									rotation={subText.rotation}
+									setIsEditSubText={setIsEditSubText}
+									isEditSubText={isEditSubText}
 								/>
 							)}
 
-							{isRotating && (
+							{/* {isRotating && (
 								<div className="absolute flex flex-row text-main ml-auto bottom-8 right-0 z-[99] opacity-80"></div>
-							)}
+							)} */}
 							<div
 								className={`w-fit h-fit px-1 text-white ${
 									subText.background_color.startsWith("light")
 										? "bg-gray-500"
 										: "bg-black"
-								} cursor-move`}
+								} cursor-move whitespace-pre-wrap text-center`}
 								style={{
-									transform: `rotate(${subText.rotation || 0}deg)`,
+									transform: `rotate(${
+										isEditSubText ? 0 : subText.rotation || 0
+									}deg)`,
 									fontSize: fontSizes?.sub || "6px",
 								}}
+								onClick={handleClick}
 							>
-								{subText.text}
+								{isEditSubText ? (
+									<textarea
+										value={subText?.text}
+										id="subtext-text"
+										className="whitespace-pre-wrap text-start min-w-[200px] nav-input !p-0 w-full"
+										onChange={handleSingleChange}
+										onBlur={() => setIsEditSubText(false)}
+									/>
+								) : (
+									subText.text
+								)}
 							</div>
 						</div>
 					</Draggable>

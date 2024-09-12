@@ -9,7 +9,7 @@ export default function TextGroup({
 		return (
 			<>
 				<p
-					className="absolute text-main p-0 m-0 whitespace-nowrap cursor-pointer"
+					className="absolute text-main text-center p-0 m-0 whitespace-pre-wrap cursor-pointer"
 					onClick={() => onMainTextClick(mainText.uid)}
 					style={{
 						left: mainText.position?.x,
@@ -21,7 +21,7 @@ export default function TextGroup({
 				</p>
 				{subText && isVisible && (
 					<div
-						className={`absolute text-sub px-1 whitespace-nowrap ${
+						className={`absolute text-sub px-1 text-center whitespace-pre-wrap ${
 							subText.background_color.startsWith("light")
 								? "bg-gray-500"
 								: "bg-black"

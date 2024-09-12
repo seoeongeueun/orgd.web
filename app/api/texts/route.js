@@ -42,6 +42,7 @@ export async function POST(req) {
 			await MainText.findOneAndUpdate(
 				{ uid: text.uid },
 				{
+					text: text.text,
 					position: text.position,
 				}
 			);
@@ -50,6 +51,7 @@ export async function POST(req) {
 				await SubText.findOneAndUpdate(
 					{ uid: text.subText.uid },
 					{
+						text: text.subText.text,
 						position: text.subText.position,
 						rotation: text.subText.rotation,
 					}
