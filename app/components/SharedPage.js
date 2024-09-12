@@ -279,16 +279,17 @@ export default function SharedPage({ isEditMode = true }) {
 				>
 					초기화
 				</button>
-				{texts.map((text) => (
-					<TextGroup
-						key={text.uid}
-						mainText={text}
-						subText={text?.subText}
-						isVisible={subTextVisibility[text.uid]}
-						onMainTextClick={handleMainTextClick}
-						fontSize={fontSize}
-					/>
-				))}
+				{texts?.length > 0 &&
+					texts.map((text) => (
+						<TextGroup
+							key={text.uid}
+							mainText={text}
+							subText={text?.subText}
+							isVisible={subTextVisibility[text.uid]}
+							onMainTextClick={handleMainTextClick}
+							fontSize={fontSize}
+						/>
+					))}
 				{isMain &&
 					Object.keys(userFrames).map((userId) => {
 						const frame = userFrames[userId];

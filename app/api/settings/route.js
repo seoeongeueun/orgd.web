@@ -1,11 +1,38 @@
 import { NextResponse } from "next/server";
-import Settings from "@/app/models/settings"; // Updated path
+import { jwtVerify } from "jose";
+import Settings from "@/app/models/settings";
 import connectDB from "@/app/utils/mongodb";
+
+const verifyToken = async (req) => {
+	const authHeader = req.headers.get("authorization");
+
+	if (!authHeader) {
+		throw new Error("No token provided");
+	}
+
+	const token = authHeader.split(" ")[1];
+
+	if (!token) {
+		throw new Error("Token missing");
+	}
+
+	try {
+		const { payload } = await jwtVerify(
+			token,
+			new TextEncoder().encode(process.env.JWT_SECRET)
+		);
+		return payload;
+	} catch (error) {
+		throw new Error("Invalid token");
+	}
+};
 
 export async function POST(req) {
 	await connectDB();
 
 	try {
+		await verifyToken(req);
+
 		const { fontSizes } = await req.json();
 		console.log("Received data:", fontSizes);
 		const newSettings = new Settings({ fontSize: fontSizes });
@@ -13,20 +40,23 @@ export async function POST(req) {
 
 		return new Response(JSON.stringify(newSettings), { status: 201 });
 	} catch (error) {
-		return new Response(JSON.stringify({ error: "Failed to save settings." }), {
-			status: 400,
+		console.error(error.message);
+		return new Response(JSON.stringify({ error: error.message }), {
+			status: error.message.includes("token") ? 401 : 400, // Return 401 for token issues
 		});
 	}
 }
 
 export async function GET(req) {
 	await connectDB();
+
 	try {
 		const settings = await Settings.find();
 		return NextResponse.json(settings);
 	} catch (error) {
-		return new Response(JSON.stringify({ error: "Failed to load settings." }), {
-			status: 400,
+		console.error(error.message);
+		return new Response(JSON.stringify({ error: error.message }), {
+			status: error.message.includes("token") ? 401 : 400, // Return 401 for token issues
 		});
 	}
 }
@@ -35,6 +65,8 @@ export async function PUT(req) {
 	await connectDB();
 
 	try {
+		await verifyToken(req);
+
 		const { fontSize } = await req.json();
 		const updatedSettings = await Settings.findOneAndUpdate(
 			{},
@@ -50,11 +82,9 @@ export async function PUT(req) {
 
 		return new Response(JSON.stringify(updatedSettings), { status: 200 });
 	} catch (error) {
-		return new Response(
-			JSON.stringify({ error: "Failed to update settings." }),
-			{
-				status: 400,
-			}
-		);
+		console.error(error.message);
+		return new Response(JSON.stringify({ error: error.message }), {
+			status: error.message.includes("token") ? 401 : 400, // Return 401 for token issues
+		});
 	}
 }
