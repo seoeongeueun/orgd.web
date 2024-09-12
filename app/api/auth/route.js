@@ -12,7 +12,7 @@ export async function POST(req) {
 				{ user: "authenticated" },
 				process.env.JWT_SECRET,
 				{
-					expiresIn: "1h",
+					expiresIn: "10h",
 				}
 			);
 
@@ -21,7 +21,7 @@ export async function POST(req) {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === "production",
 				sameSite: "strict",
-				maxAge: 60 * 60,
+				maxAge: 10 * 60 * 60,
 			});
 
 			return response;
