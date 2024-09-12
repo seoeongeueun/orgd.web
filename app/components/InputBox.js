@@ -62,13 +62,15 @@ const InputBox = memo(function InputBox({
 					className="pointer-events-none"
 				/>
 			</button>
-			<button
-				type="button"
-				onClick={() => setIsEditSubText((prev) => !prev)}
-				className="bg-gray-50 border border-gray-300 w-8"
-			>
-				T
-			</button>
+			{setIsRotating && (
+				<button
+					type="button"
+					onClick={() => setIsEditSubText((prev) => !prev)}
+					className="bg-gray-50 border border-gray-300 w-8"
+				>
+					T
+				</button>
+			)}
 		</div>
 	);
 });
