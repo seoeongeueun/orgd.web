@@ -28,6 +28,8 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 	const { triggerState, setTrigger } = useTrigger();
 	const [message, setMessage] = useState("");
 	const [navMode, setNavMode] = useState("default");
+	const [shiftLeft, setShiftLeft] = useState(false);
+	const [shiftValue, setShiftValue] = useState(0);
 	const [ogFontSizes, setOgFontSizes] = useState({
 		default: "5px",
 		sub: "6px",
@@ -62,7 +64,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 	}, [navMode]);
 
 	const triggerSaveState = () => {
-		setTrigger("save", "");
+		setTrigger("save", "저장 중입니다....");
 		if (
 			ogFontSizes.default !== fontSizes.default ||
 			ogFontSizes.sub !== fontSizes.sub
@@ -108,7 +110,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 				const responseData = await response.json();
 				console.log("Text created successfully:", responseData);
 				setMessage("등록 완료 되었습니다.");
-				alert("Text created successfully!");
+				setTrigger("refresh", "");
 			} else {
 				const errorData = await response.json();
 				console.error("Error creating text:", errorData);
@@ -138,6 +140,26 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 		const value = Math.max(0, parseInt(e.target.value, 10) || 0);
 		setFontSizes((prev) => ({ ...prev, [type]: value + "px" }));
 	};
+
+	const triggerShift = (e) => {
+		const newShiftValue = e.target.value;
+		const delta = newShiftValue - shiftValue;
+
+		setShiftValue(newShiftValue);
+
+		const direction =
+			delta > 0 ? (shiftLeft ? "Left" : "Right") : shiftLeft ? "Right" : "Left";
+		setTrigger(`shift${direction}`, Math.abs(delta));
+	};
+
+	//방향이 바뀌면 텍스트 이동 값 초기화
+	useEffect(() => {
+		const oppDirection = shiftLeft ? "Left" : "Right";
+		setTrigger(`shift${oppDirection}`, shiftValue);
+		setShiftValue(0);
+		const value = document.getElementById("shift-px");
+		if (value) value.value = 0;
+	}, [shiftLeft]);
 
 	return (
 		<Draggable
@@ -324,6 +346,25 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 										defaultValue={ogFontSizes.sub}
 										onChange={(e) => handleFontSizeChange(e, "sub")}
 									></input>
+								</label>
+								<label className="flex flex-row items-center gap-2 whitespace-nowrap">
+									모든 텍스트를
+									<button
+										className="nav-input px-2 rounded-sm"
+										onClick={() => setShiftLeft((prev) => !prev)}
+									>
+										{shiftLeft ? "왼쪽" : "오른쪽"}
+									</button>
+									으로
+									<input
+										type="number"
+										id="shift-px"
+										className="nav-input w-14"
+										defaultValue={0}
+										min={0}
+										onChange={(e) => triggerShift(e)}
+									></input>
+									px
 								</label>
 							</>
 						))}
