@@ -4,6 +4,7 @@ import DraggableTextGroup from "./DraggableTextGroup";
 import { debounce } from "../utils/tools";
 import { useTrigger } from "../contexts/TriggerContext";
 import { apiRequest } from "../utils/tools";
+import { useRouter } from "next/navigation";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -20,6 +21,7 @@ export default function EditPage({ fontSizes }) {
 	const [lastModified, setLastModified] = useState(null);
 	const { triggerState, setTrigger } = useTrigger();
 	const [initialLoad, setInitialLoad] = useState(true);
+	const router = useRouter();
 
 	const loadTexts = async () => {
 		const data = await fetchTexts();
@@ -129,7 +131,12 @@ export default function EditPage({ fontSizes }) {
 		} catch (error) {
 			console.error("Error saving positions:", error);
 			setTrigger("error", "저장 실패했습니다.");
-			alert("에러: 저장 실패했습니다");
+			const confirmed = confirm(
+				"저장 실패: 인증을 다시 시도해주세요. 로그인 페이지로 이동하시겠습니까?"
+			);
+			if (confirmed) {
+				router.push("/login");
+			}
 		}
 	};
 

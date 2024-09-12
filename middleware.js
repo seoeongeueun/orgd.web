@@ -9,7 +9,7 @@ export async function middleware(req) {
 
 	if (
 		excludedPaths.some((path) => url.pathname.startsWith(path)) ||
-		req.method === "GET"
+		(req.method === "GET" && !url.pathname.startsWith("/settings"))
 	) {
 		return NextResponse.next();
 	}
