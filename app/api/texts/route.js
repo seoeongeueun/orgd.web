@@ -62,7 +62,9 @@ export async function POST(req) {
 	await connectDB();
 
 	try {
+		console.log("Starting token verification...");
 		await verifyToken(req);
+		console.log("Token verified successfully.");
 		const { updatedTexts } = await req.json();
 
 		for (const text of updatedTexts) {
@@ -85,7 +87,7 @@ export async function POST(req) {
 				);
 			}
 		}
-
+		console.log("Texts updated successfully.");
 		return NextResponse.json({ message: "Texts updated successfully" });
 	} catch (error) {
 		console.error("Error updating texts:", error);
