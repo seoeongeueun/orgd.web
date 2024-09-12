@@ -118,7 +118,7 @@ export default function DraggableTextGroup({
 			if (isDragging) {
 				e.preventDefault();
 			} else {
-				onMainTextClick(mainText.uid);
+				if (lastModified?.uid === mainText?.uid) onMainTextClick(mainText.uid);
 				const targetText = mode === "main" ? mainText : subText;
 				if (targetText) {
 					setLastModified({
@@ -129,10 +129,11 @@ export default function DraggableTextGroup({
 				}
 			}
 		},
-		[isDragging, onMainTextClick, mainText.uid]
+		[isDragging, onMainTextClick, mainText.uid, lastModified]
 	);
 
 	const handleManualPositionChange = (e, field) => {
+		e.stopPropagation();
 		const value = Math.max(
 			0,
 			Math.min(parseInt(e.target.value, 10) || 0, field === "x" ? 1920 : 1080)

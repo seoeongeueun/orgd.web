@@ -21,13 +21,14 @@ const InputBox = memo(function InputBox({
 		/>
 	);
 
-	const handleRotateState = () => {
+	const handleRotateState = (e) => {
+		e.stopPropagation();
 		if (setIsRotating) setIsRotating((prev) => !prev);
 		if (setIsEditSubText) setIsEditSubText(false);
 	};
 
 	return (
-		<div className="absolute flex flex-row gap-px text-base ml-auto bottom-8 right-0 z-[99] opacity-80">
+		<div className="absolute flex flex-row gap-px text-base ml-auto bottom-12 right-0 z-[99] opacity-80">
 			{!isEditSubText &&
 				(!isRotating ? (
 					<>
