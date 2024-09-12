@@ -7,7 +7,10 @@ export async function middleware(req) {
 
 	const url = req.nextUrl;
 
-	if (excludedPaths.some((path) => url.pathname.startsWith(path))) {
+	if (
+		excludedPaths.some((path) => url.pathname.startsWith(path)) ||
+		req.method === "GET"
+	) {
 		return NextResponse.next();
 	}
 
