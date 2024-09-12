@@ -34,7 +34,6 @@ export const apiRequest = async (url, method = "GET", data = null) => {
 		method,
 		headers: {
 			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
 		},
 	};
 
@@ -49,7 +48,7 @@ export const apiRequest = async (url, method = "GET", data = null) => {
 		} else {
 			const errorData = await response.json();
 			console.error(`Error with ${method} request to ${url}:`, errorData);
-			throw new Error(errorData);
+			throw new Error(errorData.error);
 		}
 	} catch (error) {
 		console.error("Error during fetch:", error);
