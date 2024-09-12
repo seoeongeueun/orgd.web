@@ -14,6 +14,7 @@ export default function DraggableTextGroup({
 	lastModified,
 	setLastModified,
 	onUpdateText,
+	fontSizes,
 }) {
 	const [isDragging, setIsDragging] = useState(false);
 	const [deltaPosition, setDeltaPosition] = useState({
@@ -56,7 +57,6 @@ export default function DraggableTextGroup({
 				data.y - (mode === "main" ? deltaPosition.y : subTextPosition.y);
 
 			if (!isDragging) setIsDragging(true);
-
 			// 메인 텍스트를 드래그할 때 이동한 값만큼 서브 텍스트도 같이 이동
 			if (mode === "main") {
 				setDeltaPosition({ x: data.x, y: data.y });
@@ -146,8 +146,9 @@ export default function DraggableTextGroup({
 			transform: `rotate(${subText?.rotation || 0}deg)`,
 			left: subTextPosition?.x,
 			top: subTextPosition?.y,
+			fontSize: fontSizes?.sub || "6px",
 		}),
-		[subText?.rotation, subTextPosition]
+		[subText?.rotation, subTextPosition, fontSizes]
 	);
 
 	if (mode === "main")
@@ -172,6 +173,7 @@ export default function DraggableTextGroup({
 								mode === "main" ? "cursor-move" : "cursor-default"
 							} flex flex-col-reverse`}
 							onClick={handleClick}
+							style={{ fontSize: fontSizes?.default || "5px" }}
 						>
 							{mainText.text}
 							{lastModified?.uid === mainText.uid && (
@@ -186,9 +188,9 @@ export default function DraggableTextGroup({
 				</Draggable>
 				{subText && isVisible && (
 					<div
-						className={`absolute text-sub whitespace-nowrap ${
-							subText.background_color === "lightgray"
-								? "bg-gray-300"
+						className={`absolute text-sub px-1 whitespace-nowrap ${
+							subText.background_color.startsWith("light")
+								? "bg-gray-500"
 								: "bg-black"
 						}`}
 						style={subTextStyle}
@@ -207,8 +209,12 @@ export default function DraggableTextGroup({
 						mainText.sub_text_uid === lastModified?.uid
 							? "opacity-90"
 							: "opacity-20"
-					} text-main`}
-					style={{ left: deltaPosition?.x, top: deltaPosition?.y }}
+					}`}
+					style={{
+						left: deltaPosition?.x,
+						top: deltaPosition?.y,
+						fontSize: fontSizes?.default || "5px",
+					}}
 				>
 					{mainText.text}
 				</p>
@@ -239,9 +245,14 @@ export default function DraggableTextGroup({
 								<div className="absolute flex flex-row text-main ml-auto bottom-8 right-0 z-[99] opacity-80"></div>
 							)}
 							<div
-								className="w-fit h-fit text-sub text-white bg-black cursor-move"
+								className={`w-fit h-fit px-1 text-white ${
+									subText.background_color.startsWith("light")
+										? "bg-gray-500"
+										: "bg-black"
+								} cursor-move`}
 								style={{
 									transform: `rotate(${subText.rotation || 0}deg)`,
+									fontSize: fontSizes?.sub || "6px",
 								}}
 							>
 								{subText.text}

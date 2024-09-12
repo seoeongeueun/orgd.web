@@ -10,21 +10,20 @@ const fetchTexts = async () => {
 	return data;
 };
 
-const fetchIp = async () => {
-	const response = await fetch("/api/ip");
+const fetchSettings = async () => {
+	const response = await fetch("/api/settings");
 	const data = await response.json();
-	return data.ip;
+	return data;
 };
 
-// edit mode인 경우 소켓 통신 x
 export default function SharedPage({ isEditMode = true }) {
 	const [socket, setSocket] = useState(null);
 	const [isMain, setIsMain] = useState(true);
-	const mainIp = "172.30.1.72"; // 메인 기기의 ip 주소
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
+	const [fontSize, setFontSize] = useState({});
 	const scaleFactor = 10;
 
 	useEffect(() => {
@@ -35,12 +34,12 @@ export default function SharedPage({ isEditMode = true }) {
 		}
 
 		console.log("User ID:", userId);
-		console.log("Main IP:", mainIp);
 
-		// fetchIp().then((data) => {
-		// 	setIsMain(data === mainIp || data === "localhost");
-		// 	console.log("current IP: ", data);
-		// });
+		//폰트 사이즈를 db에서 받아서 적용
+		fetchSettings().then((data) => {
+			setFontSize(data[0].fontSize);
+		});
+
 		setIsMain(window.location.hostname === "localhost");
 
 		const newSocket = io(`http://${window.location.hostname}:3000`, {
@@ -287,6 +286,7 @@ export default function SharedPage({ isEditMode = true }) {
 						subText={text?.subText}
 						isVisible={subTextVisibility[text.uid]}
 						onMainTextClick={handleMainTextClick}
+						fontSize={fontSize}
 					/>
 				))}
 				{isMain &&
