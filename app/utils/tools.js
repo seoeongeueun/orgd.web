@@ -28,3 +28,31 @@ export const throttle = (func, limit) => {
 		}
 	};
 };
+
+export const apiRequest = async (url, method = "GET", data = null) => {
+	const options = {
+		method,
+		headers: {
+			"Content-Type": "application/json",
+		},
+	};
+
+	if (data) {
+		options.body = JSON.stringify(data);
+	}
+
+	try {
+		console.log(url, options);
+		const response = await fetch(url, options);
+		if (response.ok) {
+			return await response.json();
+		} else {
+			const errorData = await response.json();
+			console.error(`Error with ${method} request to ${url}:`, errorData);
+			throw new Error(errorData);
+		}
+	} catch (error) {
+		console.error("Error during fetch:", error);
+		throw error;
+	}
+};
