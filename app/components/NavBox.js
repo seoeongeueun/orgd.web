@@ -30,8 +30,8 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 	const [shiftLeft, setShiftLeft] = useState(false);
 	const [shiftValue, setShiftValue] = useState(0);
 	const [ogFontSizes, setOgFontSizes] = useState({
-		default: "5px",
-		sub: "6px",
+		default: 5,
+		sub: 6,
 	});
 	const nodeRef = useRef(null);
 
@@ -40,10 +40,16 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 			const data = await fetchSettings();
 			const fontSizes = data[0].fontSize;
 			setFontSizes(fontSizes);
+			const fontSizeDefault = parseInt(fontSizes.default.replace("px", ""));
+			const fontSizeSub = parseInt(fontSizes.sub.replace("px", ""));
 			setOgFontSizes({
-				default: parseInt(fontSizes.default.replace("px", "")),
-				sub: parseInt(fontSizes.sub.replace("px", "")),
+				default: fontSizeDefault,
+				sub: fontSizeSub,
 			});
+			const fs = document.getElementById("font-size");
+			const sfs = document.getElementById("sub-font-size");
+			if (fs) fs.value = fontSizeDefault;
+			if (sfs) sfs.value = fontSizeSub;
 		};
 		loadSettings();
 	}, []);
@@ -320,7 +326,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 										type="number"
 										id="font-size"
 										className="nav-input mt-px w-16 ml-2"
-										defaultValue={ogFontSizes.default}
+										defaultValue={ogFontSizes?.default}
 										onChange={(e) => handleFontSizeChange(e, "default")}
 									></input>
 								</label>
@@ -330,7 +336,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 										type="number"
 										id="sub-font-size"
 										className="nav-input mt-px w-16 ml-2"
-										defaultValue={ogFontSizes.sub}
+										defaultValue={ogFontSizes?.sub}
 										onChange={(e) => handleFontSizeChange(e, "sub")}
 									></input>
 								</label>
