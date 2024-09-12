@@ -30,3 +30,31 @@ export async function GET(req) {
 		});
 	}
 }
+
+export async function PUT(req) {
+	await connectDB();
+
+	try {
+		const { fontSize } = await req.json();
+		const updatedSettings = await Settings.findOneAndUpdate(
+			{},
+			{ fontSize },
+			{ new: true }
+		);
+
+		if (!updatedSettings) {
+			return new Response(JSON.stringify({ error: "No settings found." }), {
+				status: 404,
+			});
+		}
+
+		return new Response(JSON.stringify(updatedSettings), { status: 200 });
+	} catch (error) {
+		return new Response(
+			JSON.stringify({ error: "Failed to update settings." }),
+			{
+				status: 400,
+			}
+		);
+	}
+}

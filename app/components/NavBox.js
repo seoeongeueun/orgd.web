@@ -5,30 +5,19 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { useMode } from "@/app/contexts/ModeContext";
 import { useTrigger } from "@/app/contexts/TriggerContext";
+import { apiRequest } from "../utils/tools";
 
 const fetchSettings = async () => {
-	const response = await fetch("/api/settings");
-	const data = await response.json();
-	return data;
+	const settings = await apiRequest("/api/settings");
+	console.log("Settings fetched successfully:", settings);
+	return settings;
 };
 
 const updateSettings = async (data) => {
-	console.log("Data passed to updateSettings:", data);
-	const response = await fetch("/api/settings", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(data),
+	const response = await apiRequest("/api/settings", "PUT", {
+		fontSize: data,
 	});
-
-	if (response.ok) {
-		const responseData = await response.json();
-		console.log("Settings updated successfully:", responseData);
-	} else {
-		const errorData = await response.json();
-		console.error("Error updating settings:", errorData);
-	}
+	console.log("Settings updated successfully:", response);
 };
 
 export default function NavBox({ setFontSizes, fontSizes }) {
@@ -44,13 +33,18 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 		sub: "6px",
 	});
 
-	// useEffect(() => {
-	// 	const loadSettings = async () => {
-	// 		const data = await fetchSettings();
-	// 		setOgFontSizes(data.fontSizes);
-	// 	};
-	// 	loadSettings();
-	// }, []);
+	useEffect(() => {
+		const loadSettings = async () => {
+			const data = await fetchSettings();
+			const fontSizes = data[0].fontSize;
+			setFontSizes(fontSizes);
+			setOgFontSizes({
+				default: parseInt(fontSizes.default.replace("px", "")),
+				sub: parseInt(fontSizes.sub.replace("px", "")),
+			});
+		};
+		loadSettings();
+	}, []);
 
 	useEffect(() => {
 		if (triggerState?.message) {
@@ -74,7 +68,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 			ogFontSizes.sub !== fontSizes.sub
 		) {
 			console.log(fontSizes);
-			updateSettings({ fontSizes });
+			updateSettings({ ...fontSizes });
 		}
 	};
 

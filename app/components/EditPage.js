@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import DraggableTextGroup from "./DraggableTextGroup";
 import { debounce } from "../utils/tools";
 import { useTrigger } from "../contexts/TriggerContext";
+import { apiRequest } from "../utils/tools";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -99,22 +100,12 @@ export default function EditPage({ fontSizes }) {
 					: null,
 			}));
 
-			const response = await fetch("/api/texts", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ updatedTexts }),
-			});
-
-			if (!response.ok) {
-				throw new Error("Failed to save positions");
-			}
+			const response = await apiRequest("/api/texts", "POST", { updatedTexts });
 			setTrigger("saved", "저장 완료 되었습니다.");
 		} catch (error) {
 			console.error("Error saving positions:", error);
 			setTrigger("error", "저장 실패했습니다.");
-			alert("Failed to save positions");
+			alert("에러: 저장 실패했습니다");
 		}
 	};
 
@@ -123,7 +114,7 @@ export default function EditPage({ fontSizes }) {
 			save: () => handleSavePositions(),
 			refresh: () => {
 				loadTexts(); //초기화시 텍스트 다시 불러오기
-				setTrigger("refreshed", "새로고침 되었습니다");
+				setTrigger("refreshed", "새로고침 중 입니다");
 			},
 			visible: () => {
 				setSubTextVisibility((prevVisibility) =>
@@ -131,6 +122,7 @@ export default function EditPage({ fontSizes }) {
 						Object.keys(prevVisibility).map((key) => [key, true])
 					)
 				);
+				setTrigger("", "");
 			},
 			hide: () => {
 				setSubTextVisibility((prevVisibility) =>
@@ -138,6 +130,7 @@ export default function EditPage({ fontSizes }) {
 						Object.keys(prevVisibility).map((key) => [key, false])
 					)
 				);
+				setTrigger("", "");
 			},
 		};
 
