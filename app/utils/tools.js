@@ -34,6 +34,7 @@ export const apiRequest = async (url, method = "GET", data = null) => {
 		method,
 		headers: {
 			"Content-Type": "application/json",
+			"Access-Control-Allow-Origin": "*",
 		},
 	};
 
