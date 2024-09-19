@@ -29,10 +29,6 @@ export default function NavBox() {
 	const [textItem, setTextItem] = useState({});
 
 	useEffect(() => {
-		if (lastText) setTextItem(lastText);
-	}, [lastText]);
-
-	useEffect(() => {
 		if (triggerState?.message) {
 			setMessage(triggerState?.message);
 
@@ -208,7 +204,7 @@ export default function NavBox() {
 													id="sub-dark"
 													name="sub-text-color"
 													value="dark"
-													checked={textItem?.background_color === "dark"}
+													checked={lastText?.background_color === "dark"}
 													onChange={(e) =>
 														setLastText((prev) => ({
 															...prev,
@@ -224,7 +220,7 @@ export default function NavBox() {
 													id="sub-light"
 													name="sub-text-color"
 													value="light"
-													checked={textItem?.background_color === "light"}
+													checked={lastText?.background_color === "light"}
 													onChange={(e) =>
 														setLastText((prev) => ({
 															...prev,
@@ -240,7 +236,7 @@ export default function NavBox() {
 											<input
 												type="number"
 												className="nav-input mt-px w-16"
-												value={textItem.rotation?.toFixed(0) || 0}
+												value={lastText.rotation?.toFixed(0) || 0}
 												onChange={(e) =>
 													setLastText((prev) => ({
 														...prev,
@@ -257,7 +253,7 @@ export default function NavBox() {
 										<input
 											type="number"
 											className="nav-input mt-px w-20"
-											value={textItem?.x.toFixed(0) || 0}
+											value={lastText?.x.toFixed(0) || 0}
 											min={0}
 											onChange={(e) =>
 												setLastText((prev) => ({
@@ -269,7 +265,7 @@ export default function NavBox() {
 										<input
 											type="number"
 											className="nav-input mt-px w-20"
-											value={textItem?.y.toFixed(0) || 0}
+											value={lastText?.y.toFixed(0) || 0}
 											min={0}
 											onChange={(e) =>
 												setLastText((prev) => ({
@@ -284,7 +280,7 @@ export default function NavBox() {
 									<span className="block">내용</span>
 									<textarea
 										rows={3}
-										defaultValue={textItem?.text}
+										defaultValue={lastText?.text}
 										className="nav-input w-full"
 										onChange={(e) =>
 											setLastText((prev) => ({
