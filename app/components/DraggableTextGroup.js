@@ -201,9 +201,9 @@ export default function DraggableTextGroup({
 						className="absolute w-fit text-center h-fit p-0 m-0 drag-text-group whitespace-nowrap"
 					>
 						<div
-							className={`text-main whitespace-pre-wrap ${
+							className={`text-main ${
 								mode === "main" ? "cursor-move" : "cursor-default"
-							} flex flex-col-reverse w-fit z-20`}
+							} flex flex-col-reverse`}
 							onClick={handleClick}
 							style={{ fontSize: fontSizes?.default || "5px" }}
 						>
@@ -229,10 +229,10 @@ export default function DraggableTextGroup({
 				</Draggable>
 				{subText && isVisible && (
 					<div
-						className={`absolute text-sub font-medium text-center px-1 py-px whitespace-pre-wrap z-10 ${
+						className={`absolute text-sub ${
 							subText.background_color.startsWith("light")
 								? "bg-gray-500"
-								: "bg-black"
+								: "bg-sub-dark"
 						}`}
 						style={subTextStyle}
 					>
@@ -245,7 +245,7 @@ export default function DraggableTextGroup({
 		return (
 			<>
 				<p
-					className={`absolute whitespace-pre-wrap text-center pointer-events-none ${
+					className={`absolute text-main text-center pointer-events-none !z-0 ${
 						triggerState?.trigger !== "visible" &&
 						mainText.sub_text_uid === lastModified?.uid
 							? "opacity-90"
@@ -284,13 +284,11 @@ export default function DraggableTextGroup({
 								/>
 							)}
 							<div
-								className={`w-fit h-fit px-1 text-white ${
+								className={`text-sub ${
 									subText.background_color.startsWith("light")
-										? "bg-gray-500"
-										: "bg-black"
-								} ${
-									isRotating ? "cursor-alias" : "cursor-move"
-								} whitespace-pre-wrap text-center`}
+										? "bg-sub-light"
+										: "bg-sub-dark"
+								} ${isRotating ? "cursor-alias" : "cursor-move"}`}
 								style={{
 									transform: `rotate(${
 										isEditSubText ? 0 : subText.rotation || 0

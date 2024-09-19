@@ -7,6 +7,12 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --theme-gray: rgb(204,204,204);
+  --main-text: rgb(0,0,0);
+  --sub-text: rgb(255, 255, 255);
+  --sub-light: rgb(107 114 128);
+  --sub-dark: rgb(0, 0, 0);
+  --fs-sub: 5px;
+  --fs-main: 6px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -60,4 +66,23 @@ body, html {
 .text-main >*::-webkit-scrollbar {
   display: none;
   width: 0;
+}
+
+.text-main {
+  color: var(--main-text);
+  white-space: pre-wrap;
+  width: fit-content;
+  font-weight: 400;
+  z-index: 20;
+}
+
+.text-sub {
+  color: var(--sub-text);
+  white-space: pre-wrap;
+  width: fit-content;
+  height: fit-content;
+  font-weight: 500;
+  text-align: center;
+  padding: 0 0.25rem;
+  z-index: 20;
 }

@@ -27,6 +27,8 @@ module.exports = {
 			},
 			colors: {
 				"theme-gray": "rgb(204,204,204)",
+				"sub-light": "var(--sub-light)",
+				"sub-dark": "var(--sub-dark)",
 			},
 			fontFamily: {
 				global: ["pretendard", "sans-serif"],
