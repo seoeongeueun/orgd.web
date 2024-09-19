@@ -5,6 +5,7 @@ import { debounce } from "../utils/tools";
 import { useTrigger } from "../contexts/TriggerContext";
 import { apiRequest } from "../utils/tools";
 import { useRouter } from "next/navigation";
+import { useLastText } from "../contexts/LastTextContext";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -18,9 +19,9 @@ export default function EditPage() {
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [scale, setScale] = useState(1);
-	const [lastModified, setLastModified] = useState(null);
 	const { triggerState, setTrigger } = useTrigger();
 	const [initialLoad, setInitialLoad] = useState(true);
+	const { lastText, setLastText } = useLastText();
 	const router = useRouter();
 
 	const loadTexts = async () => {
@@ -52,8 +53,11 @@ export default function EditPage() {
 
 	useEffect(() => {
 		const handleOutsideClick = (e) => {
-			if (!e.target.closest(".drag-text-group")) {
-				setLastModified(null);
+			if (
+				!e.target.closest(".drag-text-group") &&
+				!e.target.closest(".nav-edit")
+			) {
+				setLastText(null);
 			}
 		};
 
@@ -76,6 +80,7 @@ export default function EditPage() {
 	}, [texts, initialLoad]);
 
 	const handleMainTextClick = useCallback((mainTextId) => {
+		console.log("Main text clicked:", mainTextId);
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
 			[mainTextId]: !prevVisibility[mainTextId],
@@ -108,6 +113,50 @@ export default function EditPage() {
 	// 		})
 	// 	);
 	// }, []);
+
+	useEffect(() => {
+		if (lastText?.uid) {
+			setTexts((prevTexts) => {
+				const textIndex = prevTexts.findIndex(
+					(text) =>
+						text.uid === lastText.uid ||
+						(text.subText && text.subText.uid === lastText.uid)
+				);
+
+				if (textIndex === -1) return prevTexts;
+
+				const updatedTexts = [...prevTexts];
+
+				if (updatedTexts[textIndex].uid === lastText.uid) {
+					updatedTexts[textIndex] = {
+						...updatedTexts[textIndex],
+						position: {
+							x: lastText.x,
+							y: lastText.y,
+						},
+						rotation: lastText.rotation,
+						text: lastText.text,
+					};
+				} else if (updatedTexts[textIndex].subText?.uid === lastText.uid) {
+					updatedTexts[textIndex] = {
+						...updatedTexts[textIndex],
+						subText: {
+							...updatedTexts[textIndex].subText,
+							position: {
+								x: lastText.x,
+								y: lastText.y,
+							},
+							rotation: lastText.rotation,
+							text: lastText.text,
+							background_color: lastText?.background_color || "dark",
+						},
+					};
+				}
+
+				return updatedTexts;
+			});
+		}
+	}, [lastText]);
 
 	const handleSavePositions = async () => {
 		try {
@@ -216,8 +265,6 @@ export default function EditPage() {
 							scale={scale || 1}
 							subText={text?.subText}
 							isVisible={subTextVisibility[text.uid]}
-							lastModified={lastModified}
-							setLastModified={setLastModified}
 							onMainTextClick={handleMainTextClick}
 							onUpdateText={handleUpdateText}
 						/>

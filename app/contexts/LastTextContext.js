@@ -16,12 +16,8 @@ export function LastTextProvider({ children }) {
 		background_color: "dark",
 	});
 
-	const handleLastTextChange = (newText) => {
-		setLastText(newText);
-	};
-
 	return (
-		<LastTextContext.Provider value={{ lastText, handleLastTextChange }}>
+		<LastTextContext.Provider value={{ lastText, setLastText }}>
 			{children}
 		</LastTextContext.Provider>
 	);

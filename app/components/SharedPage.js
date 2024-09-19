@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
+import { apiRequest } from "../utils/tools";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");

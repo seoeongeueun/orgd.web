@@ -1,16 +1,17 @@
 import React, { memo } from "react";
 import Image from "next/image";
+import { useLastText } from "../contexts/LastTextContext";
 
 const InputBox = memo(function InputBox({
 	handleManualPositionChange,
 	handleManualRotationChange = null,
 	setIsRotating = null,
 	isRotating = false,
-	lastModified,
 	rotation = 0,
 	setIsEditSubText = null,
 	isEditSubText = false,
 }) {
+	const { lastText } = useLastText();
 	const renderInputField = (value, axis, handleChange) => (
 		<input
 			type="number"
@@ -33,12 +34,12 @@ const InputBox = memo(function InputBox({
 				(!isRotating ? (
 					<>
 						{renderInputField(
-							lastModified?.x.toFixed(0),
+							lastText?.x.toFixed(0),
 							"x",
 							handleManualPositionChange
 						)}
 						{renderInputField(
-							lastModified?.y.toFixed(0),
+							lastText?.y.toFixed(0),
 							"y",
 							handleManualPositionChange
 						)}
