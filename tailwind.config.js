@@ -28,6 +28,9 @@ module.exports = {
 			colors: {
 				"theme-gray": "rgb(204,204,204)",
 			},
+			fontFamily: {
+				global: ["pretendard", "sans-serif"],
+			},
 		},
 	},
 	plugins: [],
