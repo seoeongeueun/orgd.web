@@ -229,7 +229,7 @@ export default function DraggableTextGroup({
 				</Draggable>
 				{subText && isVisible && (
 					<div
-						className={`absolute text-sub text-center px-1 whitespace-pre-wrap z-10 ${
+						className={`absolute text-sub font-medium text-center px-1 py-px whitespace-pre-wrap z-10 ${
 							subText.background_color.startsWith("light")
 								? "bg-gray-500"
 								: "bg-black"
