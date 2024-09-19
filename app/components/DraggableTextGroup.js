@@ -4,6 +4,7 @@ import { useMode } from "@/app/contexts/ModeContext";
 import { throttle } from "../utils/tools";
 import InputBox from "./InputBox";
 import { useTrigger } from "@/app/contexts/TriggerContext";
+import { useLastText } from "@/app/contexts/LastTextContext";
 
 export default function DraggableTextGroup({
 	mainText,
@@ -11,8 +12,6 @@ export default function DraggableTextGroup({
 	isVisible,
 	onMainTextClick,
 	scale,
-	lastModified,
-	setLastModified,
 	onUpdateText,
 }) {
 	const [isDragging, setIsDragging] = useState(false);
@@ -26,6 +25,7 @@ export default function DraggableTextGroup({
 	});
 	const [isRotating, setIsRotating] = useState(false);
 	const { mode } = useMode();
+	const { lastText, setLastText } = useLastText();
 	const { triggerState, setTrigger } = useTrigger();
 	const [isEditSubText, setIsEditSubText] = useState(false);
 	const nodeRef = useRef(null);
@@ -49,14 +49,22 @@ export default function DraggableTextGroup({
 	const normalizeRotation = (rotation) =>
 		((((rotation + 180) % 360) + 360) % 360) - 180;
 
-	const handleDragStart = useCallback(
+	const handleDragStart = useCallback(() => {
+		const targetText = mode === "main" ? mainText : subText;
+		if (lastText?.uid !== targetText?.uid) {
+			updateLastText();
+		}
+	}, [lastText, mainText, subText, mode]);
+
+	const handleDrag = useCallback(
 		throttle((e, data) => {
 			const deltaX =
 				data.x - (mode === "main" ? deltaPosition.x : subTextPosition.x);
 			const deltaY =
 				data.y - (mode === "main" ? deltaPosition.y : subTextPosition.y);
-
-			if (!isDragging) setIsDragging(true);
+			if (!isDragging) {
+				setIsDragging(true);
+			}
 			// 메인 텍스트를 드래그할 때 이동한 값만큼 서브 텍스트도 같이 이동
 			if (mode === "main") {
 				setDeltaPosition({ x: data.x, y: data.y });
@@ -75,60 +83,54 @@ export default function DraggableTextGroup({
 					setSubTextPosition({ x: data.x, y: data.y });
 				}
 			}
-			// 마지막으로 수정한 텍스트의 정보를 저장 (inputbox에 값을 표시하기 위함)
-			setLastModified({
-				uid: mode === "main" ? mainText.uid : subText.uid,
+			// 마지막으로 수정한 텍스트의 정보를 저장 (이동 수치 값을 표시하기 위함)
+			setLastText((prev) => ({
+				...prev,
 				x: data.x,
 				y: data.y,
-				rotation:
-					mode === "main" ? mainText?.rotation || 0 : subText?.rotation || 0,
-			});
+			}));
 		}, 50),
-		[isDragging, mode, deltaPosition, subTextPosition, setLastModified]
+		[mode, deltaPosition, subTextPosition, setLastText]
 	);
 
 	const handleDragStop = useCallback(() => {
-		setLastModified((prev) => ({
+		setLastText((prev) => ({
 			...prev,
 			x: mode === "main" ? deltaPosition.x : subTextPosition.x,
 			y: mode === "main" ? deltaPosition.y : subTextPosition.y,
 		}));
 
-		onUpdateText(mainText.uid, {
-			...mainText,
-			position: { x: deltaPosition.x, y: deltaPosition.y },
-			subText: subText
-				? {
-						...subText,
-						position: { x: subTextPosition.x, y: subTextPosition.y },
-				  }
-				: null,
-		});
-
 		setTimeout(() => setIsDragging(false), 0);
-	}, [mode, deltaPosition, subTextPosition, onUpdateText, setLastModified]);
+	}, [mode, deltaPosition, subTextPosition, setLastText]);
 
 	useEffect(() => {
 		setIsDragging(false);
 	}, [mode]);
+
+	const updateLastText = () => {
+		const targetText = mode === "main" ? mainText : subText;
+		if (targetText) {
+			setLastText({
+				uid: targetText.uid,
+				x: targetText.position.x,
+				y: targetText.position.y,
+				text: targetText.text,
+				rotation: targetText?.rotation || 0,
+				background_color: targetText?.background_color || "dark",
+			});
+		}
+	};
 
 	const handleClick = useCallback(
 		(e) => {
 			if (isDragging) {
 				e.preventDefault();
 			} else {
-				if (lastModified?.uid === mainText?.uid) onMainTextClick(mainText.uid);
-				const targetText = mode === "main" ? mainText : subText;
-				if (targetText) {
-					setLastModified({
-						uid: targetText.uid,
-						x: targetText.position.x,
-						y: targetText.position.y,
-					});
-				}
+				if (lastText?.uid === mainText?.uid) onMainTextClick(mainText.uid);
+				updateLastText();
 			}
 		},
-		[isDragging, onMainTextClick, mainText.uid, lastModified]
+		[isDragging, onMainTextClick, mainText, subText, mode]
 	);
 
 	const handleManualPositionChange = (e, field) => {
@@ -144,14 +146,14 @@ export default function DraggableTextGroup({
 			setSubTextPosition((prev) => ({ ...prev, [field]: value }));
 		}
 
-		setLastModified((prev) => ({ ...prev, [field]: value }));
+		setLastText((prev) => ({ ...prev, [field]: value }));
 	};
 
 	const handleManualRotationChange = (e) => {
 		const value = parseInt(e.target.value, 10) || 0;
 		const normalizedValue = normalizeRotation(value);
 		subText.rotation = normalizedValue;
-		setLastModified((prev) => ({ ...prev, rotation: normalizedValue }));
+		setLastText((prev) => ({ ...prev, rotation: normalizedValue }));
 	};
 
 	const subTextStyle = useMemo(
@@ -191,7 +193,8 @@ export default function DraggableTextGroup({
 					position={{ x: deltaPosition?.x, y: deltaPosition?.y }}
 					scale={scale}
 					handle=".text-main"
-					onDrag={handleDragStart}
+					onStart={handleDragStart}
+					onDrag={handleDrag}
 					onStop={handleDragStop}
 				>
 					<div
@@ -204,21 +207,10 @@ export default function DraggableTextGroup({
 							} flex flex-col-reverse`}
 							onClick={handleClick}
 						>
-							{lastModified?.uid === mainText?.uid ? (
-								<textarea
-									value={mainText?.text}
-									id="maintext-text"
-									className="whitespace-pre-wrap min-w-[200px] w-full nav-input !p-0"
-									onChange={handleSingleChange}
-								/>
-							) : (
-								mainText.text
-							)}
-							{lastModified?.uid === mainText.uid && (
+							{mainText.text}
+							{lastText?.uid === mainText.uid && (
 								<InputBox
 									handleManualPositionChange={handleManualPositionChange}
-									lastModified={lastModified}
-									setLastModified={setLastModified}
 								/>
 							)}
 						</div>
@@ -244,7 +236,7 @@ export default function DraggableTextGroup({
 				<p
 					className={`absolute text-main text-center pointer-events-none !z-0 ${
 						triggerState?.trigger !== "visible" &&
-						mainText.sub_text_uid === lastModified?.uid
+						mainText.sub_text_uid === lastText?.uid
 							? "opacity-90"
 							: "opacity-20"
 					}`}
@@ -262,18 +254,17 @@ export default function DraggableTextGroup({
 						nodeRef={subNodeRef}
 						position={subTextPosition}
 						scale={scale}
-						onDrag={handleDragStart}
+						onStart={handleDragStart}
+						onDrag={handleDrag}
 						onStop={handleDragStop}
 					>
 						<div ref={subNodeRef} className="absolute drag-text-group">
-							{lastModified?.uid === subText.uid && (
+							{lastText?.uid === subText.uid && (
 								<InputBox
 									handleManualPositionChange={handleManualPositionChange}
 									handleManualRotationChange={handleManualRotationChange}
 									setIsRotating={setIsRotating}
 									isRotating={isRotating}
-									lastModified={lastModified}
-									setLastModified={setLastModified}
 									rotation={subText.rotation}
 									setIsEditSubText={setIsEditSubText}
 									isEditSubText={isEditSubText}

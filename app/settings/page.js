@@ -2,6 +2,7 @@
 import EditPage from "../components/EditPage";
 import { ModeProvider } from "@/app/contexts/ModeContext";
 import { TriggerProvider } from "@/app/contexts/TriggerContext";
+import { LastTextProvider } from "@/app/contexts/LastTextContext";
 import NavBox from "../components/NavBox";
 import { useEffect } from "react";
 import { apiRequest } from "@/app/utils/tools";
@@ -10,7 +11,9 @@ export default function Page() {
 	return (
 		<ModeProvider>
 			<TriggerProvider>
-				<EditPageContent />
+				<LastTextProvider>
+					<EditPageContent />
+				</LastTextProvider>
 			</TriggerProvider>
 		</ModeProvider>
 	);
