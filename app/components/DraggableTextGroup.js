@@ -14,7 +14,6 @@ export default function DraggableTextGroup({
 	lastModified,
 	setLastModified,
 	onUpdateText,
-	fontSizes,
 }) {
 	const [isDragging, setIsDragging] = useState(false);
 	const [deltaPosition, setDeltaPosition] = useState({
@@ -160,9 +159,8 @@ export default function DraggableTextGroup({
 			transform: `rotate(${subText?.rotation || 0}deg)`,
 			left: subTextPosition?.x,
 			top: subTextPosition?.y,
-			fontSize: fontSizes?.sub || "6px",
 		}),
-		[subText?.rotation, subTextPosition, fontSizes]
+		[subText?.rotation, subTextPosition]
 	);
 
 	const handleSingleChange = (e) => {
@@ -205,7 +203,6 @@ export default function DraggableTextGroup({
 								mode === "main" ? "cursor-move" : "cursor-default"
 							} flex flex-col-reverse`}
 							onClick={handleClick}
-							style={{ fontSize: fontSizes?.default || "5px" }}
 						>
 							{lastModified?.uid === mainText?.uid ? (
 								<textarea
@@ -254,7 +251,6 @@ export default function DraggableTextGroup({
 					style={{
 						left: deltaPosition?.x,
 						top: deltaPosition?.y,
-						fontSize: fontSizes?.default || "5px",
 					}}
 				>
 					{mainText.text}
@@ -293,7 +289,6 @@ export default function DraggableTextGroup({
 									transform: `rotate(${
 										isEditSubText ? 0 : subText.rotation || 0
 									}deg)`,
-									fontSize: fontSizes?.sub || "6px",
 								}}
 								onClick={handleClick}
 							>

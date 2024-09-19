@@ -13,7 +13,7 @@ const fetchTexts = async () => {
 };
 
 // edit mode인 경우 소켓 통신 x
-export default function EditPage({ fontSizes }) {
+export default function EditPage() {
 	const [isMain, setIsMain] = useState(true);
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
@@ -220,7 +220,6 @@ export default function EditPage({ fontSizes }) {
 							setLastModified={setLastModified}
 							onMainTextClick={handleMainTextClick}
 							onUpdateText={handleUpdateText}
-							fontSizes={fontSizes}
 						/>
 					))}
 			</div>

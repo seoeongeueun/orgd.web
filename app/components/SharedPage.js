@@ -11,9 +11,9 @@ const fetchTexts = async () => {
 };
 
 const fetchSettings = async () => {
-	const response = await fetch("/api/settings");
-	const data = await response.json();
-	return data;
+	const settings = await apiRequest("/api/settings");
+	console.log("폰트 설정 정보:", settings);
+	return settings;
 };
 
 export default function SharedPage({ isEditMode = true }) {
@@ -23,7 +23,6 @@ export default function SharedPage({ isEditMode = true }) {
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
-	const [fontSize, setFontSize] = useState({});
 	const scaleFactor = 10;
 
 	useEffect(() => {
@@ -34,11 +33,6 @@ export default function SharedPage({ isEditMode = true }) {
 		}
 
 		console.log("User ID:", userId);
-
-		//폰트 사이즈를 db에서 받아서 적용
-		fetchSettings().then((data) => {
-			setFontSize(data[0].fontSize);
-		});
 
 		setIsMain(window.location.hostname === "localhost");
 
@@ -97,6 +91,18 @@ export default function SharedPage({ isEditMode = true }) {
 		// 	}
 		// };
 		// handleResize();
+
+		const loadSettings = async () => {
+			const data = await fetchSettings();
+			const fontSizes = data[0].fontSize;
+			document.documentElement.style.setProperty(
+				"--fs-main",
+				fontSizes.default
+			);
+			document.documentElement.style.setProperty("--fs-sub", fontSizes.sub);
+		};
+
+		loadSettings();
 
 		return () => {
 			if (newSocket.connected) {
@@ -287,7 +293,6 @@ export default function SharedPage({ isEditMode = true }) {
 							subText={text?.subText}
 							isVisible={subTextVisibility[text.uid]}
 							onMainTextClick={handleMainTextClick}
-							fontSize={fontSize}
 						/>
 					))}
 				{isMain &&
