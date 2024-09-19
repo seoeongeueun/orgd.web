@@ -11,8 +11,8 @@
   --sub-text: rgb(255, 255, 255);
   --sub-light: rgb(107 114 128);
   --sub-dark: rgb(0, 0, 0);
-  --fs-sub: 5px;
-  --fs-main: 6px;
+  --fs-sub: 9px;
+  --fs-main: 7px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,6 +74,7 @@ body, html {
   width: fit-content;
   font-weight: 400;
   z-index: 20;
+  font-size: var(--fs-main);
 }
 
 .text-sub {
@@ -85,4 +86,5 @@ body, html {
   text-align: center;
   padding: 0 0.25rem;
   z-index: 20;
+  font-size: var(--fs-sub);
 }

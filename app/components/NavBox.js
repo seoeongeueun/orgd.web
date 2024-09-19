@@ -7,20 +7,14 @@ import { useMode } from "@/app/contexts/ModeContext";
 import { useTrigger } from "@/app/contexts/TriggerContext";
 import { apiRequest } from "../utils/tools";
 
-const fetchSettings = async () => {
-	const settings = await apiRequest("/api/settings");
-	console.log("Settings fetched successfully:", settings);
-	return settings;
-};
-
 const updateSettings = async (data) => {
 	const response = await apiRequest("/api/settings", "PUT", {
 		fontSize: data,
 	});
-	console.log("Settings updated successfully:", response);
+	console.log("설정 정보 업데이트 완료:", response);
 };
 
-export default function NavBox({ setFontSizes, fontSizes }) {
+export default function NavBox() {
 	const [hasSubText, setHasSubText] = useState(false);
 	const [isMinimized, setIsMinimized] = useState(false);
 	const { mode, handleModeChange } = useMode();
@@ -29,30 +23,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 	const [navMode, setNavMode] = useState("view");
 	const [shiftLeft, setShiftLeft] = useState(false);
 	const [shiftValue, setShiftValue] = useState(0);
-	const [ogFontSizes, setOgFontSizes] = useState({
-		default: 5,
-		sub: 6,
-	});
 	const nodeRef = useRef(null);
-
-	useEffect(() => {
-		const loadSettings = async () => {
-			const data = await fetchSettings();
-			const fontSizes = data[0].fontSize;
-			setFontSizes(fontSizes);
-			const fontSizeDefault = parseInt(fontSizes.default.replace("px", ""));
-			const fontSizeSub = parseInt(fontSizes.sub.replace("px", ""));
-			setOgFontSizes({
-				default: fontSizeDefault,
-				sub: fontSizeSub,
-			});
-			const fs = document.getElementById("font-size");
-			const sfs = document.getElementById("sub-font-size");
-			if (fs) fs.value = fontSizeDefault;
-			if (sfs) sfs.value = fontSizeSub;
-		};
-		loadSettings();
-	}, []);
 
 	useEffect(() => {
 		if (triggerState?.message) {
@@ -71,12 +42,17 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 
 	const triggerSaveState = () => {
 		setTrigger("save", "저장 중입니다....");
-		if (
-			ogFontSizes.default !== fontSizes.default ||
-			ogFontSizes.sub !== fontSizes.sub
-		) {
-			console.log(fontSizes);
-			updateSettings({ ...fontSizes });
+
+		const fsInput = document.getElementById("font-size")?.value + "px" || "0px";
+		const sfsInput =
+			document.getElementById("sub-font-size")?.value + "px" || "0px";
+
+		const rootStyles = getComputedStyle(document.documentElement);
+		const rootFS = rootStyles.getPropertyValue("--fs-main").trim();
+		const rootSFS = rootStyles.getPropertyValue("--fs-sub").trim();
+
+		if (fsInput !== rootFS || sfsInput !== rootSFS) {
+			updateSettings({ default: fsInput, sub: sfsInput });
 		}
 	};
 
@@ -130,7 +106,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 
 	const handleFontSizeChange = (e, type) => {
 		const value = Math.max(0, parseInt(e.target.value, 10) || 0);
-		setFontSizes((prev) => ({ ...prev, [type]: value + "px" }));
+		document.documentElement.style.setProperty(`--fs-${type}`, `${value}px`);
 	};
 
 	const triggerShift = (e) => {
@@ -326,8 +302,7 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 										type="number"
 										id="font-size"
 										className="nav-input mt-px w-16 ml-2"
-										defaultValue={ogFontSizes?.default}
-										onChange={(e) => handleFontSizeChange(e, "default")}
+										onChange={(e) => handleFontSizeChange(e, "main")}
 									></input>
 								</label>
 								<label>
@@ -336,7 +311,6 @@ export default function NavBox({ setFontSizes, fontSizes }) {
 										type="number"
 										id="sub-font-size"
 										className="nav-input mt-px w-16 ml-2"
-										defaultValue={ogFontSizes?.sub}
 										onChange={(e) => handleFontSizeChange(e, "sub")}
 									></input>
 								</label>
