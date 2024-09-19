@@ -170,6 +170,7 @@ export default function EditPage() {
 							position: text.subText.position,
 							rotation: text.subText.rotation,
 							text: text.subText.text,
+							background_color: text.subText.background_color,
 					  }
 					: null,
 			}));

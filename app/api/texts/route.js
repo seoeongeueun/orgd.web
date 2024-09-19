@@ -18,12 +18,11 @@ const verifyToken = async (req) => {
 	}
 
 	try {
-		// Use jose for token verification
 		const { payload } = await jwtVerify(
 			token,
 			new TextEncoder().encode(process.env.JWT_SECRET)
 		);
-		return payload; // Return the decoded payload (user information)
+		return payload;
 	} catch (error) {
 		throw new Error("Invalid token");
 	}
@@ -83,6 +82,7 @@ export async function POST(req) {
 						text: text.subText.text,
 						position: text.subText.position,
 						rotation: text.subText.rotation,
+						background_color: text.subText.background_color,
 					}
 				);
 			}
