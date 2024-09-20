@@ -24,10 +24,11 @@ export default function DraggableTextGroup({
 		y: subText?.position?.y || 0,
 	});
 	const [isRotating, setIsRotating] = useState(false);
+
 	const { mode } = useMode();
 	const { lastText, setLastText } = useLastText();
 	const { triggerState, setTrigger } = useTrigger();
-	const [isEditSubText, setIsEditSubText] = useState(false);
+
 	const nodeRef = useRef(null);
 	const subNodeRef = useRef(null);
 
@@ -49,6 +50,7 @@ export default function DraggableTextGroup({
 	const normalizeRotation = (rotation) =>
 		((((rotation + 180) % 360) + 360) % 360) - 180;
 
+	//드래그 시작시 lastText에 현재 텍스트의 uid와 정보를 저장
 	const handleDragStart = useCallback(() => {
 		const targetText = mode === "main" ? mainText : subText;
 		if (lastText?.uid !== targetText?.uid) {
@@ -56,39 +58,58 @@ export default function DraggableTextGroup({
 		}
 	}, [lastText, mainText, subText, mode]);
 
+	// 드래그 중일 때 텍스트의 위치와 (해설 텍스트인 경우) 회전값을 변경
 	const handleDrag = useCallback(
 		throttle((e, data) => {
-			const deltaX =
-				data.x - (mode === "main" ? deltaPosition.x : subTextPosition.x);
-			const deltaY =
-				data.y - (mode === "main" ? deltaPosition.y : subTextPosition.y);
+			const isMainMode = mode === "main";
+			const currentPosition = isMainMode ? deltaPosition : subTextPosition;
+			const deltaX = data.x - currentPosition.x;
+			const deltaY = data.y - currentPosition.y;
+
 			if (!isDragging) {
 				setIsDragging(true);
 			}
 			// 메인 텍스트를 드래그할 때 이동한 값만큼 서브 텍스트도 같이 이동
-			if (mode === "main") {
+			if (isMainMode) {
 				setDeltaPosition({ x: data.x, y: data.y });
 				setSubTextPosition((prev) => ({
 					x: prev.x + deltaX,
 					y: prev.y + deltaY,
 				}));
+				subText.position = {
+					x: subTextPosition.x + deltaX,
+					y: subTextPosition.y + deltaY,
+				};
+				// 마지막으로 수정한 텍스트의 정보를 저장 (이동 수치 값을 표시하기 위함)
+				setLastText((prev) => ({
+					...prev,
+					x: data.x,
+					y: data.y,
+				}));
 			} else {
 				if (isRotating) {
+					// 텍스트를 이동 시키는 대신 마우스 이동 값으로 회전 값을 계산해서 반영
 					const deltaRotation = (deltaX + deltaY) / 50;
 					const newRotation = normalizeRotation(
 						subText.rotation + deltaRotation
 					);
-					subText.rotation = newRotation;
+					if (newRotation !== subText.rotation) {
+						subText.rotation = newRotation;
+
+						setLastText((prev) => ({
+							...prev,
+							rotation: newRotation,
+						}));
+					}
 				} else {
 					setSubTextPosition({ x: data.x, y: data.y });
+					setLastText((prev) => ({
+						...prev,
+						x: data.x,
+						y: data.y,
+					}));
 				}
 			}
-			// 마지막으로 수정한 텍스트의 정보를 저장 (이동 수치 값을 표시하기 위함)
-			setLastText((prev) => ({
-				...prev,
-				x: data.x,
-				y: data.y,
-			}));
 		}, 50),
 		[mode, deltaPosition, subTextPosition, setLastText]
 	);
@@ -103,6 +124,7 @@ export default function DraggableTextGroup({
 		setTimeout(() => setIsDragging(false), 0);
 	}, [mode, deltaPosition, subTextPosition, setLastText]);
 
+	// 모드가 바뀌면 드래그 상태를 초기화
 	useEffect(() => {
 		setIsDragging(false);
 	}, [mode]);
@@ -121,6 +143,7 @@ export default function DraggableTextGroup({
 		}
 	};
 
+	// 텍스트 클릭시 lastText에 현재 텍스트의 정보를 저장하고 메인 텍스트일 경우 메인 텍스트 클릭 이벤트 발생
 	const handleClick = useCallback(
 		(e) => {
 			if (isDragging) {
@@ -133,6 +156,7 @@ export default function DraggableTextGroup({
 		[isDragging, onMainTextClick, mainText, subText, mode]
 	);
 
+	// 수동으로 숫자를 변경해서 텍스트의 위치를 변경할 때
 	const handleManualPositionChange = (e, field) => {
 		e.stopPropagation();
 		const value = Math.max(
@@ -149,6 +173,7 @@ export default function DraggableTextGroup({
 		setLastText((prev) => ({ ...prev, [field]: value }));
 	};
 
+	// 수동으로 숫자를 변경해서 텍스트의 회전값을 변경할 때
 	const handleManualRotationChange = (e) => {
 		const value = parseInt(e.target.value, 10) || 0;
 		const normalizedValue = normalizeRotation(value);
@@ -156,6 +181,7 @@ export default function DraggableTextGroup({
 		setLastText((prev) => ({ ...prev, rotation: normalizedValue }));
 	};
 
+	// 해설 텍스트 관련 스타일
 	const subTextStyle = useMemo(
 		() => ({
 			transform: `rotate(${subText?.rotation || 0}deg)`,
@@ -266,8 +292,6 @@ export default function DraggableTextGroup({
 									setIsRotating={setIsRotating}
 									isRotating={isRotating}
 									rotation={subText.rotation}
-									setIsEditSubText={setIsEditSubText}
-									isEditSubText={isEditSubText}
 								/>
 							)}
 							<div
@@ -277,23 +301,11 @@ export default function DraggableTextGroup({
 										: "bg-sub-dark"
 								} ${isRotating ? "cursor-alias" : "cursor-move"}`}
 								style={{
-									transform: `rotate(${
-										isEditSubText ? 0 : subText.rotation || 0
-									}deg)`,
+									transform: `rotate(${subText.rotation || 0}deg)`,
 								}}
 								onClick={handleClick}
 							>
-								{isEditSubText ? (
-									<textarea
-										value={subText?.text}
-										id="subtext-text"
-										className="whitespace-pre-wrap text-start min-w-[200px] nav-input !p-0 w-full"
-										onChange={handleSingleChange}
-										onBlur={() => setIsEditSubText(false)}
-									/>
-								) : (
-									subText.text
-								)}
+								{subText.text}
 							</div>
 						</div>
 					</Draggable>
