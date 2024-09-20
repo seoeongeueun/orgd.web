@@ -246,7 +246,7 @@ export default function DraggableTextGroup({
 					<div
 						className={`absolute text-sub ${
 							subText.background_color.startsWith("light")
-								? "bg-gray-500"
+								? "bg-sub-light"
 								: "bg-sub-dark"
 						}`}
 						style={subTextStyle}

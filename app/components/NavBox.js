@@ -159,6 +159,13 @@ export default function NavBox() {
 		if (value) value.value = 0;
 	}, [shiftLeft]);
 
+	const handleColorChange = (e, type) => {
+		const value = !e.target.value.includes("#")
+			? "#" + e.target.value
+			: e.target.value;
+		document.documentElement.style.setProperty(`--sub-${type}`, value);
+	};
+
 	return (
 		<Draggable
 			nodeRef={nodeRef}
@@ -496,6 +503,25 @@ export default function NavBox() {
 											onChange={(e) => triggerShift(e)}
 										></input>
 										px
+									</label>
+									<label>
+										배경 컬러값 (라이트, 다크)
+										<div className="flex flex-row gap-2">
+											<input
+												type="text"
+												id="light-value"
+												className="nav-input mt-px w-full"
+												defaultValue={"#6B7280"}
+												onChange={(e) => handleColorChange(e, "light")}
+											></input>
+											<input
+												type="text"
+												id="dark-value"
+												className="nav-input mt-px w-full"
+												defaultValue={"#000000"}
+												onChange={(e) => handleColorChange(e, "dark")}
+											></input>
+										</div>
 									</label>
 								</>
 							))}
