@@ -80,7 +80,6 @@ export default function EditPage() {
 	}, [texts, initialLoad]);
 
 	const handleMainTextClick = useCallback((mainTextId) => {
-		console.log("Main text clicked:", mainTextId);
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
 			[mainTextId]: !prevVisibility[mainTextId],

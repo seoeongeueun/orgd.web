@@ -8,10 +8,9 @@ const InputBox = memo(function InputBox({
 	setIsRotating = null,
 	isRotating = false,
 	rotation = 0,
-	setIsEditSubText = null,
-	isEditSubText = false,
 }) {
 	const { lastText } = useLastText();
+
 	const renderInputField = (value, axis, handleChange) => (
 		<input
 			type="number"
@@ -25,32 +24,26 @@ const InputBox = memo(function InputBox({
 	const handleRotateState = (e) => {
 		e.stopPropagation();
 		if (setIsRotating) setIsRotating((prev) => !prev);
-		if (setIsEditSubText) setIsEditSubText(false);
 	};
 
 	return (
 		<div className="absolute flex flex-row gap-px text-base ml-auto bottom-12 right-0 z-[99] opacity-80">
-			{!isEditSubText &&
-				(!isRotating ? (
-					<>
-						{renderInputField(
-							lastText?.x.toFixed(0),
-							"x",
-							handleManualPositionChange
-						)}
-						{renderInputField(
-							lastText?.y.toFixed(0),
-							"y",
-							handleManualPositionChange
-						)}
-					</>
-				) : (
-					renderInputField(
-						rotation.toFixed(0),
-						null,
-						handleManualRotationChange
-					)
-				))}
+			{!isRotating ? (
+				<>
+					{renderInputField(
+						lastText?.x.toFixed(0),
+						"x",
+						handleManualPositionChange
+					)}
+					{renderInputField(
+						lastText?.y.toFixed(0),
+						"y",
+						handleManualPositionChange
+					)}
+				</>
+			) : (
+				renderInputField(rotation.toFixed(0), null, handleManualRotationChange)
+			)}
 
 			<button
 				onClick={handleRotateState}
@@ -64,15 +57,6 @@ const InputBox = memo(function InputBox({
 					className="pointer-events-none"
 				/>
 			</button>
-			{setIsRotating && (
-				<button
-					type="button"
-					onClick={() => setIsEditSubText((prev) => !prev)}
-					className="bg-gray-50 border border-gray-300 w-8"
-				>
-					T
-				</button>
-			)}
 		</div>
 	);
 });
