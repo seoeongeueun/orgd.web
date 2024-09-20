@@ -166,6 +166,13 @@ export default function NavBox() {
 		document.documentElement.style.setProperty(`--sub-${type}`, value);
 	};
 
+	const handleSubColorChange = (e) => {
+		const value = !e.target.value.includes("#")
+			? "#" + e.target.value
+			: e.target.value;
+		document.documentElement.style.setProperty("--sub-text", value);
+	};
+
 	return (
 		<Draggable
 			nodeRef={nodeRef}
@@ -522,6 +529,16 @@ export default function NavBox() {
 												onChange={(e) => handleColorChange(e, "dark")}
 											></input>
 										</div>
+									</label>
+									<label>
+										해설 텍스트 컬러
+										<input
+											type="text"
+											id="sub-text-color"
+											className="nav-input mt-px w-20 ml-2"
+											defaultValue={"#ffffff"}
+											onChange={(e) => handleSubColorChange(e)}
+										></input>
 									</label>
 								</>
 							))}
