@@ -23,7 +23,7 @@ export default function LoginPage() {
 				setError("틀린 키 입니다. 다시 시도해 주세요.");
 			}
 		} catch (err) {
-			setError("에러가 발생했습니다. 다시 시도해 주세요.");
+			setError("에러가 발생했습니다. 키를 다시 확인해주세요.");
 		}
 	};
 
