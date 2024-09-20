@@ -5,9 +5,8 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { useMode } from "@/app/contexts/ModeContext";
 import { useTrigger } from "@/app/contexts/TriggerContext";
-import { apiRequest } from "../utils/tools";
+import { apiRequest, stripPx } from "../utils/tools";
 import { useLastText } from "../contexts/LastTextContext";
-import { set } from "mongoose";
 
 const updateSettings = async (data) => {
 	const response = await apiRequest("/api/settings", "PUT", {
@@ -25,16 +24,18 @@ const fetchSettings = async () => {
 export default function NavBox() {
 	const [hasSubText, setHasSubText] = useState(false);
 	const [isMinimized, setIsMinimized] = useState(false);
-	const { mode, handleModeChange } = useMode();
-	const { triggerState, setTrigger } = useTrigger();
 	const [message, setMessage] = useState("");
 	const [navMode, setNavMode] = useState("view");
 	const [shiftLeft, setShiftLeft] = useState(false);
 	const [shiftValue, setShiftValue] = useState(0);
-	const nodeRef = useRef(null);
 	const { lastText, setLastText } = useLastText();
-	const [textItem, setTextItem] = useState({});
-	const [fontSize, setFontSize] = useState({});
+	const [prevFontSize, setPrevFontSize] = useState({ main: 0, sub: 0 });
+	const [fontSize, setFontSize] = useState({ main: 0, sub: 0 });
+
+	const { mode, handleModeChange } = useMode();
+	const { triggerState, setTrigger } = useTrigger();
+
+	const nodeRef = useRef(null);
 
 	useEffect(() => {
 		const updateFontSizeInputs = async () => {
@@ -46,9 +47,11 @@ export default function NavBox() {
 			);
 			document.documentElement.style.setProperty("--fs-sub", fontSizes.sub);
 
-			const fsValue = parseInt(fontSizes.default.replace("px", ""));
-			const sfsValue = parseInt(fontSizes.sub.replace("px", ""));
+			const fsValue = stripPx(fontSizes.default);
+			const sfsValue = stripPx(fontSizes.sub);
 
+			// 추후 폰트 변경이 있었는지 확인하기 위해 두가지 상태로 저장
+			setPrevFontSize({ main: fsValue, sub: sfsValue });
 			setFontSize({ main: fsValue, sub: sfsValue });
 		};
 		updateFontSizeInputs();
@@ -71,17 +74,14 @@ export default function NavBox() {
 
 	const triggerSaveState = () => {
 		setTrigger("save", "저장 중입니다....");
-
-		const fsInput = document.getElementById("font-size")?.value + "px" || "0px";
-		const sfsInput =
-			document.getElementById("sub-font-size")?.value + "px" || "0px";
-
-		const rootStyles = getComputedStyle(document.documentElement);
-		const rootFS = rootStyles.getPropertyValue("--fs-main").trim();
-		const rootSFS = rootStyles.getPropertyValue("--fs-sub").trim();
-
-		if (fsInput !== rootFS || sfsInput !== rootSFS) {
-			updateSettings({ default: fsInput, sub: sfsInput });
+		if (
+			prevFontSize?.main !== fontSize?.main ||
+			prevFontSize?.sub !== fontSize?.sub
+		) {
+			updateSettings({
+				default: fontSize.main + "px",
+				sub: fontSize.sub + "px",
+			});
 		}
 	};
 
@@ -464,7 +464,7 @@ export default function NavBox() {
 											type="number"
 											id="font-size"
 											className="nav-input mt-px w-16 ml-2"
-											value={fontSize?.main}
+											value={fontSize?.main || 9}
 											onChange={(e) => handleFontSizeChange(e, "main")}
 										></input>
 									</label>
@@ -474,7 +474,7 @@ export default function NavBox() {
 											type="number"
 											id="sub-font-size"
 											className="nav-input mt-px w-16 ml-2"
-											value={fontSize?.sub}
+											value={fontSize?.sub || 7}
 											onChange={(e) => handleFontSizeChange(e, "sub")}
 										></input>
 									</label>

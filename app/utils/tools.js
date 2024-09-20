@@ -29,6 +29,8 @@ export const throttle = (func, limit) => {
 	};
 };
 
+export const stripPx = (value) => parseInt(value.replace("px", ""), 10);
+
 export const apiRequest = async (url, method = "GET", data = null) => {
 	const options = {
 		method,
