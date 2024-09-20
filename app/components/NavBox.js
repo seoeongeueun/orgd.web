@@ -7,12 +7,19 @@ import { useMode } from "@/app/contexts/ModeContext";
 import { useTrigger } from "@/app/contexts/TriggerContext";
 import { apiRequest } from "../utils/tools";
 import { useLastText } from "../contexts/LastTextContext";
+import { set } from "mongoose";
 
 const updateSettings = async (data) => {
 	const response = await apiRequest("/api/settings", "PUT", {
 		fontSize: data,
 	});
 	console.log("설정 정보 업데이트 완료:", response);
+};
+
+const fetchSettings = async () => {
+	const settings = await apiRequest("/api/settings");
+	console.log("폰트 설정 정보:", settings);
+	return settings;
 };
 
 export default function NavBox() {
@@ -27,6 +34,25 @@ export default function NavBox() {
 	const nodeRef = useRef(null);
 	const { lastText, setLastText } = useLastText();
 	const [textItem, setTextItem] = useState({});
+	const [fontSize, setFontSize] = useState({});
+
+	useEffect(() => {
+		const updateFontSizeInputs = async () => {
+			const data = await fetchSettings();
+			const fontSizes = data[0].fontSize;
+			document.documentElement.style.setProperty(
+				"--fs-main",
+				fontSizes.default
+			);
+			document.documentElement.style.setProperty("--fs-sub", fontSizes.sub);
+
+			const fsValue = parseInt(fontSizes.default.replace("px", ""));
+			const sfsValue = parseInt(fontSizes.sub.replace("px", ""));
+
+			setFontSize({ main: fsValue, sub: sfsValue });
+		};
+		updateFontSizeInputs();
+	}, []);
 
 	useEffect(() => {
 		if (triggerState?.message) {
@@ -110,6 +136,7 @@ export default function NavBox() {
 	const handleFontSizeChange = (e, type) => {
 		const value = Math.max(0, parseInt(e.target.value, 10) || 0);
 		document.documentElement.style.setProperty(`--fs-${type}`, `${value}px`);
+		setFontSize((prev) => ({ ...prev, [type]: value }));
 	};
 
 	const triggerShift = (e) => {
@@ -280,7 +307,7 @@ export default function NavBox() {
 									<span className="block">내용</span>
 									<textarea
 										rows={3}
-										defaultValue={lastText?.text}
+										value={lastText?.text}
 										className="nav-input w-full"
 										onChange={(e) =>
 											setLastText((prev) => ({
@@ -437,6 +464,7 @@ export default function NavBox() {
 											type="number"
 											id="font-size"
 											className="nav-input mt-px w-16 ml-2"
+											value={fontSize?.main}
 											onChange={(e) => handleFontSizeChange(e, "main")}
 										></input>
 									</label>
@@ -446,6 +474,7 @@ export default function NavBox() {
 											type="number"
 											id="sub-font-size"
 											className="nav-input mt-px w-16 ml-2"
+											value={fontSize?.sub}
 											onChange={(e) => handleFontSizeChange(e, "sub")}
 										></input>
 									</label>
