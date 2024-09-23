@@ -5,6 +5,7 @@ const settingsSchema = new mongoose.Schema({
 		default: { type: String, required: true },
 		sub: { type: String, required: true },
 	},
+	mainDevice: { type: [String], default: [] },
 });
 
 export default mongoose.models.Settings ||
