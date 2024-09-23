@@ -1,41 +1,12 @@
 "use client";
-import { apiRequest } from "@/app/utils/tools";
-import { set } from "mongoose";
 import { useState, useEffect } from "react";
-
-const fetchIp = async () => {
-	const response = await fetch("/api/ip");
-	const data = await response.json();
-	return data;
-};
+import { useRouter } from "next/navigation";
 
 export default function Page() {
 	const [message, setMessage] = useState("");
-	const [ipAddress, setIpAddress] = useState("");
-
-	// useEffect(() => {
-	// 	if (sessionStorage.getItem("mainDevice")) {
-	// 		const check = document.getElementById("is-main-device");
-	// 		check.checked = true;
-	// 	}
-	// }, []);
-
-	// const handleRegister = async () => {
-	// 	const isMainDevice = document.getElementById("is-main-device").checked;
-	// 	if (isMainDevice) {
-	// 		const response = await apiRequest("/api/settings/device", "POST", null);
-	// 		if (response) {
-	// 			sessionStorage.setItem("mainDevice", true);
-	// 			setMessage("기기가 등록되었습니다.");
-	// 		}
-	// 	}
-	// };
+	const router = useRouter();
 
 	useEffect(() => {
-		fetchIp().then((data) => {
-			setIpAddress(data.ip);
-		});
-
 		if (sessionStorage.getItem("mainDevice")) {
 			const check = document.getElementById("is-main-device");
 			check.checked = true;
@@ -44,18 +15,21 @@ export default function Page() {
 
 	const handleRegister = async () => {
 		const isMainDevice = document.getElementById("is-main-device").checked;
-		if (isMainDevice && ipAddress) {
-			const response = await apiRequest("/api/settings/device", "POST", {
-				ipAddress,
-			});
-			if (response) {
-				sessionStorage.setItem("mainDevice", true);
-				setMessage("기기가 등록되었습니다.");
-			}
-		} else {
-			setMessage("IP 주소를 불러오는 중 문제가 발생했습니다.");
+		if (isMainDevice) {
+			sessionStorage.setItem("mainDevice", true);
+			setMessage("기기가 등록되었습니다.");
+			setTimeout(() => {
+				router.push("/");
+			}, 2000);
 		}
 	};
+
+	useEffect(() => {
+		if (sessionStorage.getItem("mainDevice")) {
+			const check = document.getElementById("is-main-device");
+			check.checked = true;
+		}
+	}, []);
 
 	return (
 		<div className="w-full h-full flex flex-col items-center justify-center gap-4">
