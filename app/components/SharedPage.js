@@ -35,9 +35,10 @@ export default function SharedPage({ isEditMode = true }) {
 
 		console.log("User ID:", userId);
 
-		setIsMain(window.location.hostname === "localhost");
+		//setIsMain(window.location.hostname === "localhost");
+		if (sessionStorage.getItem("mainDevice")) setIsMain(true);
 
-		const newSocket = io(`http://${window.location.hostname}:3000`, {
+		const newSocket = io(`wss://${process.env.SERVER_URL}`, {
 			transports: ["websocket", "polling"],
 			query: { userId },
 		});
@@ -205,30 +206,98 @@ export default function SharedPage({ isEditMode = true }) {
 	// 	};
 	// }, [isMain, scaleFactor, socket]);
 
+	// useEffect(() => {
+	// 	const handleViewportUpdate = throttle(() => {
+	// 		const scrollDiv = document.querySelector("#scroll-div");
+	// 		if (scrollDiv) {
+	// 			const deviceWidth = window.innerWidth;
+	// 			const deviceHeight = window.innerHeight;
+	// 			const canvasWidth = 1920;
+	// 			const canvasHeight = 1080;
+
+	// 			const scaledWidth =
+	// 				((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
+	// 			const scaledHeight =
+	// 				((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
+	// 			const scrollLeft = scrollDiv.scrollLeft / scaleFactor;
+	// 			const scrollTop = scrollDiv.scrollTop / scaleFactor;
+
+	// 			socket.emit("send_viewport", {
+	// 				scaledWidth,
+	// 				scaledHeight,
+	// 				scrollLeft,
+	// 				scrollTop,
+	// 			});
+	// 		}
+	// 	}, 100);
+
+	// 	const scrollDiv = document.querySelector("#scroll-div");
+	// 	if (scrollDiv && !isMain) {
+	// 		scrollDiv.addEventListener("scroll", handleViewportUpdate);
+	// 		scrollDiv.addEventListener("touchmove", handleViewportUpdate);
+	// 	}
+
+	// 	return () => {
+	// 		if (scrollDiv) {
+	// 			scrollDiv.removeEventListener("scroll", handleViewportUpdate);
+	// 			scrollDiv.removeEventListener("touchmove", handleViewportUpdate);
+	// 		}
+	// 	};
+	// }, [isMain, scaleFactor, socket]);
+
 	useEffect(() => {
-		const handleViewportUpdate = throttle(() => {
+		let lastSentScrollLeft = 0;
+		let lastSentScrollTop = 0;
+
+		// threshold px 이상 스크롤할 때만 업데이트
+		const scrollThreshold = 20;
+		const throttleTime = 100;
+		const debounceTime = 300;
+		let debounceTimer;
+
+		const sendViewportUpdate = () => {
 			const scrollDiv = document.querySelector("#scroll-div");
 			if (scrollDiv) {
-				const deviceWidth = window.innerWidth;
-				const deviceHeight = window.innerHeight;
-				const canvasWidth = 1920;
-				const canvasHeight = 1080;
+				const scrollLeft = scrollDiv.scrollLeft;
+				const scrollTop = scrollDiv.scrollTop;
 
-				const scaledWidth =
-					((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
-				const scaledHeight =
-					((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
-				const scrollLeft = scrollDiv.scrollLeft / scaleFactor;
-				const scrollTop = scrollDiv.scrollTop / scaleFactor;
+				const deltaX = Math.abs(scrollLeft - lastSentScrollLeft);
+				const deltaY = Math.abs(scrollTop - lastSentScrollTop);
 
-				socket.emit("send_viewport", {
-					scaledWidth,
-					scaledHeight,
-					scrollLeft,
-					scrollTop,
-				});
+				if (deltaX > scrollThreshold || deltaY > scrollThreshold) {
+					lastSentScrollLeft = scrollLeft;
+					lastSentScrollTop = scrollTop;
+
+					const deviceWidth = window.innerWidth;
+					const deviceHeight = window.innerHeight;
+					const canvasWidth = 1920;
+					const canvasHeight = 1080;
+
+					const scaledWidth =
+						((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
+					const scaledHeight =
+						((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
+
+					socket.emit("send_viewport", {
+						scaledWidth,
+						scaledHeight,
+						scrollLeft: scrollLeft / scaleFactor,
+						scrollTop: scrollTop / scaleFactor,
+					});
+				}
 			}
-		}, 100);
+		};
+
+		const throttledViewportUpdate = throttle(sendViewportUpdate, throttleTime);
+
+		const handleViewportUpdate = () => {
+			throttledViewportUpdate();
+
+			clearTimeout(debounceTimer);
+			debounceTimer = setTimeout(() => {
+				sendViewportUpdate();
+			}, debounceTime);
+		};
 
 		const scrollDiv = document.querySelector("#scroll-div");
 		if (scrollDiv && !isMain) {
@@ -241,6 +310,7 @@ export default function SharedPage({ isEditMode = true }) {
 				scrollDiv.removeEventListener("scroll", handleViewportUpdate);
 				scrollDiv.removeEventListener("touchmove", handleViewportUpdate);
 			}
+			clearTimeout(debounceTimer);
 		};
 	}, [isMain, scaleFactor, socket]);
 

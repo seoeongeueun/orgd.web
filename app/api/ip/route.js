@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
-	const forwarded = req.headers.get("x-forwarded-for");
-	const ip = forwarded ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
-
-	if (ip === "::1" || ip === "127.0.0.1") {
-		return NextResponse.json({ ip: "localhost" });
+export async function GET() {
+	try {
+		const response = await fetch("https://api.ipify.org?format=json");
+		const data = await response.json();
+		return NextResponse.json({ ip: data.ip });
+	} catch (error) {
+		console.error("Error fetching IP:", error);
+		return NextResponse.json({ error: "Failed to fetch IP" }, { status: 500 });
 	}
-
-	return NextResponse.json({ ip });
 }
