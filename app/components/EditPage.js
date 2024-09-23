@@ -37,9 +37,9 @@ export default function EditPage() {
 	useEffect(() => {
 		// 기기 너비가 바뀔 때 마다 가로 100%로 유지하기 위해 스케일 조정
 		const handleResize = debounce(() => {
-			//const windowWidth = window.innerWidth;
-			const windowWidth = document.body.clientWidth;
+			const windowWidth = window.innerWidth;
 			const baseWidth = 1920;
+			console.log("Window Width:", windowWidth);
 			setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
 		}, 100);
 
