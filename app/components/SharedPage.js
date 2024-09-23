@@ -40,7 +40,6 @@ export default function SharedPage() {
 		if (isMainDevice) setIsMain(true);
 		else setIsMain(false);
 
-		console.log("Is Main Device:", isMainDevice);
 		const newSocket = io(`wss://${process.env.NEXT_PUBLIC_SERVER_URL}`, {
 			transports: ["websocket", "polling"],
 			query: { userId: userId, isMain: isMainDevice },
@@ -319,13 +318,17 @@ export default function SharedPage() {
 
 	useEffect(() => {
 		if (isMain && socket) {
-			socket.on("update_viewport_frames", (frames) => {
+			const handleUpdateViewportFrames = (frames) => {
 				setUserFrames(frames);
-			});
+			};
 
-			socket.on("initial_frames", (frames) => {
-				setUserFrames(frames);
-			});
+			socket.on("update_viewport_frames", handleUpdateViewportFrames);
+			socket.on("initial_frame", handleUpdateViewportFrames);
+
+			return () => {
+				socket.off("update_viewport_frames", handleUpdateViewportFrames);
+				socket.off("initial_frames", handleUpdateViewportFrames);
+			};
 		}
 	}, [isMain, socket]);
 

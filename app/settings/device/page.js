@@ -31,7 +31,7 @@ export default function Page() {
 		const isMainDevice = document.getElementById("is-main-device").checked;
 		if (isMainDevice) {
 			sessionStorage.setItem("mainDevice", true);
-			setMessage("메인 기기로 등록되었습니다.");
+			setMessage("메인 기기로 등록되었습니다. 홈으로 이동합니다...");
 			setTimeout(() => {
 				router.push("/");
 			}, 2000);
