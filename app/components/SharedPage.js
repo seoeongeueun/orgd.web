@@ -40,7 +40,7 @@ export default function SharedPage() {
 		if (isMainDevice) setIsMain(true);
 		else setIsMain(false);
 
-		const newSocket = io(`wss://${process.env.SERVER_URL}`, {
+		const newSocket = io(`wss://${process.env.NEXT_PUBLIC_SERVER_URL}`, {
 			transports: ["websocket", "polling"],
 			query: { userId: userId, isMain: isMainDevice },
 		});
