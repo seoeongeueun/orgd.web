@@ -23,10 +23,21 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 			<head>
+				<link rel="manifest" href="/manifest.json" />
 				<meta
 					name="viewport"
 					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 				/>
+
+				<link rel="icon" href="/icons/favicon.ico" type="image/x-icon" />
+				<meta name="theme-color" content="#000000" />
+				<meta name="apple-mobile-web-app-capable" content="yes" />
+				<meta
+					name="apple-mobile-web-app-status-bar-style"
+					content="black-translucent"
+				/>
+				<meta name="apple-mobile-web-app-title" content="BATON ORGD" />
+				<link rel="apple-touch-icon" href="/icons/favicon.ico" />
 			</head>
 			<body className={`${pretendard.variable} font-global font-normal`}>
 				{children}
