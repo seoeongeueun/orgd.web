@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { apiRequest } from "@/app/utils/tools";
+import Link from "next/link";
 
 const fetchConnections = async () => {
 	const response = await apiRequest("/api/settings/device", "GET");
@@ -61,13 +62,26 @@ export default function Page() {
 				</h2>
 				<p>현재 접속한 메인 기기 {connections.main}</p>
 			</div>
-			<div className="flex flex-row gap-4">
+			<div className="flex flex-row items-center gap-2">
 				<label htmlFor="is-main-device">메인 기기입니다</label>
 				<input type="checkbox" id="is-main-device" name="is-main-device" />
+				<button
+					type="submit"
+					className="btn-gray ml-4"
+					onClick={handleRegister}
+				>
+					등록
+				</button>
 			</div>
-			<button type="submit" className="btn-gray" onClick={handleRegister}>
-				등록
-			</button>
+			<div className="flex flex-row gap-2">
+				<Link href="/" className="btn-gray">
+					홈으로
+				</Link>
+				<Link href="/settings" className="btn-gray">
+					설정으로
+				</Link>
+			</div>
+
 			{message && <p className="mt-4 text-gray-700">{message}</p>}
 		</div>
 	);
