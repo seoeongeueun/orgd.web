@@ -36,7 +36,7 @@ export default function SharedPage() {
 		console.log("User ID:", userId);
 
 		//setIsMain(window.location.hostname === "localhost");
-		const isMainDevice = sessionStorage.getItem("mainDevice");
+		const isMainDevice = sessionStorage.getItem("mainDevice") === "true";
 		if (isMainDevice) setIsMain(true);
 		else setIsMain(false);
 
