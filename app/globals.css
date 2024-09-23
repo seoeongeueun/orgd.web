@@ -80,6 +80,7 @@ body, html {
   font-weight: 400;
   z-index: 20;
   font-size: var(--fs-main);
+  word-spacing: -.1ch;
 }
 
 .text-sub {
@@ -92,4 +93,5 @@ body, html {
   padding: 0.25rem 0.25rem;
   z-index: 20;
   font-size: var(--fs-sub);
+  word-spacing: -.1ch;
 }
