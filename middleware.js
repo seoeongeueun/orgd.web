@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { jwtVerify } from "jose"; // Import jwtVerify from jose
+import { jwtVerify } from "jose";
 
 export async function middleware(req) {
 	console.log(`Incoming request to: ${req.nextUrl.pathname}`);
@@ -7,6 +7,8 @@ export async function middleware(req) {
 
 	const url = req.nextUrl;
 
+	//get 요청이고 /settings에서 접근한게 아니면 경우는 패스
+	//settings 페이지는 get 요청이라도 토큰을 확인
 	if (
 		excludedPaths.some((path) => url.pathname.startsWith(path)) ||
 		(req.method === "GET" && !url.pathname.startsWith("/settings"))
@@ -16,11 +18,13 @@ export async function middleware(req) {
 
 	const token = req.cookies.get("authToken");
 
+	// 토큰이 없으면 로그인 페이지로 리다이렉트
 	if (!token) {
 		console.log("No token found");
 		return NextResponse.redirect(new URL("/login", req.url));
 	}
 
+	// 요청 헤더에 토큰을 추가해서 전달
 	try {
 		await jwtVerify(
 			token.value,
