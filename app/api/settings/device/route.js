@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
-import Settings from "@/app/models/settings";
-import connectDB from "@/app/utils/mongodb";
 
 const verifyToken = async (req) => {
 	const authHeader = req.headers.get("authorization");
@@ -28,32 +26,44 @@ const verifyToken = async (req) => {
 };
 
 export async function POST(req) {
-	await connectDB();
-
 	try {
 		await verifyToken(req);
 
-		const key = process.env.MAIN_KEY;
-		console.log(key);
-		if (!key) {
-			return new Response(JSON.stringify({ error: "값이 비어있습니다." }), {
-				status: 400,
-			});
-		}
-
-		const updatedSettings = await Settings.findOneAndUpdate(
-			{}, //collection에 document가 하나만 있으므로 빈 객체로 조회
-			{ mainDevice: key },
-			{ new: true }
+		const response = await fetch(
+			`http://${process.env.SERVER_URL}api/refresh`,
+			{
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
 		);
 
-		return NextResponse.json(key === updatedSettings.mainDevice, {
-			status: 200,
+		if (!response.ok) {
+			throw new Error("Failed to trigger refresh on the external server.");
+		}
+
+		return NextResponse.json({
+			message: "Server refresh triggered successfully.",
 		});
 	} catch (error) {
-		console.error(error.message);
-		return new Response(JSON.stringify({ error: error.message }), {
-			status: error.message.includes("token") ? 401 : 400,
-		});
+		return NextResponse.json({ message: error.message }, { status: 401 });
+	}
+}
+
+export async function GET(req, res) {
+	try {
+		const response = await fetch(
+			`https://${process.env.SERVER_URL}api/connections`
+		);
+		if (!response.ok) {
+			throw new Error("Failed to fetch connections");
+		}
+
+		const data = await response.json();
+		return NextResponse.json(data);
+	} catch (error) {
+		console.error("Error fetching connections:", error);
+		return null;
 	}
 }

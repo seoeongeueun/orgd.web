@@ -17,7 +17,7 @@ const fetchSettings = async () => {
 	return settings;
 };
 
-export default function SharedPage({ isEditMode = true }) {
+export default function SharedPage() {
 	const [socket, setSocket] = useState(null);
 	const [isMain, setIsMain] = useState(true);
 	const [texts, setTexts] = useState([]);
@@ -36,11 +36,13 @@ export default function SharedPage({ isEditMode = true }) {
 		console.log("User ID:", userId);
 
 		//setIsMain(window.location.hostname === "localhost");
-		if (sessionStorage.getItem("mainDevice")) setIsMain(true);
+		const isMainDevice = sessionStorage.getItem("mainDevice");
+		if (isMainDevice) setIsMain(true);
+		else setIsMain(false);
 
 		const newSocket = io(`wss://${process.env.SERVER_URL}`, {
 			transports: ["websocket", "polling"],
-			query: { userId },
+			query: { userId: userId, isMain: isMainDevice },
 		});
 
 		const loadTexts = async () => {
