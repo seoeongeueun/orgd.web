@@ -38,7 +38,6 @@ export async function POST(req) {
 				},
 			}
 		);
-
 		if (!response.ok) {
 			throw new Error("Failed to trigger refresh on the external server.");
 		}
