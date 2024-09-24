@@ -76,29 +76,18 @@ export default function SharedPage() {
 		});
 
 		newSocket.on("connection_limit_exceeded", () => {
-			alert("제한 인원을 초과했습니다. 연결을 종료합니다.");
+			alert(
+				"연결 가능한 인원을 초과했습니다. 오프라인 상태로, 변경 사항이 적용되지 않습니다."
+			);
+		});
+
+		newSocket.on("disconnect", () => {
+			console.log("Disconnected from WebSocket server");
+			setSocket(null);
+			alert("서버 연결이 끊겼습니다. 관리자에게 문의해주세요.");
 		});
 
 		setSocket(newSocket);
-
-		// const handleResize = () => {
-		// 	const windowWidth = window.innerWidth;
-		// 	const windowHeight = window.innerHeight;
-
-		// 	// 기본 비율은 1920 / 1080 = 16 / 9
-		// 	const baseWidth = 1920;
-		// 	const baseHeight = 1080;
-
-		// 	const scaleFactorWidth = windowWidth / baseWidth;
-		// 	const scaledHeight = baseHeight * scaleFactorWidth;
-		// 	if (scaledHeight <= windowHeight) {
-		// 		setScale(scaleFactorWidth);
-		// 	} else {
-		// 		const scaleFactorHeight = windowHeight / baseHeight;
-		// 		setScale(scaleFactorHeight);
-		// 	}
-		// };
-		// handleResize();
 
 		const loadSettings = async () => {
 			const data = await fetchSettings();
@@ -142,115 +131,6 @@ export default function SharedPage() {
 			};
 		}
 	}, [isMain]);
-
-	// useEffect(() => {
-	// 	if (!isMain) {
-	// 		const handleTouchMove = () => {
-	// 			const deviceWidth = document.body.clientWidth;
-	// 			const deviceHeight = document.body.clientHeight;
-	// 			const canvasWidth = 1920;
-	// 			const canvasHeight = 1080;
-
-	// 			// Calculate scaling based on touch movement
-	// 			const scaledWidth =
-	// 				((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
-	// 			const scaledHeight =
-	// 				((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
-	// 			const scrollLeft = window.scrollX / scaleFactor;
-	// 			const scrollTop = window.scrollY / scaleFactor;
-
-	// 			socket.emit("send_viewport", {
-	// 				scaledWidth,
-	// 				scaledHeight,
-	// 				scrollLeft,
-	// 				scrollTop,
-	// 			});
-	// 		};
-
-	// 		// Listen to both scroll and touchmove events
-	// 		window.addEventListener("scroll", handleTouchMove);
-	// 		window.addEventListener("touchmove", handleTouchMove);
-
-	// 		return () => {
-	// 			// Remove both listeners when the component unmounts or dependencies change
-	// 			window.removeEventListener("scroll", handleTouchMove);
-	// 			window.removeEventListener("touchmove", handleTouchMove);
-	// 		};
-	// 	}
-	// }, [isMain, scaleFactor, socket]);
-
-	// useEffect(() => {
-	// 	const handleViewportUpdate = throttle(() => {
-	// 		const deviceWidth = document.body.clientWidth;
-	// 		const deviceHeight = document.body.clientHeight;
-	// 		const canvasWidth = 1920;
-	// 		const canvasHeight = 1080;
-
-	// 		const scaledWidth =
-	// 			((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
-	// 		const scaledHeight =
-	// 			((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
-	// 		const scrollLeft = window.scrollX / scaleFactor;
-	// 		const scrollTop = window.scrollY / scaleFactor;
-
-	// 		// Emit viewport data through WebSocket
-	// 		socket.emit("send_viewport", {
-	// 			scaledWidth,
-	// 			scaledHeight,
-	// 			scrollLeft,
-	// 			scrollTop,
-	// 		});
-	// 	}, 100);
-
-	// 	if (!isMain) {
-	// 		window.addEventListener("scroll", handleViewportUpdate);
-	// 		window.addEventListener("touchmove", handleViewportUpdate);
-	// 	}
-
-	// 	return () => {
-	// 		window.removeEventListener("scroll", handleViewportUpdate);
-	// 		window.removeEventListener("touchmove", handleViewportUpdate);
-	// 	};
-	// }, [isMain, scaleFactor, socket]);
-
-	// useEffect(() => {
-	// 	const handleViewportUpdate = throttle(() => {
-	// 		const scrollDiv = document.querySelector("#scroll-div");
-	// 		if (scrollDiv) {
-	// 			const deviceWidth = window.innerWidth;
-	// 			const deviceHeight = window.innerHeight;
-	// 			const canvasWidth = 1920;
-	// 			const canvasHeight = 1080;
-
-	// 			const scaledWidth =
-	// 				((deviceWidth / canvasWidth) * canvasWidth) / scaleFactor;
-	// 			const scaledHeight =
-	// 				((deviceHeight / canvasHeight) * canvasHeight) / scaleFactor;
-	// 			const scrollLeft = scrollDiv.scrollLeft / scaleFactor;
-	// 			const scrollTop = scrollDiv.scrollTop / scaleFactor;
-
-	// 			socket.emit("send_viewport", {
-	// 				scaledWidth,
-	// 				scaledHeight,
-	// 				scrollLeft,
-	// 				scrollTop,
-	// 			});
-	// 		}
-	// 	}, 100);
-
-	// 	const scrollDiv = document.querySelector("#scroll-div");
-	// 	if (scrollDiv && !isMain) {
-	// 		scrollDiv.addEventListener("scroll", handleViewportUpdate);
-	// 		scrollDiv.addEventListener("touchmove", handleViewportUpdate);
-	// 	}
-
-	// 	return () => {
-	// 		if (scrollDiv) {
-	// 			scrollDiv.removeEventListener("scroll", handleViewportUpdate);
-	// 			scrollDiv.removeEventListener("touchmove", handleViewportUpdate);
-	// 		}
-	// 	};
-	// }, [isMain, scaleFactor, socket]);
 
 	useEffect(() => {
 		let lastSentScrollLeft = 0;
@@ -357,20 +237,11 @@ export default function SharedPage() {
 
 	const handleMainTextClick = (mainTextId) => {
 		const newVisibility = !subTextVisibility[mainTextId];
-		socket.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
+		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
 			[mainTextId]: newVisibility,
 		}));
-	};
-
-	const handleViewportScroll = (event) => {
-		if (isMain) {
-			const { scrollLeft, scrollTop } = event.target;
-			const scaledWidth = scrollLeft / scaleFactor;
-			const scaledHeight = scrollTop / scaleFactor;
-			socket.emit("send_viewport", { scaledWidth, scaledHeight });
-		}
 	};
 
 	return (
