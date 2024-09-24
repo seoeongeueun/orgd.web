@@ -75,6 +75,10 @@ export default function SharedPage() {
 			}));
 		});
 
+		newSocket.on("connection_limit_exceeded", () => {
+			alert("제한 인원을 초과했습니다. 연결을 종료합니다.");
+		});
+
 		setSocket(newSocket);
 
 		// const handleResize = () => {
