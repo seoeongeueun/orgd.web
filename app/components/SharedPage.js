@@ -126,8 +126,9 @@ export default function SharedPage() {
 				setScale(scaleFactor);
 			}
 		};
-		if (!isMain) setScale(scaleFactor);
-		else {
+		if (!isMain) {
+			setScale(scaleFactor);
+		} else {
 			handleResize();
 
 			window.addEventListener("resize", handleResize);
@@ -332,6 +333,24 @@ export default function SharedPage() {
 		}
 	}, [isMain, socket]);
 
+	useEffect(() => {
+		const scrollDiv = document.querySelector("#scroll-div");
+		if (!isMain && texts?.length > 0) {
+			// 첫 접속시 랜덤 위치로 스크롤
+			const maxScrollLeft = scrollDiv.scrollWidth - scrollDiv.clientWidth;
+			const maxScrollTop = scrollDiv.scrollHeight - scrollDiv.clientHeight;
+
+			if (maxScrollLeft > 0 || maxScrollTop > 0) {
+				const randomScrollLeft = Math.random() * maxScrollLeft;
+				const randomScrollTop = Math.random() * maxScrollTop;
+				scrollDiv.scrollLeft = randomScrollLeft;
+				scrollDiv.scrollTop = randomScrollTop;
+			}
+			const canvas = document.querySelector(".canvas");
+			if (canvas) canvas.classList.remove("opacity-0", "pointer-events-none");
+		}
+	}, [isMain, texts]);
+
 	const handleMainTextClick = (mainTextId) => {
 		const newVisibility = !subTextVisibility[mainTextId];
 		socket.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
@@ -352,7 +371,7 @@ export default function SharedPage() {
 
 	return (
 		<div
-			className="main canvas"
+			className={`main canvas ${!isMain && "opacity-0 pointer-events-none"}`}
 			style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
 		>
 			<div id="canvas" className="w-full h-full">
