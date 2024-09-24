@@ -54,26 +54,26 @@ export default function Page() {
 	}, []);
 
 	const handleDrop = async () => {
-		confirm("작업 중인 기능입니다. 근데 왜 누르셨는지 궁금합니다 👀");
-		// if (confirm("정말 모든 연결을 끊으시겠습니까?")) {
-		// 	setMessage("모든 연결을 해제 중...");
-		// 	try {
-		// 		const response = await triggerDrop();
-		// 		if (response) {
-		// 			setMessage("모든 연결을 해제했습니다.");
-		// 			sessionStorage.removeItem("mainDevice");
-		// 			fetchConnections().then((data) => {
-		// 				setConnections({
-		// 					main: data.mainDeviceCount,
-		// 					count: data.activeConnections,
-		// 					max: data.MAX_CONNECTIONS,
-		// 				});
-		// 			});
-		// 		}
-		// 	} catch (error) {
-		// 		setMessage("오류가 발생했습니다");
-		// 	}
-		// }
+		//confirm("작업 중인 기능입니다. 근데 왜 누르셨는지 궁금합니다 👀");
+		if (confirm("정말 모든 연결을 끊으시겠습니까?")) {
+			setMessage("모든 연결을 해제 중...");
+			try {
+				const response = await triggerDrop();
+				if (response) {
+					sessionStorage.removeItem("mainDevice");
+					fetchConnections().then((data) => {
+						setConnections({
+							main: data.mainDeviceCount,
+							count: data.activeConnections,
+							max: data.MAX_CONNECTIONS,
+						});
+					});
+					setMessage("모든 연결을 해제했습니다");
+				}
+			} catch (error) {
+				setMessage("오류가 발생했습니다");
+			}
+		}
 	};
 
 	const handleRefresh = async () => {
@@ -93,7 +93,7 @@ export default function Page() {
 		<div className="w-full h-full flex flex-col items-center justify-center">
 			{message && <p className="mb-10 text-black text-xl">{message}</p>}
 
-			<div className="flex flex-row items-center justify-center gap-20">
+			<div className="flex flex-row items-start justify-center gap-20">
 				<div className="flex flex-col gap-8 w-56 text-center">
 					<div className="flex flex-col gap-2 text-center nav-input !p-4 rounded-sm w-56">
 						<h2>
