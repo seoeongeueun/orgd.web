@@ -235,6 +235,20 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 		}
 	}, [isMain, texts]);
 
+	useEffect(() => {
+		if (socket && texts) {
+			socket.on("enable_all_visibility", () => {
+				const newVisibility = {};
+				if (texts?.length > 0) {
+					texts.forEach((text) => {
+						newVisibility[text.uid] = true;
+					});
+				}
+				setSubTextVisibility(newVisibility);
+			});
+		}
+	}, [socket, texts]);
+
 	const handleMainTextClick = (mainTextId) => {
 		const newVisibility = !subTextVisibility[mainTextId];
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
@@ -254,9 +268,15 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 			<div id="canvas" className="w-full h-full">
 				<button
 					onClick={() => socket.emit("refresh_visibility")}
-					className="fixed right-4 top-4 text-black"
+					className="fixed right-28 top-4 text-black"
 				>
 					초기화
+				</button>
+				<button
+					onClick={() => socket.emit("enable_all_visibility")}
+					className="fixed right-4 top-4 text-black"
+				>
+					전체 보이기
 				</button>
 				{texts?.length > 0 &&
 					texts.map((text) => (
