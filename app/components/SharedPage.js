@@ -17,13 +17,18 @@ const fetchSettings = async () => {
 	return settings;
 };
 
-export default function SharedPage({ setMessage, setShowLoading }) {
+export default function SharedPage({
+	setMessage,
+	setShowLoading,
+	showLoading,
+}) {
 	const [socket, setSocket] = useState(null);
 	const [isMain, setIsMain] = useState(true);
 	const [texts, setTexts] = useState([]);
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
+	const [initialReady, setInitialReady] = useState(false); // 초기 로딩 완료 여부
 	const scaleFactor = 10;
 
 	useEffect(() => {
@@ -53,6 +58,7 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 
 		newSocket.on("connect", () => {
 			console.log("Connected to WebSocket server");
+			setInitialReady(true);
 		});
 
 		newSocket.on("connect_error", (error) => {
@@ -76,6 +82,7 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 		});
 
 		newSocket.on("connection_limit_exceeded", () => {
+			setInitialReady(false);
 			alert(
 				"연결 가능한 인원을 초과했습니다. 오프라인 상태로, 변경 사항이 적용되지 않습니다."
 			);
@@ -84,6 +91,7 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 		newSocket.on("disconnect", () => {
 			console.log("Disconnected from WebSocket server");
 			setSocket(null);
+			setInitialReady(false);
 			alert("서버 연결이 끊겼습니다. 관리자에게 문의해주세요.");
 		});
 
@@ -145,6 +153,7 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 		const sendViewportUpdate = () => {
 			const scrollDiv = document.querySelector("#scroll-div");
 			if (scrollDiv) {
+				if (initialReady && showLoading) setShowLoading(false);
 				const scrollLeft = scrollDiv.scrollLeft;
 				const scrollTop = scrollDiv.scrollTop;
 
@@ -199,7 +208,7 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 			}
 			clearTimeout(debounceTimer);
 		};
-	}, [isMain, scaleFactor, socket]);
+	}, [isMain, scaleFactor, socket, initialReady]);
 
 	useEffect(() => {
 		if (isMain && socket) {
@@ -230,10 +239,12 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 				scrollDiv.scrollLeft = randomScrollLeft;
 				scrollDiv.scrollTop = randomScrollTop;
 			}
-			const canvas = document.querySelector(".canvas");
-			if (canvas) canvas.classList.remove("opacity-0", "pointer-events-none");
 		}
 	}, [isMain, texts]);
+
+	useEffect(() => {
+		console.log(initialReady);
+	}, [initialReady]);
 
 	useEffect(() => {
 		if (socket && texts) {
@@ -261,7 +272,7 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 	return (
 		<div
 			className={`main canvas transition-opacity ${
-				!isMain && "opacity-0 pointer-events-none"
+				!isMain && !initialReady ? "opacity-0 pointer-events-none" : ""
 			}`}
 			style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
 		>

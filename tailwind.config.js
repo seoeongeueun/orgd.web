@@ -29,6 +29,10 @@ module.exports = {
 				"theme-gray": "rgb(204,204,204)",
 				"sub-light": "var(--sub-light)",
 				"sub-dark": "var(--sub-dark)",
+				"loading-white": "rgba(255,255,255,0.6)",
+			},
+			boxShadow: {
+				"loading-text": "0px 4px 10px 0px rgba(0, 0, 0, 0.10)",
 			},
 			fontFamily: {
 				global: ["pretendard", "sans-serif"],
