@@ -2,32 +2,7 @@ import connectDB from "@/app/utils/mongodb";
 import { NextResponse } from "next/server";
 import MainText from "@/app/models/mainText";
 import SubText from "@/app/models/subText";
-import { jwtVerify } from "jose";
-
-const verifyToken = async (req) => {
-	const authHeader = req.headers.get("authorization");
-
-	if (!authHeader) {
-		throw new Error("No token provided");
-	}
-
-	const token = authHeader.split(" ")[1];
-
-	if (!token) {
-		throw new Error("Token missing");
-	}
-
-	try {
-		// Use jose for token verification
-		const { payload } = await jwtVerify(
-			token,
-			new TextEncoder().encode(process.env.JWT_SECRET)
-		);
-		return payload; // Return the decoded payload (user information)
-	} catch (error) {
-		throw new Error("Invalid token");
-	}
-};
+import { verifyToken } from "@/app/utils/tools";
 
 //Db에 존재하지 않는 유니크 uid를 생성
 async function generateUniqueUid(model) {

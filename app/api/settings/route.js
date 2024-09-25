@@ -1,31 +1,7 @@
 import { NextResponse } from "next/server";
-import { jwtVerify } from "jose";
 import Settings from "@/app/models/settings";
 import connectDB from "@/app/utils/mongodb";
-
-const verifyToken = async (req) => {
-	const authHeader = req.headers.get("authorization");
-
-	if (!authHeader) {
-		throw new Error("No token provided");
-	}
-
-	const token = authHeader.split(" ")[1];
-
-	if (!token) {
-		throw new Error("Token missing");
-	}
-
-	try {
-		const { payload } = await jwtVerify(
-			token,
-			new TextEncoder().encode(process.env.JWT_SECRET)
-		);
-		return payload;
-	} catch (error) {
-		throw new Error("Invalid token");
-	}
-};
+import { verifyToken } from "@/app/utils/tools";
 
 export async function POST(req) {
 	await connectDB();

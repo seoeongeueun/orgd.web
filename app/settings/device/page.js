@@ -11,8 +11,11 @@ const fetchConnections = async () => {
 	return response;
 };
 
-const triggerDrop = async () => {
-	const response = await apiRequest("/api/settings/device", "POST");
+const triggerServerAction = async (type) => {
+	const response = await apiRequest(
+		`/api/settings/${type === "drop" ? "device" : "refresh"}`,
+		"POST"
+	);
 	return response;
 };
 
@@ -58,7 +61,7 @@ export default function Page() {
 		if (confirm("정말 모든 연결을 끊으시겠습니까?")) {
 			setMessage("모든 연결을 해제 중...");
 			try {
-				const response = await triggerDrop();
+				const response = await triggerServerAction("drop");
 				if (response) {
 					sessionStorage.removeItem("mainDevice");
 					fetchConnections().then((data) => {
@@ -77,16 +80,17 @@ export default function Page() {
 	};
 
 	const handleRefresh = async () => {
-		confirm("작업 중인 기능입니다. 근데 왜 누르셨는지 궁금합니다 👀");
-		// if (confirm("정말 전시 화면을 초기화하시겠습니까?")) {
-		// 	setMessage("전시 화면 초기화 중...");
-		// 	const response = await apiRequest("/api/settings/device/refresh", "POST");
-		// 	if (response.ok) {
-		// 		setMessage("전시 화면 초기화 완료");
-		// 	} else {
-		// 		setMessage("오류가 발생했습니다");
-		// 	}
-		// }
+		if (confirm("정말 모든 해설 텍스트를 초기화 하겠습니까?")) {
+			setMessage("모든 해설 텍스트 되돌리는 중...");
+			try {
+				const response = await triggerServerAction("refresh");
+				if (response) {
+					setMessage("모든 해설 텍스트를 초기화 했습니다");
+				}
+			} catch (error) {
+				setMessage("오류가 발생했습니다");
+			}
+		}
 	};
 
 	return (
