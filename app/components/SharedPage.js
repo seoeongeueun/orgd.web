@@ -208,7 +208,7 @@ export default function SharedPage({ setMessage, setShowLoading }) {
 			};
 
 			socket.on("update_viewport_frames", handleUpdateViewportFrames);
-			socket.on("initial_frame", handleUpdateViewportFrames);
+			socket.on("initial_frames", handleUpdateViewportFrames);
 
 			return () => {
 				socket.off("update_viewport_frames", handleUpdateViewportFrames);
