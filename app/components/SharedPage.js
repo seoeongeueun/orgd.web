@@ -137,8 +137,8 @@ export default function SharedPage() {
 		let lastSentScrollTop = 0;
 
 		// threshold px 이상 스크롤할 때만 업데이트
-		const scrollThreshold = 20;
-		const throttleTime = 100;
+		const scrollThreshold = 10;
+		const throttleTime = 150;
 		const debounceTime = 300;
 		let debounceTimer;
 
@@ -274,12 +274,14 @@ export default function SharedPage() {
 								key={userId}
 								style={{
 									position: "absolute",
-									top: `${frame.scrollTop}px`,
-									left: `${frame.scrollLeft}px`,
+									// top: `${frame.scrollTop}px`,
+									// left: `${frame.scrollLeft}px`,
+									transform: `translate(${frame.scrollLeft}px, ${frame.scrollTop}px)`,
 									width: `${frame.scaledWidth}px`,
 									height: `${frame.scaledHeight}px`,
 									border: "1px solid red",
 									zIndex: 1000,
+									transition: "all 200ms ease-in-out",
 								}}
 							/>
 						);
