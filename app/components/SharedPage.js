@@ -17,7 +17,7 @@ const fetchSettings = async () => {
 	return settings;
 };
 
-export default function SharedPage() {
+export default function SharedPage({ setMessage, setShowLoading }) {
 	const [socket, setSocket] = useState(null);
 	const [isMain, setIsMain] = useState(true);
 	const [texts, setTexts] = useState([]);
@@ -246,7 +246,9 @@ export default function SharedPage() {
 
 	return (
 		<div
-			className={`main canvas ${!isMain && "opacity-0 pointer-events-none"}`}
+			className={`main canvas transition-opacity ${
+				!isMain && "opacity-0 pointer-events-none"
+			}`}
 			style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
 		>
 			<div id="canvas" className="w-full h-full">
