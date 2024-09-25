@@ -2,31 +2,7 @@ import connectDB from "@/app/utils/mongodb";
 import { NextResponse } from "next/server";
 import MainText from "@/app/models/mainText";
 import SubText from "@/app/models/subText";
-import { jwtVerify } from "jose";
-
-const verifyToken = async (req) => {
-	const authHeader = req.headers.get("authorization");
-
-	if (!authHeader) {
-		throw new Error("No token provided");
-	}
-
-	const token = authHeader.split(" ")[1];
-
-	if (!token) {
-		throw new Error("Token missing");
-	}
-
-	try {
-		const { payload } = await jwtVerify(
-			token,
-			new TextEncoder().encode(process.env.JWT_SECRET)
-		);
-		return payload;
-	} catch (error) {
-		throw new Error("Invalid token");
-	}
-};
+import { verifyToken } from "@/app/utils/tools";
 
 // 등록된 모든 메인과 서브 텍스트를 반환
 export async function GET(req) {
