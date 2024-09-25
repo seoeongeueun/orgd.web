@@ -10,9 +10,13 @@ export default function Page() {
 	return (
 		<>
 			<div id="scroll-div" className="overflow-auto">
-				<SharedPage setMessage={setMessage} setShowLoading={setShowLoading} />
+				<SharedPage
+					setMessage={setMessage}
+					setShowLoading={setShowLoading}
+					showLoading={showLoading}
+				/>
 			</div>
-			{showLoading && <LoadingScreen message={message} />}
+			<LoadingScreen message={message} showLoading={showLoading} />
 		</>
 	);
 }
