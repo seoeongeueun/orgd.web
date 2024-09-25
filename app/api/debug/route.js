@@ -1,5 +1,6 @@
 import { jwtVerify } from "jose";
 
+//middleware의 debugger 역할을 하는 route
 export default function handler(req, res) {
 	const token = req.cookies.authToken;
 
