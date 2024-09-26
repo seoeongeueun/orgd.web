@@ -294,6 +294,28 @@ export default function SharedPage() {
 	const handleRefreshVisibility = () => {
 		socket?.emit("refresh_visibility");
 		setTimeout(() => setMessage(0), 500);
+		const scrollDiv = document.querySelector("#scroll-div");
+		if (!scrollDiv) return;
+
+		// 텍스트가 있는 안전한 위치 중 랜덤 한 곳으로 이동
+		const sWidth = scrollDiv.scrollWidth;
+		const sHeight = scrollDiv.scrollHeight;
+		const safeCoords = [
+			{ x: sWidth / 1.5, y: sHeight / 1.5 },
+			{ x: sWidth / 3, y: sHeight / 3 },
+			{
+				x: sWidth / 2 - window.innerWidth / 2,
+				y: sHeight / 2 + window.innerHeight / 2.5,
+			},
+			{ x: sWidth / 5, y: sHeight / 5 },
+		];
+		const randomCoords =
+			safeCoords[Math.floor(Math.random() * safeCoords.length)];
+		scrollDiv.scrollTo({
+			top: randomCoords.y,
+			left: randomCoords.x,
+			behavior: "smooth",
+		});
 	};
 
 	return (
