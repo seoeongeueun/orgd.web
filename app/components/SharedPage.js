@@ -80,13 +80,10 @@ export default function SharedPage() {
 		});
 
 		newSocket.on("show_subtext", ({ mainTextId }) => {
-			const newVisibility = !subTextVisibility[mainTextId];
-
-			// 해설을 닫으려는데 현재 100%메세지가 떠있는 경우 메세지를 디폴트로 변경
-			if (!newVisibility && message === 1) setMessage(0);
+			setMessage(0);
 			setSubTextVisibility((prevVisibility) => ({
 				...prevVisibility,
-				[mainTextId]: newVisibility,
+				[mainTextId]: !prevVisibility[mainTextId],
 			}));
 		});
 
@@ -146,6 +143,16 @@ export default function SharedPage() {
 			};
 		}
 	}, [isMain]);
+
+	useEffect(() => {
+		if (
+			Object.values(subTextVisibility).filter(
+				(visibility) => visibility === true
+			).length === texts.length
+		) {
+			setMessage(1);
+		}
+	}, [subTextVisibility]);
 
 	useEffect(() => {
 		let lastSentScrollLeft = 0;
@@ -269,6 +276,10 @@ export default function SharedPage() {
 	const handleMainTextClick = (mainTextId) => {
 		if (showLoading) setShowLoading(false);
 		const newVisibility = !subTextVisibility[mainTextId];
+
+		// 해설을 닫으려는데 현재 100%메세지가 떠있는 경우 메세지를 디폴트로 변경
+		if (!newVisibility && message !== 0) setMessage(0);
+
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
@@ -276,7 +287,7 @@ export default function SharedPage() {
 		}));
 
 		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
-		if (newVisibility) {
+		if (newVisibility && !isMain) {
 			const scrollDiv = document.querySelector("#scroll-div");
 			const subText = texts.find((text) => text.uid === mainTextId)?.subText;
 
@@ -373,6 +384,7 @@ export default function SharedPage() {
 										border: "1px solid red",
 										zIndex: 1000,
 										transition: "all 200ms ease-in-out",
+										pointerEvents: "none",
 									}}
 								/>
 							);
