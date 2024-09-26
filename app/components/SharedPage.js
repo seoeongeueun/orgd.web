@@ -24,7 +24,12 @@ export default function SharedPage() {
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
+	const [message, setMessage] = useState(0);
 	const scaleFactor = 8;
+	const messageList = [
+		"화면을 이동하면서 질문을 터치해보세요",
+		"처음으로 돌아가기",
+	];
 
 	useEffect(() => {
 		let userId = localStorage.getItem("userId");
@@ -243,6 +248,7 @@ export default function SharedPage() {
 					});
 				}
 				setSubTextVisibility(newVisibility);
+				setMessage(1);
 			});
 		}
 	}, [socket, texts]);
@@ -281,55 +287,79 @@ export default function SharedPage() {
 		}
 	};
 
+	const handleRefreshVisibility = () => {
+		socket?.emit("refresh_visibility");
+		setTimeout(() => setMessage(0), 500);
+	};
+
 	return (
-		<div
-			className={`main canvas ${!isMain && "opacity-0 pointer-events-none"}`}
-			style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
-		>
-			<div id="canvas" className="w-full h-full">
-				<button
-					onClick={() => socket.emit("refresh_visibility")}
-					className="fixed right-28 top-4 text-black"
-				>
-					초기화
-				</button>
-				<button
-					onClick={() => socket.emit("enable_all_visibility")}
-					className="fixed right-4 top-4 text-black"
-				>
-					전체 보이기
-				</button>
-				{texts?.length > 0 &&
-					texts.map((text) => (
-						<TextGroup
-							key={text.uid}
-							mainText={text}
-							subText={text?.subText}
-							isVisible={subTextVisibility[text.uid]}
-							onMainTextClick={handleMainTextClick}
-						/>
-					))}
-				{isMain &&
-					Object.keys(userFrames).map((userId) => {
-						const frame = userFrames[userId];
-						return (
-							<div
-								key={userId}
-								style={{
-									position: "absolute",
-									// top: `${frame.scrollTop}px`,
-									// left: `${frame.scrollLeft}px`,
-									transform: `translate(${frame.scrollLeft}px, ${frame.scrollTop}px)`,
-									width: `${frame.scaledWidth}px`,
-									height: `${frame.scaledHeight}px`,
-									border: "1px solid red",
-									zIndex: 1000,
-									transition: "all 200ms ease-in-out",
-								}}
+		<>
+			<div
+				className={`main canvas ${!isMain && "opacity-0 pointer-events-none"}`}
+				style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
+			>
+				<div id="canvas" className="w-full h-full">
+					<button
+						onClick={() => socket.emit("refresh_visibility")}
+						className="fixed right-28 top-4 text-black"
+					>
+						초기화
+					</button>
+					<button
+						onClick={() => socket.emit("enable_all_visibility")}
+						className="fixed right-4 top-4 text-black"
+					>
+						전체 보이기
+					</button>
+					{texts?.length > 0 &&
+						texts.map((text) => (
+							<TextGroup
+								key={text.uid}
+								mainText={text}
+								subText={text?.subText}
+								isVisible={subTextVisibility[text.uid]}
+								onMainTextClick={handleMainTextClick}
 							/>
-						);
-					})}
+						))}
+					{isMain &&
+						Object.keys(userFrames).map((userId) => {
+							const frame = userFrames[userId];
+							return (
+								<div
+									key={userId}
+									style={{
+										position: "absolute",
+										// top: `${frame.scrollTop}px`,
+										// left: `${frame.scrollLeft}px`,
+										transform: `translate(${frame.scrollLeft}px, ${frame.scrollTop}px)`,
+										width: `${frame.scaledWidth}px`,
+										height: `${frame.scaledHeight}px`,
+										border: "1px solid red",
+										zIndex: 1000,
+										transition: "all 200ms ease-in-out",
+									}}
+								/>
+							);
+						})}
+				</div>
 			</div>
-		</div>
+			{texts?.length > 0 && !isMain && (
+				<div className="info-box pointer-events-none fixed top-[40px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center text-info">
+					<p>{`${
+						Object.values(subTextVisibility).filter(
+							(visibility) => visibility === true
+						)?.length
+					} / ${texts.length}`}</p>
+					<p
+						className={`${
+							message === 1 ? "underline cursor-pointer" : ""
+						} underline-offset-[2px] pointer-events-auto`}
+						onClick={() => handleRefreshVisibility()}
+					>
+						{messageList[message]}
+					</p>
+				</div>
+			)}
+		</>
 	);
 }
