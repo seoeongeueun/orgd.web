@@ -24,7 +24,7 @@ export default function SharedPage() {
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
-	const scaleFactor = 10;
+	const scaleFactor = 8;
 
 	useEffect(() => {
 		let userId = localStorage.getItem("userId");
