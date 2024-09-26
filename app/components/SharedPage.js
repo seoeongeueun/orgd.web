@@ -71,7 +71,7 @@ export default function SharedPage() {
 		newSocket.on("show_subtext", ({ mainTextId }) => {
 			setSubTextVisibility((prevVisibility) => ({
 				...prevVisibility,
-				[mainTextId]: true,
+				[mainTextId]: !prevVisibility[mainTextId],
 			}));
 		});
 
@@ -84,7 +84,8 @@ export default function SharedPage() {
 		newSocket.on("disconnect", () => {
 			console.log("Disconnected from WebSocket server");
 			setSocket(null);
-			alert("서버 연결이 끊겼습니다. 관리자에게 문의해주세요.");
+			alert("서버 연결이 끊겼습니다. 연결을 재시도 합니다.") &&
+				window.location.reload();
 		});
 
 		setSocket(newSocket);
@@ -110,7 +111,6 @@ export default function SharedPage() {
 
 	useEffect(() => {
 		const handleResize = () => {
-			console.log("Debounced resize with isMain:", isMain);
 			const windowWidth = document.body.clientWidth;
 			const baseWidth = 1920;
 			if (isMain) {
@@ -258,25 +258,27 @@ export default function SharedPage() {
 		}));
 
 		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
-		const scrollDiv = document.querySelector("#scroll-div");
-		const subText = texts.find((text) => text.uid === mainTextId)?.subText;
+		if (newVisibility) {
+			const scrollDiv = document.querySelector("#scroll-div");
+			const subText = texts.find((text) => text.uid === mainTextId)?.subText;
 
-		if (scrollDiv && subText) {
-			const threshold =
-				Math.abs(subText?.rotation) > 80 && Math.abs(subText?.rotation) < 100
-					? window.innerWidth / 2
-					: 0;
-			if (
-				scrollDiv.scrollLeft <
-					subText.position.x * scale + window.innerWidth - threshold ||
-				scrollDiv.scrollLeft >
-					subText.position.x * scale - window.innerWidth - threshold
-			) {
-				scrollDiv.scrollTo({
-					top: subText.position.y * scale - window.innerHeight / 2,
-					left: subText.position.x * scale + threshold,
-					behavior: "smooth",
-				});
+			if (scrollDiv && subText) {
+				const threshold =
+					Math.abs(subText?.rotation) > 80 && Math.abs(subText?.rotation) < 100
+						? window.innerWidth / 2
+						: 0;
+				if (
+					scrollDiv.scrollLeft <
+						subText.position.x * scale + window.innerWidth - threshold ||
+					scrollDiv.scrollLeft >
+						subText.position.x * scale - window.innerWidth - threshold
+				) {
+					scrollDiv.scrollTo({
+						top: subText.position.y * scale - window.innerHeight / 2,
+						left: subText.position.x * scale + threshold,
+						behavior: "smooth",
+					});
+				}
 			}
 		}
 	};
