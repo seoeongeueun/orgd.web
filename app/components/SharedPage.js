@@ -29,6 +29,7 @@ export default function SharedPage() {
 	const [message, setMessage] = useState(0);
 	const [showLoading, setShowLoading] = useState(true);
 	const [isConnected, setIsConnected] = useState(false);
+	const [subtextCount, setSubtextCount] = useState(0);
 	const scaleFactor = 8;
 	const messageList = [
 		"화면을 이동하면서 질문을 터치해보세요",
@@ -284,6 +285,7 @@ export default function SharedPage() {
 
 		// 해설을 닫으려는데 현재 100%메세지가 떠있는 경우 메세지를 디폴트로 변경
 		if (!newVisibility && message !== 0) setMessage(0);
+		setSubtextCount(newVisibility ? subtextCount + 1 : subtextCount - 1);
 
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
 		setSubTextVisibility((prevVisibility) => ({
@@ -292,24 +294,57 @@ export default function SharedPage() {
 		}));
 
 		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
+		// if (newVisibility && !isMain) {
+		// 	const scrollDiv = document.querySelector("#scroll-div");
+		// 	const subText = texts.find((text) => text.uid === mainTextId)?.subText;
+
+		// 	if (scrollDiv && subText) {
+		// 		const threshold =
+		// 			Math.abs(subText?.rotation) > 80 && Math.abs(subText?.rotation) < 100
+		// 				? window.innerWidth / 2
+		// 				: 0;
+		// 		if (
+		// 			scrollDiv.scrollLeft <
+		// 				subText.position.x * scale + window.innerWidth - threshold ||
+		// 			scrollDiv.scrollLeft >
+		// 				subText.position.x * scale - window.innerWidth - threshold
+		// 		) {
+		// 			scrollDiv.scrollTo({
+		// 				top: subText.position.y * scale - window.innerHeight / 2,
+		// 				left: subText.position.x * scale + threshold,
+		// 				behavior: "smooth",
+		// 			});
+		// 		}
+		// 	}
+		// }
+
+		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
 		if (newVisibility && !isMain) {
 			const scrollDiv = document.querySelector("#scroll-div");
 			const subText = texts.find((text) => text.uid === mainTextId)?.subText;
 
 			if (scrollDiv && subText) {
-				const threshold =
-					Math.abs(subText?.rotation) > 80 && Math.abs(subText?.rotation) < 100
-						? window.innerWidth / 2
-						: 0;
+				const rotation = subText?.rotation;
+				const absRotation = Math.abs(rotation);
+
+				let threshold;
+				if (absRotation > 80 && absRotation < 100) {
+					threshold = window.innerWidth / 2;
+				} else if (absRotation <= 80 || absRotation >= 100) {
+					threshold = window.innerWidth / 4;
+				}
+
+				if (rotation < 0) {
+					threshold = -threshold;
+				}
+
 				if (
-					scrollDiv.scrollLeft <
-						subText.position.x * scale + window.innerWidth - threshold ||
-					scrollDiv.scrollLeft >
-						subText.position.x * scale - window.innerWidth - threshold
+					scrollDiv.scrollLeft < subText.position.x * scale - threshold ||
+					scrollDiv.scrollLeft > subText.position.x * scale - threshold
 				) {
 					scrollDiv.scrollTo({
 						top: subText.position.y * scale - window.innerHeight / 2,
-						left: subText.position.x * scale + threshold,
+						left: subText.position.x * scale - Math.abs(threshold / 2),
 						behavior: "smooth",
 					});
 				}
