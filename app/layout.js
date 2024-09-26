@@ -31,6 +31,7 @@ export default function RootLayout({ children }) {
 
 				<link rel="icon" href="/icons/favicon.ico" type="image/x-icon" />
 				<meta name="theme-color" content="#000000" />
+				<meta name="mobile-web-app-capable" content="yes" />
 				<meta name="apple-mobile-web-app-capable" content="yes" />
 				<meta
 					name="apple-mobile-web-app-status-bar-style"
