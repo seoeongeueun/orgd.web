@@ -74,9 +74,13 @@ export default function SharedPage() {
 		});
 
 		newSocket.on("show_subtext", ({ mainTextId }) => {
+			const newVisibility = !subTextVisibility[mainTextId];
+
+			// 해설을 닫으려는데 현재 100%메세지가 떠있는 경우 메세지를 디폴트로 변경
+			if (!newVisibility && message === 1) setMessage(0);
 			setSubTextVisibility((prevVisibility) => ({
 				...prevVisibility,
-				[mainTextId]: !prevVisibility[mainTextId],
+				[mainTextId]: newVisibility,
 			}));
 		});
 
@@ -87,7 +91,7 @@ export default function SharedPage() {
 		newSocket.on("disconnect", () => {
 			console.log("Disconnected from WebSocket server");
 			setSocket(null);
-			alert("서버 연결이 끊겼습니다. 연결을 재시도 합니다.");
+			alert("서버 연결이 끊어졌습니다. 연결을 재시도 합니다.");
 			window.location.reload();
 		});
 
