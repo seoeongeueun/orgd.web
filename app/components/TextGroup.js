@@ -19,7 +19,7 @@ export default function TextGroup({
 				</p>
 				{subText && isVisible && (
 					<div
-						className={`absolute text-sub text-center ${
+						className={`absolute pointer-events-none text-sub text-center ${
 							subText.background_color.startsWith("light")
 								? "bg-sub-light"
 								: "bg-sub-dark"
