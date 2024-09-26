@@ -76,16 +76,14 @@ export default function SharedPage() {
 		});
 
 		newSocket.on("connection_limit_exceeded", () => {
-			alert(
-				"연결 가능한 인원을 초과했습니다. 오프라인 상태로, 변경 사항이 적용되지 않습니다."
-			);
+			alert("연결 가능한 인원을 초과했습니다. 나중에 다시 시도해주세요.");
 		});
 
 		newSocket.on("disconnect", () => {
 			console.log("Disconnected from WebSocket server");
 			setSocket(null);
-			alert("서버 연결이 끊겼습니다. 연결을 재시도 합니다.") &&
-				window.location.reload();
+			alert("서버 연결이 끊겼습니다. 연결을 재시도 합니다.");
+			window.location.reload();
 		});
 
 		setSocket(newSocket);
