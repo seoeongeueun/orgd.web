@@ -4,6 +4,8 @@ import { io } from "socket.io-client";
 import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 import { apiRequest } from "../utils/tools";
+import Image from "next/image";
+import { set } from "mongoose";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -25,6 +27,8 @@ export default function SharedPage() {
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
 	const [message, setMessage] = useState(0);
+	const [showLoading, setShowLoading] = useState(true);
+	const [isConnected, setIsConnected] = useState(false);
 	const scaleFactor = 8;
 	const messageList = [
 		"화면을 이동하면서 질문을 터치해보세요",
@@ -58,10 +62,12 @@ export default function SharedPage() {
 
 		newSocket.on("connect", () => {
 			console.log("Connected to WebSocket server");
+			setIsConnected(true);
 		});
 
 		newSocket.on("connect_error", (error) => {
 			console.error("Connection error:", error);
+			setIsConnected(false);
 		});
 
 		// 현재 활성화된 서브 텍스트가 있는지 받아옴
@@ -85,12 +91,14 @@ export default function SharedPage() {
 		});
 
 		newSocket.on("connection_limit_exceeded", () => {
+			setIsConnected(false);
 			alert("연결 가능한 인원을 초과했습니다. 나중에 다시 시도해주세요.");
 		});
 
 		newSocket.on("disconnect", () => {
 			console.log("Disconnected from WebSocket server");
 			setSocket(null);
+			setIsConnected(false);
 			alert("서버 연결이 끊어졌습니다. 연결을 재시도 합니다.");
 			window.location.reload();
 		});
@@ -159,6 +167,7 @@ export default function SharedPage() {
 				const deltaY = Math.abs(scrollTop - lastSentScrollTop);
 
 				if (deltaX > scrollThreshold || deltaY > scrollThreshold) {
+					if (!isMain && isConnected && showLoading) setShowLoading(false);
 					lastSentScrollLeft = scrollLeft;
 					lastSentScrollTop = scrollTop;
 
@@ -206,7 +215,7 @@ export default function SharedPage() {
 			}
 			clearTimeout(debounceTimer);
 		};
-	}, [isMain, scaleFactor, socket]);
+	}, [isMain, scaleFactor, socket, isConnected]);
 
 	useEffect(() => {
 		if (isMain && socket) {
@@ -258,6 +267,7 @@ export default function SharedPage() {
 	}, [socket, texts]);
 
 	const handleMainTextClick = (mainTextId) => {
+		if (showLoading) setShowLoading(false);
 		const newVisibility = !subTextVisibility[mainTextId];
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
 		setSubTextVisibility((prevVisibility) => ({
@@ -369,8 +379,24 @@ export default function SharedPage() {
 						})}
 				</div>
 			</div>
+			{!isMain && (
+				<div
+					className={`fixed ${
+						showLoading ? "animate-fade-in" : "animate-fade-out"
+					} duration-300 top-0 left-0 pointer-events-none w-full h-full bg-loading-white px-[174.78px] py-[285.8px]`}
+				>
+					<Image
+						src="/logo.svg"
+						alt="logo"
+						width={1000}
+						height={1000}
+						layout="intrinsic"
+						className="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+					/>
+				</div>
+			)}
 			{texts?.length > 0 && !isMain && (
-				<div className="info-box pointer-events-none fixed top-[40px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center text-info">
+				<div className="info-box animate-fade-in z-[999] pointer-events-none fixed top-[40px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center text-info">
 					<p>{`${
 						Object.values(subTextVisibility).filter(
 							(visibility) => visibility === true
