@@ -148,11 +148,12 @@ export default function SharedPage() {
 		if (
 			Object.values(subTextVisibility).filter(
 				(visibility) => visibility === true
-			).length === texts.length
+			).length === texts?.length &&
+			texts?.length > 0
 		) {
 			setMessage(1);
 		}
-	}, [subTextVisibility]);
+	}, [subTextVisibility, texts]);
 
 	useEffect(() => {
 		let lastSentScrollLeft = 0;
