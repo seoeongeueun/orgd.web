@@ -211,8 +211,12 @@ export default function SharedPage() {
 
 		const scrollDiv = document.querySelector("#scroll-div");
 		if (scrollDiv && !isMain) {
-			scrollDiv.addEventListener("scroll", handleViewportUpdate);
-			scrollDiv.addEventListener("touchmove", handleViewportUpdate);
+			scrollDiv.addEventListener("scroll", handleViewportUpdate, {
+				passive: true,
+			});
+			scrollDiv.addEventListener("touchmove", handleViewportUpdate, {
+				passive: true,
+			});
 		}
 
 		return () => {
@@ -402,8 +406,8 @@ export default function SharedPage() {
 						alt="logo"
 						width={1000}
 						height={1000}
-						layout="intrinsic"
 						className="relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+						priority
 					/>
 				</div>
 			)}
