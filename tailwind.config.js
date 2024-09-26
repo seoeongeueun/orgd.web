@@ -15,6 +15,7 @@ module.exports = {
 			fontSize: {
 				main: "6px",
 				sub: "5px",
+				info: "12px",
 			},
 			textColor: {
 				main: "#000000",
@@ -29,6 +30,7 @@ module.exports = {
 				"theme-gray": "rgb(204,204,204)",
 				"sub-light": "var(--sub-light)",
 				"sub-dark": "var(--sub-dark)",
+				info: "#333",
 			},
 			fontFamily: {
 				global: ["pretendard", "sans-serif"],
