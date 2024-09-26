@@ -127,7 +127,8 @@ export default function SharedPage() {
 			const windowWidth = document.body.clientWidth;
 			const baseWidth = 1920;
 			if (isMain) {
-				setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
+				//setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
+				setScale(windowWidth / baseWidth);
 			} else {
 				setScale(scaleFactor);
 			}
@@ -380,7 +381,10 @@ export default function SharedPage() {
 	};
 
 	return (
-		<>
+		<div
+			id="scroll-div"
+			className={`w-full h-full ${!isMain && "overflow-auto"}`}
+		>
 			<div
 				className={`main canvas ${!isMain && "opacity-0 pointer-events-none"}`}
 				style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
@@ -464,6 +468,6 @@ export default function SharedPage() {
 					</p>
 				</div>
 			)}
-		</>
+		</div>
 	);
 }

@@ -40,7 +40,8 @@ export default function EditPage() {
 			const windowWidth = window.innerWidth;
 			const baseWidth = 1920;
 			console.log("Window Width:", windowWidth);
-			setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
+			//setScale(windowWidth < baseWidth ? windowWidth / baseWidth : 1);
+			setScale(windowWidth / baseWidth);
 		}, 100);
 
 		handleResize();
@@ -252,7 +253,6 @@ export default function EditPage() {
 				height: "1080px",
 				transform: `scale(${scale})`,
 				transformOrigin: "top left",
-				margin: "0 auto",
 				position: "relative",
 			}}
 		>
