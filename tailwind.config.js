@@ -31,9 +31,14 @@ module.exports = {
 				"sub-light": "var(--sub-light)",
 				"sub-dark": "var(--sub-dark)",
 				info: "#333",
+				"loading-white": "rgba(255,255,255,0.8)",
 			},
 			fontFamily: {
 				global: ["pretendard", "sans-serif"],
+			},
+			animation: {
+				"fade-in": "fadeIn 0.5s ease-in-out forwards",
+				"fade-out": "fadeOut 0.5s ease-in-out forwards",
 			},
 		},
 	},
