@@ -256,6 +256,29 @@ export default function SharedPage() {
 			...prevVisibility,
 			[mainTextId]: newVisibility,
 		}));
+
+		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
+		const scrollDiv = document.querySelector("#scroll-div");
+		const subText = texts.find((text) => text.uid === mainTextId)?.subText;
+
+		if (scrollDiv && subText) {
+			const threshold =
+				Math.abs(subText?.rotation) > 80 && Math.abs(subText?.rotation) < 100
+					? window.innerWidth / 2
+					: 0;
+			if (
+				scrollDiv.scrollLeft <
+					subText.position.x * scale + window.innerWidth - threshold ||
+				scrollDiv.scrollLeft >
+					subText.position.x * scale - window.innerWidth - threshold
+			) {
+				scrollDiv.scrollTo({
+					top: subText.position.y * scale - window.innerHeight / 2,
+					left: subText.position.x * scale + threshold,
+					behavior: "smooth",
+				});
+			}
+		}
 	};
 
 	return (
