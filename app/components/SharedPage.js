@@ -386,7 +386,7 @@ export default function SharedPage() {
 					} duration-300 top-0 left-0 pointer-events-none w-full h-full bg-loading-white px-[174.78px] py-[285.8px]`}
 				>
 					<Image
-						src="/logo.svg"
+						src="/minorquestions.svg"
 						alt="logo"
 						width={1000}
 						height={1000}
