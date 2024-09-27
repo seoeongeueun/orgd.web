@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 import { apiRequest } from "../utils/tools";
 import Image from "next/image";
+import { Play } from "next/font/google";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -35,9 +36,19 @@ export default function SharedPage() {
 		"처음으로 돌아가기",
 	];
 	const ALL_DARK_COUNT = 57; // 전체 다크 텍스트 개수
-	const audio = new Audio("/audio/mixkit-toy-drums.wav");
+	const audioRef = useRef(null);
+
+	const playAudio = () => {
+		if (audioRef.current) {
+			audioRef.current.play();
+		}
+	};
 
 	useEffect(() => {
+		if (typeof window !== "undefined") {
+			audioRef.current = new Audio("/audio/mixkit-toy-drums.wav");
+		}
+
 		let userId = localStorage.getItem("userId");
 		if (!userId) {
 			userId = Math.random().toString(36).substring(2);
@@ -316,7 +327,7 @@ export default function SharedPage() {
 				subTextVisibility[text.uid] && text.subText.background_color === "dark"
 		).length;
 		if (newVisibility && darkCount + 1 === ALL_DARK_COUNT) {
-			audio.play();
+			playAudio();
 			socket?.emit("enable_all_visibility");
 		}
 
