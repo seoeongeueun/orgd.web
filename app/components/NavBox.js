@@ -181,12 +181,12 @@ export default function NavBox() {
 		>
 			<div
 				ref={nodeRef}
-				className="fixed w-nav-width z-[99] cursor-move h-fit flex flex-col gap-2 opacity-80 text-black"
+				className="fixed w-nav-width lg:w-[27rem] lg:text-nav-md z-[99] cursor-move h-fit flex flex-col gap-2 opacity-80 text-black"
 			>
-				<div className="flex flex-row justify-between items-center text-sm">
-					<div className="flex flex-row gap-1">
+				<div className="flex flex-row justify-between items-center text-sm lg:text-nav-sm">
+					<div className="flex flex-row gap-1 items-center">
 						<button
-							className="bg-theme-gray px-2 rounded-sm"
+							className="bg-theme-gray px-2 lg:py-1 rounded-sm"
 							onClick={() => handleModeChange(mode === "main" ? "sub" : "main")}
 						>
 							{mode === "main" ? "메인" : "해설"}
@@ -207,10 +207,10 @@ export default function NavBox() {
 					<div
 						className={`nav-edit h-fit flex flex-col gap-4 justify-start px-4 ${
 							isMinimized ? "py-2" : "py-4"
-						} border border-theme-gray rounded-md bg-white text-black`}
+						} lg:p-6 border border-theme-gray rounded-md bg-white text-black`}
 					>
-						<div className="flex flex-col justify-end items-start gap-2">
-							<h1 className="text-xl mr-auto">텍스트 수정</h1>
+						<div className="flex flex-col justify-end items-start gap-6">
+							<h1 className="text-xl lg:text-nav-lg mr-auto">텍스트 수정</h1>
 							<div className="flex flex-col w-full gap-4">
 								{/* <label>
 									모드
@@ -337,11 +337,14 @@ export default function NavBox() {
 				) : (
 					<div
 						className={`h-fit flex flex-col gap-4 justify-start px-4 ${
-							isMinimized ? "py-2" : "py-4"
+							isMinimized ? "py-2 lg:py-4" : "py-4 lg:py-6"
 						} border border-theme-gray rounded-md bg-white text-black`}
 					>
 						<div className="flex flex-row justify-end items-center gap-2">
-							<h1 className="text-xl mr-auto" onClick={handleNavMode}>
+							<h1
+								className="text-xl lg:text-nav-lg mr-auto"
+								onClick={handleNavMode}
+							>
 								{navMode === "default" ? "텍스트 등록" : "뷰 설정"}
 							</h1>
 							<div className="flex flex-row justify-between items-center gap-2">

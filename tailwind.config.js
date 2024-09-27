@@ -16,6 +16,10 @@ module.exports = {
 				main: "6px",
 				sub: "5px",
 				info: "12px",
+				"nav-sm": "1.2rem",
+				"nav-md": "1.4rem",
+				"nav-lg": "1.6rem",
+				"nav-xl": "2rem",
 			},
 			textColor: {
 				main: "#000000",
@@ -39,6 +43,9 @@ module.exports = {
 			animation: {
 				"fade-in": "fadeIn 0.5s ease-in-out forwards",
 				"fade-out": "fadeOut 0.5s ease-in-out forwards",
+			},
+			screens: {
+				lg: "2500px",
 			},
 		},
 	},

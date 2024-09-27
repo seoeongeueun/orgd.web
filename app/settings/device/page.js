@@ -95,11 +95,13 @@ export default function Page() {
 
 	return (
 		<div className="w-full h-full flex flex-col items-center justify-center">
-			{message && <p className="mb-10 text-black text-xl">{message}</p>}
+			{message && (
+				<p className="mb-10 text-black text-xl lg:text-nav-xl">{message}</p>
+			)}
 
-			<div className="flex flex-row items-start justify-center gap-20">
-				<div className="flex flex-col gap-8 w-56 text-center">
-					<div className="flex flex-col gap-2 text-center nav-input !p-4 rounded-sm w-56">
+			<div className="flex flex-row items-start justify-center gap-20 lg:text-nav-md">
+				<div className="flex flex-col gap-8 w-56 lg:w-96 text-center">
+					<div className="flex flex-col gap-2 text-center nav-input !p-4 rounded-sm w-full">
 						<h2>
 							연결된 기기
 							{` ${connections.count} / ${connections.max}`}
@@ -107,18 +109,18 @@ export default function Page() {
 						<p>접속한 메인 기기 {connections.main}</p>
 					</div>
 
-					<div className="flex flex-row justify-between items-center gap-2 w-56">
+					<div className="flex flex-row justify-start items-center gap-2 w-full">
 						<label htmlFor="is-main-device">메인 기기입니다</label>
 						<input type="checkbox" id="is-main-device" name="is-main-device" />
 						<button
 							type="submit"
-							className="btn-gray ml-4"
+							className="btn-gray ml-auto"
 							onClick={handleRegister}
 						>
 							등록
 						</button>
 					</div>
-					<div className="flex flex-row gap-2 text-center w-56">
+					<div className="flex flex-row gap-2 text-center w-full">
 						<Link href="/" className="btn-gray w-full">
 							홈으로
 						</Link>
@@ -127,7 +129,7 @@ export default function Page() {
 						</Link>
 					</div>
 				</div>
-				<div className="flex flex-col gap-4 justify-center items-center w-62">
+				<div className="flex flex-col gap-4 justify-center items-center w-62 lg:w-96">
 					<h1 className="flex flex-row items-center gap-1">
 						<Image src="/icons/alert.svg" width={12} height={12} alt="alert" />
 						사용시 주의 - 전시 화면에 영향이 갑니다
