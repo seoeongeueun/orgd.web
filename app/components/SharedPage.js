@@ -326,9 +326,16 @@ export default function SharedPage() {
 			(text) =>
 				subTextVisibility[text.uid] && text.subText.background_color === "dark"
 		).length;
+
 		if (newVisibility && darkCount + 1 === ALL_DARK_COUNT) {
-			playAudio();
-			socket?.emit("enable_all_visibility");
+			const currentSubText = texts.find(
+				(text) => text.uid === mainTextId
+			)?.subText;
+
+			if (currentSubText?.background_color === "dark") {
+				playAudio();
+				socket?.emit("enable_all_visibility");
+			}
 		}
 
 		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
