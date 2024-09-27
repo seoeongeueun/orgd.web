@@ -57,7 +57,6 @@ export default function Page() {
 	}, []);
 
 	const handleDrop = async () => {
-		//confirm("작업 중인 기능입니다. 근데 왜 누르셨는지 궁금합니다 👀");
 		if (confirm("정말 모든 연결을 끊으시겠습니까?")) {
 			setMessage("모든 연결을 해제 중...");
 			try {
