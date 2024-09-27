@@ -5,7 +5,6 @@ import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 import { apiRequest } from "../utils/tools";
 import Image from "next/image";
-import { set } from "mongoose";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -29,12 +28,14 @@ export default function SharedPage() {
 	const [message, setMessage] = useState(0);
 	const [showLoading, setShowLoading] = useState(true);
 	const [isConnected, setIsConnected] = useState(false);
-	const [subtextCount, setSubtextCount] = useState(0);
+	const [darkCount, setDarkCount] = useState(0); // 전체 오픈된 다크 해설 텍스트 개수
 	const scaleFactor = 8;
 	const messageList = [
 		"화면을 이동하면서 질문을 터치해보세요",
 		"처음으로 돌아가기",
 	];
+	const ALL_DARK_COUNT = 57; // 전체 다크 텍스트 개수
+	const audio = new Audio("/audio/mixkit-toy-drums.wav");
 
 	useEffect(() => {
 		let userId = localStorage.getItem("userId");
@@ -78,6 +79,7 @@ export default function SharedPage() {
 
 		newSocket.on("refresh_visibility", () => {
 			setSubTextVisibility({});
+			setDarkCount(0);
 		});
 
 		newSocket.on("show_subtext", ({ mainTextId }) => {
@@ -123,6 +125,32 @@ export default function SharedPage() {
 	}, []);
 
 	useEffect(() => {
+		if (Object.keys(subTextVisibility)?.length > 0 && texts?.length > 0) {
+			const darkCount = texts?.filter(
+				(text) =>
+					subTextVisibility[text.uid] &&
+					text.subText.background_color === "dark"
+			).length;
+			setDarkCount(darkCount);
+
+			if (
+				Object.values(subTextVisibility).filter(
+					(visibility) => visibility === true
+				).length === texts?.length &&
+				texts?.length > 0
+			) {
+				setMessage(1);
+			}
+		}
+	}, [subTextVisibility, texts]);
+
+	// useEffect(() => {
+	// 	if (darkCount === ALL_DARK_COUNT && socket) {
+	// 		socket?.emit("enable_all_visibility");
+	// 	}
+	// }, [darkCount]);
+
+	useEffect(() => {
 		const handleResize = () => {
 			const windowWidth = document.body.clientWidth;
 			const baseWidth = 1920;
@@ -145,17 +173,6 @@ export default function SharedPage() {
 			};
 		}
 	}, [isMain]);
-
-	useEffect(() => {
-		if (
-			Object.values(subTextVisibility).filter(
-				(visibility) => visibility === true
-			).length === texts?.length &&
-			texts?.length > 0
-		) {
-			setMessage(1);
-		}
-	}, [subTextVisibility, texts]);
 
 	useEffect(() => {
 		let lastSentScrollLeft = 0;
@@ -276,6 +293,7 @@ export default function SharedPage() {
 				}
 				setSubTextVisibility(newVisibility);
 				setMessage(1);
+				setDarkCount(ALL_DARK_COUNT);
 			});
 		}
 	}, [socket, texts]);
@@ -286,13 +304,21 @@ export default function SharedPage() {
 
 		// 해설을 닫으려는데 현재 100%메세지가 떠있는 경우 메세지를 디폴트로 변경
 		if (!newVisibility && message !== 0) setMessage(0);
-		setSubtextCount(newVisibility ? subtextCount + 1 : subtextCount - 1);
 
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
 			[mainTextId]: newVisibility,
 		}));
+
+		const darkCount = texts?.filter(
+			(text) =>
+				subTextVisibility[text.uid] && text.subText.background_color === "dark"
+		).length;
+		if (newVisibility && darkCount + 1 === ALL_DARK_COUNT) {
+			audio.play();
+			socket?.emit("enable_all_visibility");
+		}
 
 		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
 		// if (newVisibility && !isMain) {
@@ -453,11 +479,14 @@ export default function SharedPage() {
 			)}
 			{texts?.length > 0 && !isMain && (
 				<div className="info-box animate-fade-in z-[999] pointer-events-none fixed top-[40px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center text-info">
-					<p>{`${
-						Object.values(subTextVisibility).filter(
-							(visibility) => visibility === true
-						)?.length
-					} / ${texts.length}`}</p>
+					<div className="flex flex-row items-center gap-2">
+						<p>{`${
+							Object.values(subTextVisibility).filter(
+								(visibility) => visibility === true
+							)?.length
+						} / ${texts.length}`}</p>
+						<p>{`${((darkCount / ALL_DARK_COUNT) * 100).toFixed(0)}%`}</p>
+					</div>
 					<p
 						className={`${
 							message === 1 ? "underline cursor-pointer" : ""
