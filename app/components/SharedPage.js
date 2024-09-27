@@ -1,11 +1,10 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
 import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 import { apiRequest } from "../utils/tools";
 import Image from "next/image";
-import { Play } from "next/font/google";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -38,11 +37,11 @@ export default function SharedPage() {
 	const ALL_DARK_COUNT = 57; // 전체 다크 텍스트 개수
 	const audioRef = useRef(null);
 
-	const playAudio = () => {
+	const playAudio = useCallback(() => {
 		if (audioRef.current) {
 			audioRef.current.play();
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -155,12 +154,6 @@ export default function SharedPage() {
 		}
 	}, [subTextVisibility, texts]);
 
-	// useEffect(() => {
-	// 	if (darkCount === ALL_DARK_COUNT && socket) {
-	// 		socket?.emit("enable_all_visibility");
-	// 	}
-	// }, [darkCount]);
-
 	useEffect(() => {
 		const handleResize = () => {
 			const windowWidth = document.body.clientWidth;
@@ -266,7 +259,7 @@ export default function SharedPage() {
 			};
 
 			socket.on("update_viewport_frames", handleUpdateViewportFrames);
-			socket.on("initial_frame", handleUpdateViewportFrames);
+			socket.on("initial_frames", handleUpdateViewportFrames);
 
 			return () => {
 				socket.off("update_viewport_frames", handleUpdateViewportFrames);
@@ -337,31 +330,6 @@ export default function SharedPage() {
 				socket?.emit("enable_all_visibility");
 			}
 		}
-
-		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
-		// if (newVisibility && !isMain) {
-		// 	const scrollDiv = document.querySelector("#scroll-div");
-		// 	const subText = texts.find((text) => text.uid === mainTextId)?.subText;
-
-		// 	if (scrollDiv && subText) {
-		// 		const threshold =
-		// 			Math.abs(subText?.rotation) > 80 && Math.abs(subText?.rotation) < 100
-		// 				? window.innerWidth / 2
-		// 				: 0;
-		// 		if (
-		// 			scrollDiv.scrollLeft <
-		// 				subText.position.x * scale + window.innerWidth - threshold ||
-		// 			scrollDiv.scrollLeft >
-		// 				subText.position.x * scale - window.innerWidth - threshold
-		// 		) {
-		// 			scrollDiv.scrollTo({
-		// 				top: subText.position.y * scale - window.innerHeight / 2,
-		// 				left: subText.position.x * scale + threshold,
-		// 				behavior: "smooth",
-		// 			});
-		// 		}
-		// 	}
-		// }
 
 		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
 		if (newVisibility && !isMain) {
@@ -441,7 +409,10 @@ export default function SharedPage() {
 						초기화
 					</button>
 					<button
-						onClick={() => socket.emit("enable_all_visibility")}
+						onClick={() => {
+							socket.emit("enable_all_visibility");
+							playAudio();
+						}}
 						className="fixed right-4 top-4 text-black"
 					>
 						전체 보이기
