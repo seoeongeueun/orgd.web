@@ -5,10 +5,12 @@ export async function POST(req) {
 	try {
 		await verifyToken(req);
 
+		const authorization = req.headers.get("Authorization");
 		const response = await fetch(`https://${process.env.SERVER_URL}api/drop`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
+				Authorization: authorization,
 			},
 		});
 		if (!response.ok) {
