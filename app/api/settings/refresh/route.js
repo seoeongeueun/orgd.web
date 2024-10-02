@@ -14,6 +14,7 @@ export async function POST(req) {
 					"Content-Type": "application/json",
 					Authorization: authorization,
 				},
+				body: await req.text(),
 			}
 		);
 		if (!response.ok) {
