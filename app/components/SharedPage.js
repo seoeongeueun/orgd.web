@@ -434,13 +434,26 @@ export default function SharedPage() {
 					threshold = -threshold;
 				}
 
-				if (
-					scrollDiv.scrollLeft < subText.position.x * scale - threshold ||
-					scrollDiv.scrollLeft > subText.position.x * scale - threshold
-				) {
+				const text = document.querySelector(`#subtext-${subText.uid}`);
+				const width = text?.clientWidth || 0;
+
+				/* 이동 로직
+					1. 현재 scrollLeft 값이 해설의 시작 x좌표 + 해설 텍스트의 너비 / 2 보다 큰 경우 (해설이 반절 이상 화면에 안 들어오는 경우)
+					2. 현재 scrollLeft + 화면의 반 값이 해설의 x좌표 + 해설 텍스트의 너비 보다 작은 경우 (해설의 끝 영역이 화면의 중앙 근처에 오지 않는 경우)
+					3. 현재 scrollTop 값 + 화면 높이가 해설의 시작 y좌표 + 해설 텍스트의 높이 / 2 보다 큰 경우 (해설이 화면보다 밑에 있는 경우)
+					4. 현재 scrollTop 값 + 해설 높이 / 2가 해설의 시작 y좌표 보다 작은 경우 (해설이 화면보다 위에 있는 경우)
+				*/
+				const TEXT_HEIGHT = 200; // 최대 200을 넘지 않음
+
+				const d1 = subText.position.x * scale + width / 2 > scrollDiv.scrollLeft + window.innerWidth / 2;
+				const d2 = subText.position.x * scale + width < scrollDiv.scrollLeft;
+				const d3 = subText.position.y * scale + TEXT_HEIGHT / 2 > scrollDiv.scrollTop + window.innerHeight;
+				const d4 = subText.position.y * scale < scrollDiv.scrollTop + TEXT_HEIGHT / 2;
+				
+				if (d1 || d2 || d3 || d4) {
 					scrollDiv.scrollTo({
-						top: subText.position.y * scale - window.innerHeight / 2,
-						left: subText.position.x * scale - Math.abs(threshold / 2),
+						left: d1 || d2 ? subText.position.x * scale - Math.abs(threshold / 1.5): scrollDiv.scrollLeft,
+						top: d3 || d4 ? subText.position.y * scale - window.innerHeight / 2 : scrollDiv.scrollTop,
 						behavior: "smooth",
 					});
 				}
