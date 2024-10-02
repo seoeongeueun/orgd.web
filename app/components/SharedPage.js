@@ -38,7 +38,7 @@ export default function SharedPage() {
 	const [darkCount, setDarkCount] = useState(0); // 전체 오픈된 다크 해설 텍스트 개수
 	const [lightCount, setLightCount] = useState(0); // 전체 오픈된 라이트 해설 텍스트 개수
 
-	const scaleFactor = 8;
+	const scaleFactor = 6;
 	const messageList = [
 		"화면을 이동하면서 질문을 터치해보세요",
 		"처음으로 돌아가기",
