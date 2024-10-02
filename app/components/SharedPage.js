@@ -55,9 +55,19 @@ export default function SharedPage() {
 
 	const playAudio = useCallback(() => {
 		if (audioRef.current) {
-			audioRef.current.play();
+		  if (audioRef.current.paused) {
+			audioRef.current
+			  .play()
+			  .then(() => {
+				console.log("Audio playback started successfully.");
+			  })
+			  .catch((error) => {
+				console.error("Audio playback failed:", error);
+			  });
+		  }
 		}
-	}, []);
+	  }, []);
+	  
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -397,7 +407,7 @@ export default function SharedPage() {
 		if (!newVisibility && message !== 0) setMessage(0);
 
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
-		//playAudio();
+		playAudio();
 
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
