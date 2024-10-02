@@ -17,14 +17,17 @@ export default function TextGroup({
 				>
 					{mainText.text}
 				</p>
-				{subText && isVisible && (
+				{subText && (
 					<div
 						className={`absolute pointer-events-none text-sub text-center ${
 							subText.background_color.startsWith("light")
 								? "bg-sub-light"
 								: "bg-sub-dark"
 						}`}
+						id={`subtext-${subText.uid}`}
 						style={{
+							visibility: isVisible ? "visible" : "hidden",
+							height: !isVisible ? 0 : "auto",
 							left: subText.position?.x,
 							top: subText.position?.y,
 							transform: `rotate(${subText.rotation || 0}deg)`,
