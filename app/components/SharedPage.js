@@ -41,7 +41,7 @@ export default function SharedPage() {
 
 	const scaleFactor = 6;
 	const messageList = [
-		"화면을 이동하면서 질문을 터치해보세요",
+		"화면을 이동하면서 질문을 터치해보세요.",
 		"처음으로 돌아가기",
 	];
 	const ALL_DARK_COUNT = 57; // 전체 다크 텍스트 개수
@@ -166,27 +166,6 @@ export default function SharedPage() {
 			};
 		  }
 	}, [isMain, showLoading, isConnected]);
-	  
-
-	// useEffect(() => {
-	// 	if (Object.keys(subTextVisibility)?.length > 0 && texts?.length > 0) {
-	// 		const darkCount = texts?.filter(
-	// 			(text) =>
-	// 				subTextVisibility[text.uid] &&
-	// 				text.subText.background_color === "dark"
-	// 		).length;
-	// 		setDarkCount(darkCount);
-
-	// 		if (
-	// 			Object.values(subTextVisibility).filter(
-	// 				(visibility) => visibility === true
-	// 			).length === texts?.length &&
-	// 			texts?.length > 0
-	// 		) {
-	// 			setMessage(1);
-	// 		}
-	// 	}
-	// }, [subTextVisibility, texts]);
 
 	useEffect(() => {
 		if (!subTextVisibility || !texts || texts.length === 0) return;
@@ -413,26 +392,11 @@ export default function SharedPage() {
 
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
 		playAudio();
+
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
 			[mainTextId]: newVisibility,
 		}));
-
-		// const darkCount = texts?.filter(
-		// 	(text) =>
-		// 		subTextVisibility[text.uid] && text.subText.background_color === "dark"
-		// ).length;
-
-		// if (newVisibility && darkCount + 1 === ALL_DARK_COUNT) {
-		// 	const currentSubText = texts.find(
-		// 		(text) => text.uid === mainTextId
-		// 	)?.subText;
-
-		// 	if (currentSubText?.background_color === "dark") {
-		// 		playAudio();
-		// 		socket?.emit("enable_all_visibility");
-		// 	}
-		// }
 
 		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
 		if (newVisibility && !isMain) {
@@ -571,15 +535,12 @@ export default function SharedPage() {
 				</div>
 			)}
 			{texts?.length > 0 && !isMain && (
-				<div className="info-box animate-fade-in z-[999] pointer-events-none fixed top-[40px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center text-info">
-					<div className="flex flex-row items-center gap-2">
-						<p>{`${
+				<div className="info-box min-w-[280px] animate-fade-in z-[999] pointer-events-none fixed top-[40px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center text-info">
+					<p>{`${
 							Object.values(subTextVisibility).filter(
 								(visibility) => visibility === true
 							)?.length
 						} / ${texts.length}`}</p>
-						<p>{`${((darkCount / ALL_DARK_COUNT) * 100).toFixed(0)}%`}</p>
-					</div>
 					<p
 						className={`${
 							message === 1 ? "underline cursor-pointer" : ""
