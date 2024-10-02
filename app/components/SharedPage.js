@@ -28,6 +28,7 @@ export default function SharedPage() {
 	const [socket, setSocket] = useState(null);
 	const [isMain, setIsMain] = useState(true);
 	const [texts, setTexts] = useState([]);
+	const [uids, setUids] = useState({ "dark": [], "light": [] }); // 서브 텍스트 컬러별 메인 텍스트의 uid
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
@@ -35,7 +36,8 @@ export default function SharedPage() {
 	const [showLoading, setShowLoading] = useState(true);
 	const [isConnected, setIsConnected] = useState(false);
 	const [darkCount, setDarkCount] = useState(0); // 전체 오픈된 다크 해설 텍스트 개수
-	const [uids, setUids] = useState({ "dark": [], "light": [] }); // 서브 텍스트 컬러별 메인 텍스트의 uid
+	const [lightCount, setLightCount] = useState(0); // 전체 오픈된 라이트 해설 텍스트 개수
+
 	const scaleFactor = 8;
 	const messageList = [
 		"화면을 이동하면서 질문을 터치해보세요",
@@ -44,8 +46,11 @@ export default function SharedPage() {
 	const ALL_DARK_COUNT = 57; // 전체 다크 텍스트 개수
 	const START_DARK_COUNT = 5; // 초기 다크 텍스트 개수
 	const START_LIGHT_COUNT = 10; // 초기 라이트 텍스트 개수
+	const END_DARK_COUNT = 54; // 완성 기준 다크 텍스트 개수
+	const END_LIGHT_COUNT = 37; // 완성 기준 라이트 텍스트 개수
 
 	const audioRef = useRef(null);
+	const timerRef = useRef(null);
 
 	const playAudio = useCallback(() => {
 		if (audioRef.current) {
@@ -55,7 +60,7 @@ export default function SharedPage() {
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
-			audioRef.current = new Audio("/audio/mixkit-toy-drums.wav");
+			audioRef.current = new Audio("/audio/mixkit-typewriter-click.wav");
 		}
 
 		let userId = localStorage.getItem("userId");
@@ -102,6 +107,7 @@ export default function SharedPage() {
 		newSocket.on("refresh_visibility", (subTextVisibility) => {
 			setSubTextVisibility(subTextVisibility);
 			setDarkCount(START_DARK_COUNT);
+			setLightCount(START_LIGHT_COUNT);
 		});
 
 		newSocket.on("show_subtext", ({ mainTextId }) => {
@@ -146,25 +152,60 @@ export default function SharedPage() {
 		};
 	}, []);
 
-	useEffect(() => {
-		if (Object.keys(subTextVisibility)?.length > 0 && texts?.length > 0) {
-			const darkCount = texts?.filter(
-				(text) =>
-					subTextVisibility[text.uid] &&
-					text.subText.background_color === "dark"
-			).length;
-			setDarkCount(darkCount);
+	// useEffect(() => {
+	// 	if (Object.keys(subTextVisibility)?.length > 0 && texts?.length > 0) {
+	// 		const darkCount = texts?.filter(
+	// 			(text) =>
+	// 				subTextVisibility[text.uid] &&
+	// 				text.subText.background_color === "dark"
+	// 		).length;
+	// 		setDarkCount(darkCount);
 
-			if (
-				Object.values(subTextVisibility).filter(
-					(visibility) => visibility === true
-				).length === texts?.length &&
-				texts?.length > 0
-			) {
-				setMessage(1);
+	// 		if (
+	// 			Object.values(subTextVisibility).filter(
+	// 				(visibility) => visibility === true
+	// 			).length === texts?.length &&
+	// 			texts?.length > 0
+	// 		) {
+	// 			setMessage(1);
+	// 		}
+	// 	}
+	// }, [subTextVisibility, texts]);
+
+	useEffect(() => {
+		if (!subTextVisibility || !texts || texts.length === 0) return;
+	
+		let darkCount = 0;
+		let visibleCount = 0;
+	
+		texts.forEach((text) => {
+			if (subTextVisibility[text.uid]) {
+				visibleCount++;
+				if (text.subText.background_color === "dark") {
+					darkCount++;
+				}
 			}
+		});
+	
+		setDarkCount(darkCount);
+		setLightCount(visibleCount - darkCount);
+	
+		if (visibleCount === texts.length) {
+			setMessage(1);
 		}
 	}, [subTextVisibility, texts]);
+
+	useEffect(() => {
+		if (darkCount >= END_DARK_COUNT && lightCount >= END_LIGHT_COUNT && socket && isMain) {
+			console.log("almost done!")
+			// 거의 완성 되었는데 10분간 아무런 소켓 트리거가 없을 경우 초기화
+			resetTimeOut();
+		}
+		return () => {
+			clearTimeout(timerRef.current);
+		};
+	}, [darkCount, lightCount, socket, timerRef, isMain]);
+	
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -267,6 +308,7 @@ export default function SharedPage() {
 	useEffect(() => {
 		if (isMain && socket) {
 			const handleUpdateViewportFrames = (frames) => {
+				if (uids.dark?.length > 0) resetTimeOut();
 				setUserFrames(frames);
 			};
 
@@ -278,7 +320,7 @@ export default function SharedPage() {
 				socket.off("initial_frames", handleUpdateViewportFrames);
 			};
 		}
-	}, [isMain, socket]);
+	}, [isMain, socket, uids]);
 
 	useEffect(() => {
 		const scrollDiv = document.querySelector("#scroll-div");
@@ -315,7 +357,7 @@ export default function SharedPage() {
 	}, [socket, texts]);
 
 	const getRandomSubtextUids = () => {
-		if (uids.dark.length < 5 || uids.light.length < 5) return;
+		if (uids.dark.length < 5 || uids.light.length < 5) return { dark: [], light: [] };
 	
 		const getRandomElements = (array, count) => {
 			return array
@@ -328,8 +370,19 @@ export default function SharedPage() {
 		// 랜덤한 다크 서브 텍스트 5개, 라이트 서브 텍스트 10개
 		const randomDarkUids = getRandomElements(uids.dark, 5);
 		const randomLightUids = getRandomElements(uids.light, 10);
-	
 		return { dark: randomDarkUids, light: randomLightUids };
+	};
+
+	const resetTimeOut = () => {
+		clearTimeout(timerRef.current);	
+		if (darkCount >= END_DARK_COUNT && lightCount >= END_LIGHT_COUNT) {
+			timerRef.current = setTimeout(() => {
+				handleRefreshVisibility();
+			}, 600000);
+		}
+		return () => {
+			clearTimeout(timerRef.current);
+		}
 	};
 
 	const handleMainTextClick = (mainTextId) => {
@@ -340,26 +393,27 @@ export default function SharedPage() {
 		if (!newVisibility && message !== 0) setMessage(0);
 
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
+		//playAudio();
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
 			[mainTextId]: newVisibility,
 		}));
 
-		const darkCount = texts?.filter(
-			(text) =>
-				subTextVisibility[text.uid] && text.subText.background_color === "dark"
-		).length;
+		// const darkCount = texts?.filter(
+		// 	(text) =>
+		// 		subTextVisibility[text.uid] && text.subText.background_color === "dark"
+		// ).length;
 
-		if (newVisibility && darkCount + 1 === ALL_DARK_COUNT) {
-			const currentSubText = texts.find(
-				(text) => text.uid === mainTextId
-			)?.subText;
+		// if (newVisibility && darkCount + 1 === ALL_DARK_COUNT) {
+		// 	const currentSubText = texts.find(
+		// 		(text) => text.uid === mainTextId
+		// 	)?.subText;
 
-			if (currentSubText?.background_color === "dark") {
-				playAudio();
-				socket?.emit("enable_all_visibility");
-			}
-		}
+		// 	if (currentSubText?.background_color === "dark") {
+		// 		playAudio();
+		// 		socket?.emit("enable_all_visibility");
+		// 	}
+		// }
 
 		// 해설이 오픈 되었으나 유저 화면에 안 보이는 경우 스크롤 보정
 		if (newVisibility && !isMain) {
@@ -441,10 +495,9 @@ export default function SharedPage() {
 						초기화
 					</button>
 					<button
-						onClick={() => {
-							socket.emit("enable_all_visibility");
-							playAudio();
-						}}
+						onClick={() => 
+							socket.emit("enable_all_visibility")
+						}
 						className="fixed right-4 top-4 text-black"
 					>
 						전체 보이기
