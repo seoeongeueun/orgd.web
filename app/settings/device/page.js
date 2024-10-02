@@ -7,14 +7,31 @@ import Image from "next/image";
 
 const fetchConnections = async () => {
 	const response = await apiRequest("/api/settings/device", "GET");
-	console.log(response);
 	return response;
 };
 
-const triggerServerAction = async (type) => {
+const fetchUids = async () => {
+	const uids = await apiRequest("/api/texts/subtexts", "GET");
+	if (uids.dark.length < 5 || uids.light.length < 5) return { dark: [], light: [] };
+
+	const getRandomElements = (array, count) => {
+		return array
+			.map((value) => ({ value, sort: Math.random() }))
+			.sort((a, b) => a.sort - b.sort)
+			.slice(0, count)
+			.map(({ value }) => value);
+	};
+
+	// 랜덤한 다크 서브 텍스트 5개, 라이트 서브 텍스트 10개
+	const randomDarkUids = getRandomElements(uids.dark, 5);
+	const randomLightUids = getRandomElements(uids.light, 10);
+	return { dark: randomDarkUids, light: randomLightUids };
+}
+
+const triggerServerAction = async (type, uids = null) => {
 	const response = await apiRequest(
 		`/api/settings/${type === "drop" ? "device" : "refresh"}`,
-		"POST"
+		"POST", { uids }
 	);
 	return response;
 };
@@ -82,9 +99,12 @@ export default function Page() {
 		if (confirm("정말 모든 해설 텍스트를 초기화 하겠습니까?")) {
 			setMessage("모든 해설 텍스트 되돌리는 중...");
 			try {
-				const response = await triggerServerAction("refresh");
-				if (response) {
-					setMessage("모든 해설 텍스트를 초기화 했습니다");
+				const uids = await fetchUids();
+				if (uids) {
+					const response = await triggerServerAction("refresh", uids);
+					if (response) {
+						setMessage("모든 해설 텍스트를 초기화 했습니다");
+					}
 				}
 			} catch (error) {
 				setMessage("오류가 발생했습니다");
