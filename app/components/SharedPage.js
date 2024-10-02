@@ -397,7 +397,7 @@ export default function SharedPage() {
 		if (!newVisibility && message !== 0) setMessage(0);
 
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
-		playAudio();
+		//playAudio();
 
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
