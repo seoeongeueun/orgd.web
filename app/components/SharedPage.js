@@ -5,6 +5,7 @@ import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 import { apiRequest } from "../utils/tools";
 import Image from "next/image";
+import { set } from "mongoose";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -91,7 +92,6 @@ export default function SharedPage() {
 
 		newSocket.on("connect", () => {
 			console.log("Connected to WebSocket server");
-			setIsConnected(true);
 		});
 
 		newSocket.on("connect_error", (error) => {
@@ -151,6 +151,22 @@ export default function SharedPage() {
 			}
 		};
 	}, []);
+
+	useEffect(() => {
+		// 서브 기기에서 3분 동안 동작 없을 경우 대기 화면으로 전환
+		if (!isMain && !showLoading && isConnected) {
+			timerRef.current = setTimeout(() => {
+			  setShowLoading(true);
+			}, 30000);
+			return () => {
+			  if (timerRef.current) {
+				clearTimeout(timerRef.current);
+				timerRef.current = null;
+			  }
+			};
+		  }
+	}, [isMain, showLoading, isConnected]);
+	  
 
 	// useEffect(() => {
 	// 	if (Object.keys(subTextVisibility)?.length > 0 && texts?.length > 0) {
@@ -232,6 +248,27 @@ export default function SharedPage() {
 	}, [isMain]);
 
 	useEffect(() => {
+		const scrollDiv = document.querySelector("#scroll-div");
+		if (!isMain && texts?.length > 0) {
+			// 첫 접속시 랜덤 위치로 스크롤
+			const maxScrollLeft = scrollDiv.scrollWidth - scrollDiv.clientWidth;
+			const maxScrollTop = scrollDiv.scrollHeight - scrollDiv.clientHeight;
+
+			if (maxScrollLeft > 0 || maxScrollTop > 0) {
+				const randomScrollLeft = Math.random() * maxScrollLeft;
+				const randomScrollTop = Math.random() * maxScrollTop;
+				scrollDiv.scrollLeft = randomScrollLeft;
+				scrollDiv.scrollTop = randomScrollTop;
+			}
+			const canvas = document.querySelector(".canvas");
+			if (canvas) {
+				canvas.classList.remove("opacity-0", "pointer-events-none");
+				setIsConnected(true);
+			}
+		}
+	}, [isMain, texts]);
+
+	useEffect(() => {
 		let lastSentScrollLeft = 0;
 		let lastSentScrollTop = 0;
 
@@ -251,7 +288,7 @@ export default function SharedPage() {
 				const deltaY = Math.abs(scrollTop - lastSentScrollTop);
 
 				if (deltaX > scrollThreshold || deltaY > scrollThreshold) {
-					if (!isMain && isConnected && showLoading) setShowLoading(false);
+					if (!isMain && isConnected) setShowLoading(false);
 					lastSentScrollLeft = scrollLeft;
 					lastSentScrollTop = scrollTop;
 
@@ -323,24 +360,6 @@ export default function SharedPage() {
 	}, [isMain, socket, uids]);
 
 	useEffect(() => {
-		const scrollDiv = document.querySelector("#scroll-div");
-		if (!isMain && texts?.length > 0) {
-			// 첫 접속시 랜덤 위치로 스크롤
-			const maxScrollLeft = scrollDiv.scrollWidth - scrollDiv.clientWidth;
-			const maxScrollTop = scrollDiv.scrollHeight - scrollDiv.clientHeight;
-
-			if (maxScrollLeft > 0 || maxScrollTop > 0) {
-				const randomScrollLeft = Math.random() * maxScrollLeft;
-				const randomScrollTop = Math.random() * maxScrollTop;
-				scrollDiv.scrollLeft = randomScrollLeft;
-				scrollDiv.scrollTop = randomScrollTop;
-			}
-			const canvas = document.querySelector(".canvas");
-			if (canvas) canvas.classList.remove("opacity-0", "pointer-events-none");
-		}
-	}, [isMain, texts]);
-
-	useEffect(() => {
 		if (socket && texts) {
 			socket.on("enable_all_visibility", () => {
 				const newVisibility = {};
@@ -393,7 +412,7 @@ export default function SharedPage() {
 		if (!newVisibility && message !== 0) setMessage(0);
 
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
-		//playAudio();
+		playAudio();
 		setSubTextVisibility((prevVisibility) => ({
 			...prevVisibility,
 			[mainTextId]: newVisibility,
