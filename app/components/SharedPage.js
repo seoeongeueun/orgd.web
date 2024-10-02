@@ -303,13 +303,15 @@ export default function SharedPage() {
 		};
 
 		const scrollDiv = document.querySelector("#scroll-div");
-		if (scrollDiv && !isMain) {
-			scrollDiv.addEventListener("scroll", handleViewportUpdate, {
-				passive: true,
-			});
-			scrollDiv.addEventListener("touchmove", handleViewportUpdate, {
-				passive: true,
-			});
+		if (scrollDiv && !isMain && isConnected) {
+			setTimeout(() => {
+				scrollDiv.addEventListener("scroll", handleViewportUpdate, {
+					passive: true,
+				});
+				scrollDiv.addEventListener("touchmove", handleViewportUpdate, {
+					passive: true,
+				});
+			}, 1500);
 		}
 
 		return () => {
@@ -320,6 +322,10 @@ export default function SharedPage() {
 			clearTimeout(debounceTimer);
 		};
 	}, [isMain, scaleFactor, socket, isConnected]);
+
+	useEffect(() => {
+		console.log(showLoading);
+	}, [showLoading]);
 
 	useEffect(() => {
 		if (isMain && socket) {
