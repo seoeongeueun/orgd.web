@@ -544,7 +544,7 @@ export default function SharedPage() {
 										transform: `translate(${frame.scrollLeft}px, ${frame.scrollTop}px)`,
 										width: `${frame.scaledWidth}px`,
 										height: `${frame.scaledHeight}px`,
-										border: "1px solid #D9D9D9",
+										border: "1px solid blue",
 										zIndex: 1000,
 										transition: "all 200ms ease-in-out",
 										pointerEvents: "none",
@@ -581,7 +581,7 @@ export default function SharedPage() {
 						className={`${
 							message === 1 ? "underline cursor-pointer" : ""
 						} underline-offset-[2px] pointer-events-auto`}
-						onClick={() => handleRefreshVisibility()}
+						onClick={message === 1 ? () => handleRefreshVisibility() : null}
 					>
 						{messageList[message]}
 					</p>
