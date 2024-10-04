@@ -5,7 +5,6 @@ import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 import { apiRequest } from "../utils/tools";
 import Image from "next/image";
-import { set } from "mongoose";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -135,10 +134,21 @@ export default function SharedPage() {
 
 		newSocket.on("disconnect", () => {
 			console.log("Disconnected from WebSocket server");
-			setSocket(null);
-			setIsConnected(false);
-			alert("서버 연결이 끊어졌습니다. 연결을 재시도 합니다.");
-			window.location.reload();
+			const hasMain = sessionStorage.getItem("mainDevice");
+			if (hasMain) {
+				confirm("서버 연결이 끊어졌습니다. 연결을 재시도 합니다.");
+				setTimeout(() => {
+					window.location.reload();
+				}, 100);
+			} else {
+				alert("서버 연결이 끊어졌습니다. 연결을 재시도 합니다.");
+				setTimeout(() => {
+					window.location.reload();
+				}, 100);
+			}
+			// setSocket(null);
+			// setIsConnected(false);
+
 		});
 
 		setSocket(newSocket);
