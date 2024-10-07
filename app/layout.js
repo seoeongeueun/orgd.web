@@ -24,10 +24,7 @@ export default function RootLayout({ children }) {
 		<html lang="en">
 			<head>
 				<link rel="manifest" href="/manifest.json" />
-				<meta
-					name="viewport"
-					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-				/>
+				<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
 
 				<link rel="icon" href="/icons/favicon.ico" type="image/x-icon" />
 				<meta name="theme-color" content="#000000" />

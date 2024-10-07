@@ -28,7 +28,7 @@ export default function SharedPage() {
 	const [socket, setSocket] = useState(null);
 	const [isMain, setIsMain] = useState(true);
 	const [texts, setTexts] = useState([]);
-	const [uids, setUids] = useState({ "dark": [], "light": [] }); // 서브 텍스트 컬러별 메인 텍스트의 uid
+	const [uids, setUids] = useState({ dark: [], light: [] }); // 서브 텍스트 컬러별 메인 텍스트의 uid
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
@@ -55,21 +55,22 @@ export default function SharedPage() {
 	const timerRef = useRef(null);
 
 	const playAudio = useCallback((type = "default") => {
-		const audioFiles = [ "mixkit-typewriter-click.wav", "mixkit-toy-drums.wav"]
+		const audioFiles = ["mixkit-typewriter-click.wav", "mixkit-toy-drums.wav"];
 		if (audioRef.current) {
-		  audioRef.current.src = type === "default" ? `/audio/${audioFiles[0]}` : `/audio/${audioFiles[1]}`;
-		  audioRef.current
-			.play()
-			.then(() => {
-			  console.log('Audio playback started successfully.');
-			})
-			.catch((error) => {
-			  console.error('Audio playback failed:', error);
-			});
+			audioRef.current.src =
+				type === "default"
+					? `/audio/${audioFiles[0]}`
+					: `/audio/${audioFiles[1]}`;
+			audioRef.current
+				.play()
+				.then(() => {
+					console.log("Audio playback started successfully.");
+				})
+				.catch((error) => {
+					console.error("Audio playback failed:", error);
+				});
 		}
-	  }, []);
-	  
-	  
+	}, []);
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
@@ -152,7 +153,6 @@ export default function SharedPage() {
 			}
 			// setSocket(null);
 			// setIsConnected(false);
-
 		});
 
 		setSocket(newSocket);
@@ -180,23 +180,24 @@ export default function SharedPage() {
 		// 서브 기기에서 3분 동안 동작 없을 경우 대기 화면으로 전환
 		if (!isMain && !showLoading && isConnected) {
 			timerRef.current = setTimeout(() => {
-			  setShowLoading(true);
+				setShowLoading(true);
 			}, 180000);
 			return () => {
-			  if (timerRef.current) {
-				clearTimeout(timerRef.current);
-				timerRef.current = null;
-			  }
+				if (timerRef.current) {
+					clearTimeout(timerRef.current);
+					timerRef.current = null;
+				}
 			};
-		  }
+		}
 	}, [isMain, showLoading, isConnected]);
 
 	useEffect(() => {
-		if (!subTextVisibility || !texts || texts.length === 0 || isComplete) return;
-	
+		if (!subTextVisibility || !texts || texts.length === 0 || isComplete)
+			return;
+
 		let darkCount = 0;
 		let visibleCount = 0;
-	
+
 		texts.forEach((text) => {
 			if (subTextVisibility[text.uid]) {
 				visibleCount++;
@@ -205,12 +206,12 @@ export default function SharedPage() {
 				}
 			}
 		});
-	
+
 		setDarkCount(darkCount);
 		setLightCount(visibleCount - darkCount);
 
 		console.log(visibleCount, texts.length);
-	
+
 		if (visibleCount === texts.length) {
 			if (isMain) playAudio("drums"); //완료시 메인 기기에서만 소리 재생
 			setTimeout(() => {
@@ -225,8 +226,13 @@ export default function SharedPage() {
 	}, [showLoading]);
 
 	useEffect(() => {
-		if (darkCount >= END_DARK_COUNT && lightCount >= END_LIGHT_COUNT && socket && isMain) {
-			console.log("almost done!")
+		if (
+			darkCount >= END_DARK_COUNT &&
+			lightCount >= END_LIGHT_COUNT &&
+			socket &&
+			isMain
+		) {
+			console.log("almost done!");
 			// 거의 완성 되었는데 10분간 아무런 소켓 트리거가 없을 경우 초기화
 			resetTimeOut();
 		}
@@ -234,7 +240,6 @@ export default function SharedPage() {
 			clearTimeout(timerRef.current);
 		};
 	}, [darkCount, lightCount, socket, timerRef, isMain]);
-	
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -291,6 +296,8 @@ export default function SharedPage() {
 		const debounceTime = 300;
 		let debounceTimer;
 
+		const preventGesture = (e) => e.preventDefault();
+
 		const sendViewportUpdate = () => {
 			const scrollDiv = document.querySelector("#scroll-div");
 			if (scrollDiv) {
@@ -338,20 +345,36 @@ export default function SharedPage() {
 
 		const scrollDiv = document.querySelector("#scroll-div");
 		if (scrollDiv && !isMain && isConnected) {
-			setTimeout(() => {
-				scrollDiv.addEventListener("scroll", handleViewportUpdate, {
-					passive: true,
-				});
-				scrollDiv.addEventListener("touchmove", handleViewportUpdate, {
-					passive: true,
-				});
-			}, 1500);
+			//핀치줌 방지
+			scrollDiv.addEventListener("gesturestart", preventGesture, {
+				passive: false,
+			});
+			scrollDiv.addEventListener("gesturechange", preventGesture, {
+				passive: false,
+			});
+			scrollDiv.addEventListener("gestureend", preventGesture, {
+				passive: false,
+			});
+
+			if (!isMain && isConnected) {
+				setTimeout(() => {
+					scrollDiv.addEventListener("scroll", handleViewportUpdate, {
+						passive: true,
+					});
+					scrollDiv.addEventListener("touchmove", handleViewportUpdate, {
+						passive: true,
+					});
+				}, 1500);
+			}
 		}
 
 		return () => {
 			if (scrollDiv) {
 				scrollDiv.removeEventListener("scroll", handleViewportUpdate);
 				scrollDiv.removeEventListener("touchmove", handleViewportUpdate);
+				scrollDiv.removeEventListener("gesturestart", preventGesture);
+				scrollDiv.removeEventListener("gesturechange", preventGesture);
+				scrollDiv.removeEventListener("gestureend", preventGesture);
 			}
 			clearTimeout(debounceTimer);
 		};
@@ -390,8 +413,9 @@ export default function SharedPage() {
 	}, [socket, texts]);
 
 	const getRandomSubtextUids = () => {
-		if (uids.dark.length < 5 || uids.light.length < 5) return { dark: [], light: [] };
-	
+		if (uids.dark.length < 5 || uids.light.length < 5)
+			return { dark: [], light: [] };
+
 		const getRandomElements = (array, count) => {
 			return array
 				.map((value) => ({ value, sort: Math.random() }))
@@ -399,7 +423,7 @@ export default function SharedPage() {
 				.slice(0, count)
 				.map(({ value }) => value);
 		};
-	
+
 		// 랜덤한 다크 서브 텍스트 5개, 라이트 서브 텍스트 10개
 		const randomDarkUids = getRandomElements(uids.dark, 5);
 		const randomLightUids = getRandomElements(uids.light, 10);
@@ -407,7 +431,7 @@ export default function SharedPage() {
 	};
 
 	const resetTimeOut = () => {
-		clearTimeout(timerRef.current);	
+		clearTimeout(timerRef.current);
 		if (darkCount >= END_DARK_COUNT && lightCount >= END_LIGHT_COUNT) {
 			timerRef.current = setTimeout(() => {
 				handleRefreshVisibility();
@@ -415,7 +439,7 @@ export default function SharedPage() {
 		}
 		return () => {
 			clearTimeout(timerRef.current);
-		}
+		};
 	};
 
 	const handleMainTextClick = (mainTextId) => {
@@ -467,15 +491,27 @@ export default function SharedPage() {
 				*/
 				const TEXT_HEIGHT = 200; // 최대 200을 넘지 않음
 
-				const d1 = subText.position.x * scale + width / 2 > scrollDiv.scrollLeft + window.innerWidth / 2;
-				const d2 = subText.position.x * scale < scrollDiv.scrollLeft + width / 2;
-				const d3 = subText.position.y * scale + TEXT_HEIGHT / 2 > scrollDiv.scrollTop + window.innerHeight;
-				const d4 = subText.position.y * scale < scrollDiv.scrollTop + TEXT_HEIGHT / 2;
-				
+				const d1 =
+					subText.position.x * scale + width / 2 >
+					scrollDiv.scrollLeft + window.innerWidth / 2;
+				const d2 =
+					subText.position.x * scale < scrollDiv.scrollLeft + width / 2;
+				const d3 =
+					subText.position.y * scale + TEXT_HEIGHT / 2 >
+					scrollDiv.scrollTop + window.innerHeight;
+				const d4 =
+					subText.position.y * scale < scrollDiv.scrollTop + TEXT_HEIGHT / 2;
+
 				if (d1 || d2 || d3 || d4) {
 					scrollDiv.scrollTo({
-						left: d1 || d2 ? subText.position.x * scale - Math.abs(threshold / 1.5): scrollDiv.scrollLeft,
-						top: d3 || d4 ? subText.position.y * scale - window.innerHeight / 2 : scrollDiv.scrollTop,
+						left:
+							d1 || d2
+								? subText.position.x * scale - Math.abs(threshold / 1.5)
+								: scrollDiv.scrollLeft,
+						top:
+							d3 || d4
+								? subText.position.y * scale - window.innerHeight / 2
+								: scrollDiv.scrollTop,
 						behavior: "smooth",
 					});
 				}
@@ -531,9 +567,7 @@ export default function SharedPage() {
 						초기화
 					</button>
 					<button
-						onClick={() => 
-							socket.emit("enable_all_visibility")
-						}
+						onClick={() => socket.emit("enable_all_visibility")}
 						className="fixed right-4 top-4 text-black"
 					>
 						전체 보이기
@@ -591,10 +625,10 @@ export default function SharedPage() {
 			{texts?.length > 0 && !isMain && (
 				<div className="info-box min-w-[280px] animate-fade-in z-[999] pointer-events-none fixed top-[40px] left-1/2 -translate-x-1/2 flex flex-col gap-[4px] items-center justify-center text-info">
 					<p>{`${
-							Object.values(subTextVisibility).filter(
-								(visibility) => visibility === true
-							)?.length
-						} / ${texts.length}`}</p>
+						Object.values(subTextVisibility).filter(
+							(visibility) => visibility === true
+						)?.length
+					} / ${texts.length}`}</p>
 					<p
 						className={`${
 							isComplete ? "underline cursor-pointer" : ""
