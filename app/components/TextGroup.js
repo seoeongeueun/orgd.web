@@ -25,7 +25,7 @@ export default function TextGroup({
 						className={`absolute text-sub cursor-pointer text-center transition-opacity duration-500 opacity-100 ${
 							subText.background_color.startsWith("light")
 								? isComplete
-									? "bg-sub-light !opacity-0"
+									? "bg-sub-light !opacity-30"
 									: "bg-sub-light"
 								: "bg-sub-dark"
 						}`}
