@@ -210,8 +210,6 @@ export default function SharedPage() {
 		setDarkCount(darkCount);
 		setLightCount(visibleCount - darkCount);
 
-		console.log(visibleCount, texts.length);
-
 		if (visibleCount === texts.length) {
 			if (isMain) playAudio("drums"); //완료시 메인 기기에서만 소리 재생
 			setTimeout(() => {
@@ -220,10 +218,6 @@ export default function SharedPage() {
 			}, 1500);
 		}
 	}, [subTextVisibility, texts, isComplete]);
-
-	useEffect(() => {
-		console.log(showLoading);
-	}, [showLoading]);
 
 	useEffect(() => {
 		if (
@@ -293,7 +287,7 @@ export default function SharedPage() {
 		// threshold px 이상 스크롤할 때만 업데이트
 		const scrollThreshold = 10;
 		const throttleTime = 150;
-		const debounceTime = 300;
+		const debounceTime = 200;
 		let debounceTimer;
 
 		const preventGesture = (e) => e.preventDefault();
@@ -501,11 +495,7 @@ export default function SharedPage() {
 					scrollDiv.scrollTop + window.innerHeight;
 				const d4 =
 					subText.position.y * scale < scrollDiv.scrollTop + TEXT_HEIGHT / 2;
-				console.log(d1, d2, d3, d4);
-				console.log(
-					subText.position.x * scale + width,
-					scrollDiv.scrollLeft - width / 3
-				);
+
 				if (d1 || d2 || d3 || d4) {
 					scrollDiv.scrollTo({
 						left:
@@ -602,7 +592,7 @@ export default function SharedPage() {
 										height: `${frame.scaledHeight}px`,
 										border: `1px solid ${frameColors[i % frameColors.length]}`,
 										zIndex: 1000,
-										transition: "all 200ms ease-in-out",
+										transition: "all 250ms ease-in-out",
 										pointerEvents: "none",
 									}}
 								/>
