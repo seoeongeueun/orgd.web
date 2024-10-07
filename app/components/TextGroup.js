@@ -20,12 +20,13 @@ export default function TextGroup({
 				</p>
 				{subText && (
 					<div
-						className={`absolute pointer-events-none text-sub text-center ${
+						className={`absolute text-sub cursor-pointer text-center ${
 							subText.background_color.startsWith("light")
 								? isComplete ? "bg-sub-light animate-fade-out" : "bg-sub-light"
 								: "bg-sub-dark"
 						}`}
 						id={`subtext-${subText.uid}`}
+						onClick={() => onMainTextClick(mainText.uid)}
 						style={{
 							visibility: isVisible ? "visible" : "hidden",
 							height: !isVisible ? 0 : "auto",
