@@ -287,7 +287,7 @@ export default function SharedPage() {
 		// threshold px 이상 스크롤할 때만 업데이트
 		const scrollThreshold = 10;
 		const throttleTime = 150;
-		const debounceTime = 200;
+		const debounceTime = 50;
 		let debounceTimer;
 
 		const preventGesture = (e) => e.preventDefault();
@@ -585,8 +585,6 @@ export default function SharedPage() {
 									key={userId}
 									style={{
 										position: "absolute",
-										// top: `${frame.scrollTop}px`,
-										// left: `${frame.scrollLeft}px`,
 										transform: `translate(${frame.scrollLeft}px, ${frame.scrollTop}px)`,
 										width: `${frame.scaledWidth}px`,
 										height: `${frame.scaledHeight}px`,
