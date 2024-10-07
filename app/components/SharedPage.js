@@ -55,7 +55,7 @@ export default function SharedPage() {
 	const timerRef = useRef(null);
 
 	const playAudio = useCallback((type = "default") => {
-		const audioFiles = ["mixkit-typewriter-click.wav", "mixkit-toy-drums.wav"];
+		const audioFiles = ["mixkit-message-pop.mp3", "mixkit-toy-drums.wav"];
 		if (audioRef.current) {
 			audioRef.current.src =
 				type === "default"
