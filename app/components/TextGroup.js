@@ -3,13 +3,15 @@ export default function TextGroup({
 	subText = null,
 	isVisible,
 	onMainTextClick,
-	isComplete
+	isComplete,
 }) {
 	if (mainText)
 		return (
 			<>
 				<p
-					className={`absolute text-main text-center p-0 m-0 cursor-pointer ${isComplete && "animate-fade-out"}`}
+					className={`absolute text-main text-center p-0 m-0 cursor-pointer ${
+						isComplete ? "opacity-0" : "opacity-100"
+					}`}
 					onClick={() => onMainTextClick(mainText.uid)}
 					style={{
 						left: mainText.position?.x,
@@ -20,9 +22,11 @@ export default function TextGroup({
 				</p>
 				{subText && (
 					<div
-						className={`absolute text-sub cursor-pointer text-center ${
+						className={`absolute text-sub cursor-pointer text-center transition-opacity duration-500 opacity-100 ${
 							subText.background_color.startsWith("light")
-								? isComplete ? "bg-sub-light animate-fade-out" : "bg-sub-light"
+								? isComplete
+									? "bg-sub-light !opacity-0"
+									: "bg-sub-light"
 								: "bg-sub-dark"
 						}`}
 						id={`subtext-${subText.uid}`}
