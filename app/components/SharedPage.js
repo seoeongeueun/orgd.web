@@ -55,7 +55,7 @@ export default function SharedPage() {
 	const timerRef = useRef(null);
 
 	const playAudio = useCallback((type = "default") => {
-		const audioFiles = ["mixkit-message-pop.mp3", "mixkit-toy-drums.wav"];
+		const audioFiles = ["mixkit-message-pop.mp3", "mixkit-magic-piano.wav"];
 		if (audioRef.current) {
 			audioRef.current.src =
 				type === "default"
@@ -85,7 +85,6 @@ export default function SharedPage() {
 
 		console.log("User ID:", userId);
 
-		//setIsMain(window.location.hostname === "localhost");
 		const isMainDevice = sessionStorage.getItem("mainDevice") === "true";
 		if (isMainDevice) setIsMain(true);
 		else setIsMain(false);
@@ -211,11 +210,11 @@ export default function SharedPage() {
 		setLightCount(visibleCount - darkCount);
 
 		if (visibleCount === texts.length) {
-			if (isMain) playAudio("drums"); //완료시 메인 기기에서만 소리 재생
 			setTimeout(() => {
+				if (isMain) playAudio("drums"); //완료시 메인 기기에서만 소리 재생
 				setShowLoading(true);
 				setIsComplete(true);
-			}, 1500);
+			}, 1000);
 		}
 	}, [subTextVisibility, texts, isComplete]);
 
