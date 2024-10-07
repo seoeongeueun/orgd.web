@@ -5,7 +5,6 @@ import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 import { apiRequest } from "../utils/tools";
 import Image from "next/image";
-import { set } from "mongoose";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -209,6 +208,8 @@ export default function SharedPage() {
 	
 		setDarkCount(darkCount);
 		setLightCount(visibleCount - darkCount);
+
+		console.log(visibleCount, texts.length);
 	
 		if (visibleCount === texts.length) {
 			if (isMain) playAudio("drums"); //완료시 메인 기기에서만 소리 재생
@@ -218,6 +219,10 @@ export default function SharedPage() {
 			}, 1500);
 		}
 	}, [subTextVisibility, texts, isComplete]);
+
+	useEffect(() => {
+		console.log(showLoading);
+	}, [showLoading]);
 
 	useEffect(() => {
 		if (darkCount >= END_DARK_COUNT && lightCount >= END_LIGHT_COUNT && socket && isMain) {
@@ -379,7 +384,6 @@ export default function SharedPage() {
 					});
 				}
 				setSubTextVisibility(newVisibility);
-				setIsComplete(true);
 				setDarkCount(ALL_DARK_COUNT);
 			});
 		}
