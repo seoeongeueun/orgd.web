@@ -45,6 +45,7 @@ export default function SharedPage() {
 		"화면을 이동하면서 질문을 터치해보세요.",
 		"처음으로 돌아가기",
 	];
+	const frameColors = ["#006aff", "#ff33dd"]; // 유저 프레임 컬러
 	const ALL_DARK_COUNT = 57; // 전체 다크 텍스트 개수
 	const START_DARK_COUNT = 5; // 초기 다크 텍스트 개수
 	const START_LIGHT_COUNT = 10; // 초기 라이트 텍스트 개수
@@ -545,7 +546,7 @@ export default function SharedPage() {
 							/>
 						))}
 					{isMain &&
-						Object.keys(userFrames).map((userId) => {
+						Object.keys(userFrames).map((userId, i) => {
 							const frame = userFrames[userId];
 							return (
 								<div
@@ -557,7 +558,7 @@ export default function SharedPage() {
 										transform: `translate(${frame.scrollLeft}px, ${frame.scrollTop}px)`,
 										width: `${frame.scaledWidth}px`,
 										height: `${frame.scaledHeight}px`,
-										border: "1px solid blue",
+										border: `1px solid ${frameColors[i % frameColors.length]}`,
 										zIndex: 1000,
 										transition: "all 200ms ease-in-out",
 										pointerEvents: "none",
