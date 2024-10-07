@@ -5,6 +5,7 @@ import { debounce, throttle } from "../utils/tools";
 import TextGroup from "./TextGroup";
 import { apiRequest } from "../utils/tools";
 import Image from "next/image";
+import { set } from "mongoose";
 
 const fetchTexts = async () => {
 	const response = await fetch("/api/texts");
@@ -37,6 +38,7 @@ export default function SharedPage() {
 	const [isConnected, setIsConnected] = useState(false);
 	const [darkCount, setDarkCount] = useState(0); // 전체 오픈된 다크 해설 텍스트 개수
 	const [lightCount, setLightCount] = useState(0); // 전체 오픈된 라이트 해설 텍스트 개수
+	const [isComplete, setIsComplete] = useState(false); // 전체 해설 텍스트 오픈 완료 여부
 
 	const scaleFactor = 6;
 	const messageList = [
@@ -52,20 +54,21 @@ export default function SharedPage() {
 	const audioRef = useRef(null);
 	const timerRef = useRef(null);
 
-	const playAudio = useCallback(() => {
+	const playAudio = useCallback((type = "default") => {
+		const audioFiles = [ "mixkit-typewriter-click.wav", "mixkit-toy-drums.wav"]
 		if (audioRef.current) {
-		  if (audioRef.current.paused) {
-			audioRef.current
-			  .play()
-			  .then(() => {
-				console.log("Audio playback started successfully.");
-			  })
-			  .catch((error) => {
-				console.error("Audio playback failed:", error);
-			  });
-		  }
+		  audioRef.current.src = type === "default" ? `/audio/${audioFiles[0]}` : `/audio/${audioFiles[1]}`;
+		  audioRef.current
+			.play()
+			.then(() => {
+			  console.log('Audio playback started successfully.');
+			})
+			.catch((error) => {
+			  console.error('Audio playback failed:', error);
+			});
 		}
 	  }, []);
+	  
 	  
 
 	useEffect(() => {
@@ -117,10 +120,11 @@ export default function SharedPage() {
 			setSubTextVisibility(subTextVisibility);
 			setDarkCount(START_DARK_COUNT);
 			setLightCount(START_LIGHT_COUNT);
+			setIsComplete(false);
 		});
 
 		newSocket.on("show_subtext", ({ mainTextId }) => {
-			setMessage(0);
+			setIsComplete(false);
 			setSubTextVisibility((prevVisibility) => ({
 				...prevVisibility,
 				[mainTextId]: !prevVisibility[mainTextId],
@@ -188,7 +192,7 @@ export default function SharedPage() {
 	}, [isMain, showLoading, isConnected]);
 
 	useEffect(() => {
-		if (!subTextVisibility || !texts || texts.length === 0) return;
+		if (!subTextVisibility || !texts || texts.length === 0 || isComplete) return;
 	
 		let darkCount = 0;
 		let visibleCount = 0;
@@ -206,9 +210,13 @@ export default function SharedPage() {
 		setLightCount(visibleCount - darkCount);
 	
 		if (visibleCount === texts.length) {
-			setMessage(1);
+			if (isMain) playAudio("drums"); //완료시 메인 기기에서만 소리 재생
+			setTimeout(() => {
+				setShowLoading(true);
+				setIsComplete(true);
+			}, 1500);
 		}
-	}, [subTextVisibility, texts]);
+	}, [subTextVisibility, texts, isComplete]);
 
 	useEffect(() => {
 		if (darkCount >= END_DARK_COUNT && lightCount >= END_LIGHT_COUNT && socket && isMain) {
@@ -287,7 +295,7 @@ export default function SharedPage() {
 				const deltaY = Math.abs(scrollTop - lastSentScrollTop);
 
 				if (deltaX > scrollThreshold || deltaY > scrollThreshold) {
-					if (!isMain && isConnected) setShowLoading(false);
+					if (!isMain && isConnected && !isComplete) setShowLoading(false);
 					lastSentScrollLeft = scrollLeft;
 					lastSentScrollTop = scrollTop;
 
@@ -341,7 +349,7 @@ export default function SharedPage() {
 			}
 			clearTimeout(debounceTimer);
 		};
-	}, [isMain, scaleFactor, socket, isConnected]);
+	}, [isMain, scaleFactor, socket, isConnected, isComplete]);
 
 	useEffect(() => {
 		if (isMain && socket) {
@@ -370,7 +378,7 @@ export default function SharedPage() {
 					});
 				}
 				setSubTextVisibility(newVisibility);
-				setMessage(1);
+				setIsComplete(true);
 				setDarkCount(ALL_DARK_COUNT);
 			});
 		}
@@ -406,11 +414,14 @@ export default function SharedPage() {
 	};
 
 	const handleMainTextClick = (mainTextId) => {
+		if (isComplete) return; // 이미 완료된 상태에서는 클릭 무시
 		if (showLoading) setShowLoading(false);
 		const newVisibility = !subTextVisibility[mainTextId];
 
 		// 해설을 닫으려는데 현재 100%메세지가 떠있는 경우 메세지를 디폴트로 변경
-		if (!newVisibility && message !== 0) setMessage(0);
+		if (!newVisibility && isComplete) {
+			setIsComplete(false);
+		}
 
 		socket?.emit("show_subtext", { mainTextId, subtextVisible: newVisibility });
 		playAudio();
@@ -457,7 +468,6 @@ export default function SharedPage() {
 				const d4 = subText.position.y * scale < scrollDiv.scrollTop + TEXT_HEIGHT / 2;
 				
 				if (d1 || d2 || d3 || d4) {
-					console.log(d1, d2, d3, d4);
 					scrollDiv.scrollTo({
 						left: d1 || d2 ? subText.position.x * scale - Math.abs(threshold / 1.5): scrollDiv.scrollLeft,
 						top: d3 || d4 ? subText.position.y * scale - window.innerHeight / 2 : scrollDiv.scrollTop,
@@ -472,9 +482,11 @@ export default function SharedPage() {
 		const { dark, light } = getRandomSubtextUids();
 		socket?.emit("refresh_visibility", { dark, light });
 
-		setTimeout(() => setMessage(0), 500);
+		setTimeout(() => setIsComplete(false), 500);
 		const scrollDiv = document.querySelector("#scroll-div");
 		if (!scrollDiv || isMain) return;
+
+		setShowLoading(false);
 
 		// 텍스트가 있는 안전한 위치 중 랜덤 한 곳으로 이동
 		const sWidth = scrollDiv.scrollWidth;
@@ -528,6 +540,7 @@ export default function SharedPage() {
 								mainText={text}
 								subText={text?.subText}
 								isVisible={subTextVisibility[text.uid]}
+								isComplete={isComplete}
 								onMainTextClick={handleMainTextClick}
 							/>
 						))}
@@ -579,11 +592,11 @@ export default function SharedPage() {
 						} / ${texts.length}`}</p>
 					<p
 						className={`${
-							message === 1 ? "underline cursor-pointer" : ""
+							isComplete ? "underline cursor-pointer" : ""
 						} underline-offset-[2px] pointer-events-auto`}
-						onClick={message === 1 ? () => handleRefreshVisibility() : null}
+						onClick={isComplete ? () => handleRefreshVisibility() : null}
 					>
-						{messageList[message]}
+						{messageList[isComplete ? 1 : 0]}
 					</p>
 				</div>
 			)}
