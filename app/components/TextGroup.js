@@ -69,8 +69,8 @@ export default function TextGroup({
 						style={{
 							visibility: isVisible ? "visible" : "hidden",
 							height: !isVisible ? 0 : "auto",
-							left: `${subPosition?.x || 0}px`,
-							top: `${subPosition?.y || 0}px`,
+							left: `${subText.position?.x || 0}px`,
+							top: `${subText.position?.y || 0}px`,
 							transform: `rotate(${subText?.rotation || 0}deg)`,
 							"--new-x": subPosition?.x || 0,
 							"--new-y": subPosition?.y || 0,
