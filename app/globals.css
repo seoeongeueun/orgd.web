@@ -121,10 +121,17 @@ body, html {
   0% {
     left: calc(var(--og-x) * 1px);
     top: calc(var(--og-y) * 1px);
+    transform: rotate(calc(var(--og-rotation) * 1deg));
   }
-  100% {
+  50% {
     left: calc(var(--new-x) * 1px);
     top: calc(var(--new-y) * 1px);
+    transform: rotate(calc(var(--new-rotation) * 1deg));
+  }
+  100% {
+    left: calc(var(--og-x) * 1px);
+    top: calc(var(--og-y) * 1px);
+    transform: rotate(calc(var(--og-rotation) * 1deg));
   }
 }
 

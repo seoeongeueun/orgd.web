@@ -1,1389 +1,1387 @@
-[
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a931f"
-		},
-		"uid": "sub_0000",
-		"text": "참석 인원에 따라 고객사에 전달되는 \n인상이 달라지는 점을 인식하기",
-		"background_color": "light",
-		"position": {
-			"x": 240.00759516837468,
-			"y": 225.92029648609093
-		},
-		"rotation": -13.819999999999823,
-		"main_text_uid": "main_0000"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9320"
-		},
-		"uid": "sub_0001",
-		"text": "세 개 제안하면 한가해 보이려나?",
-		"background_color": "dark",
-		"position": {
-			"x": 1205.2015922401154,
-			"y": 380.3846083455343
-		},
-		"rotation": -25,
-		"main_text_uid": "main_0001"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9321"
-		},
-		"uid": "sub_0002",
-		"text": "고객사의 의사결정 문화에 맞게 \n제안과 진행의 전략을 짜 보기",
-		"background_color": "light",
-		"position": {
-			"x": 895.7481698389461,
-			"y": 690.1127379209365
-		},
-		"rotation": 28,
-		"main_text_uid": "main_0002"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9322"
-		},
-		"uid": "sub_0003",
-		"text": "그쪽에 약간 양해를 구하고 싶은 건이 있는데 \n우리 요즘 밑지고 있는 상황은 아니죠?",
-		"background_color": "dark",
-		"position": {
-			"x": 800.0683565153738,
-			"y": 573.5054904831627
-		},
-		"rotation": -30,
-		"main_text_uid": "main_0003"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9323"
-		},
-		"uid": "sub_0004",
-		"text": "자료에 인쇄 관련 전문용어가 좀 들어가는데 \n기획직군이라면 용어 설명을 좀 넣어야 하지 않나 싶어서요. ",
-		"background_color": "dark",
-		"position": {
-			"x": 1427.2791021043352,
-			"y": 785.5705467736352
-		},
-		"rotation": 102,
-		"main_text_uid": "main_0004"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9324"
-		},
-		"uid": "sub_0005",
-		"text": "예를 들면 선생님처럼 정해주는 느낌으로? \n아니면 약간 비서처럼 옵션을 드리는 느낌으로? ",
-		"background_color": "light",
-		"position": {
-			"x": 366.8127745241581,
-			"y": 918.7355417276721
-		},
-		"rotation": 43,
-		"main_text_uid": "main_0005"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9325"
-		},
-		"uid": "sub_0006",
-		"text": "고객사의 의사결정 문화와 담당자의 특성을 고려해서 \n시각적 갈래를 미리 보여드릴지 여부를 판단해 보기",
-		"background_color": "light",
-		"position": {
-			"x": 857.6632503660326,
-			"y": 940.8272327964861
-		},
-		"rotation": 13,
-		"main_text_uid": "main_0006"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9326"
-		},
-		"uid": "sub_0007",
-		"text": "이분은 어떤 채널로 연락했을 때 \n가장 감도가 좋은가?",
-		"background_color": "light",
-		"position": {
-			"x": 111.0369692532951,
-			"y": 295.98416910688115
-		},
-		"rotation": -44.75625000000002,
-		"main_text_uid": "main_0007"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9327"
-		},
-		"uid": "sub_0008",
-		"text": "예전에 브랜드 인지도와 견적에만 \n혹했다가 데인 적이 좀 있어서.",
-		"background_color": "light",
-		"position": {
-			"x": 241.44051976573957,
-			"y": 342.2754392386529
-		},
-		"rotation": -45,
-		"main_text_uid": "main_0008"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9328"
-		},
-		"uid": "sub_0009",
-		"text": "그런 사람으로 보이고 싶진 않지만 \n상황이 좀 급한데 어떻게 할까?",
-		"background_color": "dark",
-		"position": {
-			"x": 328.86676427525595,
-			"y": 713.114019033675
-		},
-		"rotation": 0,
-		"main_text_uid": "main_0009"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9329"
-		},
-		"uid": "sub_0010",
-		"text": "목소리가 잘 들리는 게 중요하니 앞쪽에 앉으실 거라면\n 화면보단 사람을 보고 발표하는 연습을 하시는 게 좋겠어요.",
-		"background_color": "dark",
-		"position": {
-			"x": 1578.8722547584173,
-			"y": 794.0624999999993
-		},
-		"rotation": 76,
-		"main_text_uid": "main_0010"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a932a"
-		},
-		"uid": "sub_0011",
-		"text": "고객사와 담당자의 캐주얼한 정도가 \n어느 정도인지 짐작해 보기",
-		"background_color": "dark",
-		"position": {
-			"x": 424.4876464128848,
-			"y": 669.2778184480235
-		},
-		"rotation": -55.01999999999998,
-		"main_text_uid": "main_0011"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a932b"
-		},
-		"uid": "sub_0012",
-		"text": "큰 기업들은 클라우드 서비스가 종종 차단되어 있던데.",
-		"background_color": "dark",
-		"position": {
-			"x": 608.1304904831617,
-			"y": 158.80527086383591
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0012"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a932c"
-		},
-		"uid": "sub_0013",
-		"text": "덜 세련되어 보이더라도 정확한 의미 전달을 위해 \n동어 반복을 해야 하는 자료인지 생각해 보기",
-		"background_color": "dark",
-		"position": {
-			"x": 1662.125947929573,
-			"y": 604.6664462750014
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0013"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a932d"
-		},
-		"uid": "sub_0014",
-		"text": "상대와의 원활한 소통을 위해 내가 사용할 수 있는 \n다양한 소통 방식을 고민해 보기\n",
-		"background_color": "light",
-		"position": {
-			"x": 981.5153733528551,
-			"y": 72.28891888195395
-		},
-		"rotation": -21,
-		"main_text_uid": "main_0014"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a932e"
-		},
-		"uid": "sub_0015",
-		"text": "회의 때 꼭 필요한 사람이 있어야 하는 만큼 \n불필요한 사람이 없는지도 확인해 보면 어때요?",
-		"background_color": "light",
-		"position": {
-			"x": 1387.4860907759892,
-			"y": 176.17862371888714
-		},
-		"rotation": 72,
-		"main_text_uid": "main_0015"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a932f"
-		},
-		"uid": "sub_0016",
-		"text": "지금 우리에게 필요한 게 열어두고 하는 리서치? \n아니면 우리가 원하는 결론을 위한 근거 만들기?",
-		"background_color": "light",
-		"position": {
-			"x": 465.25768667642745,
-			"y": 76.6298499267936
-		},
-		"rotation": -21.680000000000064,
-		"main_text_uid": "main_0016"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9330"
-		},
-		"uid": "sub_0017",
-		"text": "이곳과는 업무 외적인 무언가가 약간 있어 주면 \n총체적으로 더 잘 돌아가게 될 거 같네요.",
-		"background_color": "dark",
-		"position": {
-			"x": 1548.8293374816978,
-			"y": 601.8234809663247
-		},
-		"rotation": 72,
-		"main_text_uid": "main_0017"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9331"
-		},
-		"uid": "sub_0018",
-		"text": "사전 미팅에 많이 오실수록, 직급이 높을수록 \n계약 성사 가능성은 올라간다고 보시면 되어요.",
-		"background_color": "light",
-		"position": {
-			"x": 39.95946193265006,
-			"y": 86.59718155197656
-		},
-		"rotation": 11.679999999999836,
-		"main_text_uid": "main_0018"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9332"
-		},
-		"uid": "sub_0019",
-		"text": "누가 봐도 뿌린 메일이라면 가볍게 기초 정보 수집 중일 가능성이 \n높으니 견적서 굳이 만들지 말고 금액만 전달해도 되겠어요.",
-		"background_color": "dark",
-		"position": {
-			"x": 492.3932101024886,
-			"y": 795.6833821376277
-		},
-		"rotation": -77,
-		"main_text_uid": "main_0019"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9333"
-		},
-		"uid": "sub_0020",
-		"text": "이런 분들이 의외로 자기 말이 끊겨도 \n개의치 않아 하시던데. 나도 그냥 끊고 들어가자.",
-		"background_color": "dark",
-		"position": {
-			"x": 1012.815611273792,
-			"y": 793.8434297218156
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0020"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9334"
-		},
-		"uid": "sub_0021",
-		"text": "정말 궁금하신 걸까? 아니면 자신의 \n선택에 확신을 가지고자 하셔서인지?",
-		"background_color": "dark",
-		"position": {
-			"x": 122.41654465592951,
-			"y": 543.8111273792088
-		},
-		"rotation": -3,
-		"main_text_uid": "main_0021"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9335"
-		},
-		"uid": "sub_0022",
-		"text": "불필요해진 레거시 확실히 해 두기",
-		"background_color": "dark",
-		"position": {
-			"x": 1154.4249144163293,
-			"y": 132.794836922586
-		},
-		"rotation": -90,
-		"main_text_uid": "main_0022"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9336"
-		},
-		"uid": "sub_0023",
-		"text": "프로젝트 스케줄 잡을 때 공휴일은 꼭 체크하자. \n빨간날 일하고 싶지 않다면...",
-		"background_color": "dark",
-		"position": {
-			"x": 1012.1892386530014,
-			"y": 649.2349011713026
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0023"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9337"
-		},
-		"uid": "sub_0024",
-		"text": "여기 피드백이 좀 느린 거 같던데. \n한 사흘 더 잡을까요?",
-		"background_color": "light",
-		"position": {
-			"x": 1766.346998535871,
-			"y": 927.9194729136163
-		},
-		"rotation": -19.320000000000164,
-		"main_text_uid": "main_0024"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9338"
-		},
-		"uid": "sub_0025",
-		"text": "각자 역할에 대해 애매하게 느낄 \n가능성이 있다면 딱 집어서 지정해 주기",
-		"background_color": "light",
-		"position": {
-			"x": 1550.477306002928,
-			"y": 893.4011748776082
-		},
-		"rotation": 21,
-		"main_text_uid": "main_0025"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9339"
-		},
-		"uid": "sub_0026",
-		"text": "때론 동료에게 무작정 도와달라고 \n말해야 할 때도 있다는 것을 잊지 않기",
-		"background_color": "dark",
-		"position": {
-			"x": 1378.3530380673494,
-			"y": 605.4598279648607
-		},
-		"rotation": 52,
-		"main_text_uid": "main_0026"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a933a"
-		},
-		"uid": "sub_0027",
-		"text": "작은 차이를 감지하실 줄 아는 분일까? 그게 아니라면 \n디테일한 설명은 오히려 논의를 복잡하게 만들 것 같다.",
-		"background_color": "dark",
-		"position": {
-			"x": 41.38460834553439,
-			"y": 644.243136896047
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0027"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a933b"
-		},
-		"uid": "sub_0028",
-		"text": "고객사의 기대치를 고려해서 너무 넓거나 \n너무 좁지 않은 변별력의 범위를 잡아 보기",
-		"background_color": "dark",
-		"position": {
-			"x": 1156.509974377745,
-			"y": 675.720808931186
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0028"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a933c"
-		},
-		"uid": "sub_0029",
-		"text": "먼저 안심시켜 드리고 시작할까? \n아니면 부동산 사장님처럼 정답은 맨 마지막에? ",
-		"background_color": "dark",
-		"position": {
-			"x": 1216.109901171304,
-			"y": 702.9083089311861
-		},
-		"rotation": 94,
-		"main_text_uid": "main_0029"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a933d"
-		},
-		"uid": "sub_0030",
-		"text": "팀원 스스로의 상황 인식과 나의 상황 인식이 \n겉으로 드러나서 그 차이가 발견되도록 만들기",
-		"background_color": "light",
-		"position": {
-			"x": 257.9845351390924,
-			"y": 62.51784407027817
-		},
-		"rotation": -30,
-		"main_text_uid": "main_0030"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a933e"
-		},
-		"uid": "sub_0031",
-		"text": "상대에 따라 때론 눈치 보지 말고 \n직접적으로 물어보자.",
-		"background_color": "dark",
-		"position": {
-			"x": 220.06524524158127,
-			"y": 580.065245241581
-		},
-		"rotation": 55,
-		"main_text_uid": "main_0031"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a933f"
-		},
-		"uid": "sub_0032",
-		"text": "과정 중엔 별로 의견이 없다가, 가결정이 되었다는 내용을 \n깔고 물어보면 의견이 잘 나오는 경우가 종종 있다.",
-		"background_color": "dark",
-		"position": {
-			"x": 39.78605417276715,
-			"y": 814.8307101024897
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0032"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9340"
-		},
-		"uid": "sub_0033",
-		"text": "이분들은 디자인을 빨리 보고 싶어 하는 것 같으니 \n앞부분의 논리 파트 장표들은 스킵할까?",
-		"background_color": "light",
-		"position": {
-			"x": 355.75585651537307,
-			"y": 456.02269399707166
-		},
-		"rotation": 29.887500000000045,
-		"main_text_uid": "main_0033"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9341"
-		},
-		"uid": "sub_0034",
-		"text": "알아봐 주시면 좋겠다~",
-		"background_color": "dark",
-		"position": {
-			"x": 993.6765190336744,
-			"y": 374.6861273792096
-		},
-		"rotation": -36.11999999999955,
-		"main_text_uid": "main_0034"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9342"
-		},
-		"uid": "sub_0035",
-		"text": "프로젝트 회고할 때 개선할 점을 \n묻는 대신 다르게 해보고 싶은 것으로.",
-		"background_color": "dark",
-		"position": {
-			"x": 1268.2349011713034,
-			"y": 821.358528550512
-		},
-		"rotation": 42,
-		"main_text_uid": "main_0035"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9343"
-		},
-		"uid": "sub_0036",
-		"text": "컨셉 제안 때 우리가 과정에 들인 노력도 \n어필하면 더 잘 설득되실 것 같아요.",
-		"background_color": "light",
-		"position": {
-			"x": 1718.4543374816992,
-			"y": 85.40007320644213
-		},
-		"rotation": 29.056249999999977,
-		"main_text_uid": "main_0036"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9344"
-		},
-		"uid": "sub_0037",
-		"text": "고객사에서 기대하는 범위는?",
-		"background_color": "dark",
-		"position": {
-			"x": 699.4666910688139,
-			"y": 384.8736273792094
-		},
-		"rotation": 13,
-		"main_text_uid": "main_0037"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9345"
-		},
-		"uid": "sub_0038",
-		"text": "초기 스케치 중 만들어진 좋은 단서들. 본인은 \n모르지만, 동료가 발견해 주는 경우도 종종 있다.",
-		"background_color": "dark",
-		"position": {
-			"x": 272.55838213762826,
-			"y": 810.7015922401174
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0038"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9346"
-		},
-		"uid": "sub_0039",
-		"text": "신입 디자이너의 경우 그리드 시스템에 대한 \n설계를 제대로 했는지 챙겨야.",
-		"background_color": "light",
-		"position": {
-			"x": 97.52159590043925,
-			"y": 914.6023060029283
-		},
-		"rotation": -29,
-		"main_text_uid": "main_0039"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9347"
-		},
-		"uid": "sub_0040",
-		"text": "작업자가 선호하는 안에 대한 논의 중에 \n새로운 매력과 단서가 발견될 때가 있다.",
-		"background_color": "light",
-		"position": {
-			"x": 34.58720717423131,
-			"y": 219.0096083455344
-		},
-		"rotation": 32,
-		"main_text_uid": "main_0040"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9348"
-		},
-		"uid": "sub_0041",
-		"text": "팀원에게 점진적으로 권한과 \n업무 범위를 넘기기",
-		"background_color": "light",
-		"position": {
-			"x": 185.98057675424397,
-			"y": 799.1013355008417
-		},
-		"rotation": -10.056222547584184,
-		"main_text_uid": "main_0041"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9349"
-		},
-		"uid": "sub_0042",
-		"text": "너무 기본적이고 당연한 얘기지만, \n그래도 팀장이니까 할 말은 해야겠지?",
-		"background_color": "dark",
-		"position": {
-			"x": 341.0666178623717,
-			"y": 536.2723279648604
-		},
-		"rotation": 0,
-		"main_text_uid": "main_0042"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a934a"
-		},
-		"uid": "sub_0043",
-		"text": "한 번 말해서는 팀원이 못 알아들을 수도 있다고 \n전제해야 하는 것이 팀장에게 필요한 태도.",
-		"background_color": "dark",
-		"position": {
-			"x": 278.76372620790585,
-			"y": 625.570735724744
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0043"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a934b"
-		},
-		"uid": "sub_0044",
-		"text": "팀장이라면 내가 부족한 부분을 알리고 \n메꿔달라고 요청할 줄도 알아야.",
-		"background_color": "dark",
-		"position": {
-			"x": 139.68338213762806,
-			"y": 726.4612005856511
-		},
-		"rotation": 0,
-		"main_text_uid": "main_0044"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a934c"
-		},
-		"uid": "sub_0045",
-		"text": "찜찜한 예감은 보통 틀리지 않으니\n 바로바로 확인하기",
-		"background_color": "light",
-		"position": {
-			"x": 1771.6278985371239,
-			"y": 446.7333283277648
-		},
-		"rotation": 15,
-		"main_text_uid": "main_0045"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a934d"
-		},
-		"uid": "sub_0046",
-		"text": "생각보다 서로 다른 전제 위에서 \n얘기를 나누게 될 때가 많아서요.",
-		"background_color": "light",
-		"position": {
-			"x": 833.3455344070278,
-			"y": 461.44216691068823
-		},
-		"rotation": -29,
-		"main_text_uid": "main_0046"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a934e"
-		},
-		"uid": "sub_0047",
-		"text": "혹시 초기 방향성에서 너무 멀리 온 건 아닌가 싶어서요.",
-		"background_color": "dark",
-		"position": {
-			"x": 852.8375732064428,
-			"y": 239.54428989751096
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0047"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a934f"
-		},
-		"uid": "sub_0048",
-		"text": "이걸 오늘 공유하면 이번 주 디자인팀 \n업무 흐름을 깰 것 같아요.",
-		"background_color": "dark",
-		"position": {
-			"x": 1364.204337481699,
-			"y": 818.9443631039534
-		},
-		"rotation": -49,
-		"main_text_uid": "main_0048"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9350"
-		},
-		"uid": "sub_0049",
-		"text": "이 건에 대해 논의되신 바가 있을까요? \n있다면 전달 부탁드립니다. 이 정도 쿠션 어때요?",
-		"background_color": "dark",
-		"position": {
-			"x": 1664.4196559297202,
-			"y": 746.499633967789
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0049"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9351"
-		},
-		"uid": "sub_0050",
-		"text": "이 질문으로 그분들께서 상상의 나래를 \n다시 펴기 시작하면 일정상 어려워질 것 같아요.",
-		"background_color": "light",
-		"position": {
-			"x": 37.26098096632504,
-			"y": 437.79328330893105
-		},
-		"rotation": 31.981250000000045,
-		"main_text_uid": "main_0050"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9352"
-		},
-		"uid": "sub_0051",
-		"text": "상당히 귀찮지만 이왕이면 고객사가 \n검토하기에 익숙한 포맷으로?",
-		"background_color": "dark",
-		"position": {
-			"x": 438.9320095168374,
-			"y": 574.1207626700226
-		},
-		"rotation": 57,
-		"main_text_uid": "main_0051"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9353"
-		},
-		"uid": "sub_0052",
-		"text": "회의 중에 침묵이 이어질 때, 일단 넘어가기",
-		"background_color": "dark",
-		"position": {
-			"x": 769.3987005856517,
-			"y": 345.5624999999998
-		},
-		"rotation": -58,
-		"main_text_uid": "main_0052"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9354"
-		},
-		"uid": "sub_0053",
-		"text": "그에 따라 일이 되는 쪽으로 얘기할지, \n좀 중립적인 모드로 갈지 달라질 것 같아요. ",
-		"background_color": "dark",
-		"position": {
-			"x": 789.5432833089317,
-			"y": 825.6181368960471
-		},
-		"rotation": 38,
-		"main_text_uid": "main_0053"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9355"
-		},
-		"uid": "sub_0054",
-		"text": "궁금하긴 한데 계약 체결에 꼭 필요한 \n내용은 아니니 일단은 킵해만 둘까?\n",
-		"background_color": "light",
-		"position": {
-			"x": 1786.284681551976,
-			"y": 624.3977843047159
-		},
-		"rotation": 47.981250000000045,
-		"main_text_uid": "main_0054"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9356"
-		},
-		"uid": "sub_0055",
-		"text": "방향성을 위해 팀장님께 단서를 요청할지, \n아니면 SOS를 치고 솔루션을 요청할 지 고민.",
-		"background_color": "light",
-		"position": {
-			"x": 761.6132869692532,
-			"y": 53.985907759882835
-		},
-		"rotation": 11,
-		"main_text_uid": "main_0055"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9357"
-		},
-		"uid": "sub_0056",
-		"text": "텍스트양을 여기서 더 줄일 수 없다고 하시니, \n아무래도 잘 읽히는 거에 포커스를 둬야겠죠?",
-		"background_color": "dark",
-		"position": {
-			"x": 1271.1016654465607,
-			"y": 584.1651720351383
-		},
-		"rotation": -35,
-		"main_text_uid": "main_0056"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9358"
-		},
-		"uid": "sub_0057",
-		"text": "체계가 좀 잡힌 곳과 아직 잡아나가는 곳. \n일반화할 순 없지만 확실히 경향은 있더라고요.",
-		"background_color": "dark",
-		"position": {
-			"x": 1477.393210102489,
-			"y": 603.9457357247442
-		},
-		"rotation": 103.02811127379209,
-		"main_text_uid": "main_0057"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9359"
-		},
-		"uid": "sub_0058",
-		"text": "아, 그 정도라면 이 견적으로 제안하는 건 좀 무리가 있어 보여요.",
-		"background_color": "dark",
-		"position": {
-			"x": 1113.4680636896037,
-			"y": 299.77919106881393
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0058"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a935a"
-		},
-		"uid": "sub_0059",
-		"text": "100% 진실은 아니지만 \n100% 거짓도 아닌 정보들",
-		"background_color": "light",
-		"position": {
-			"x": 1123.2680020585406,
-			"y": 921.5845534407022
-		},
-		"rotation": -39,
-		"main_text_uid": "main_0059"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a935b"
-		},
-		"uid": "sub_0060",
-		"text": "고객사의 특성에 맞게 여유 일정이 \n어느 정도 필요한지 판단해 보기",
-		"background_color": "light",
-		"position": {
-			"x": 254.69536969253272,
-			"y": 944.0707357247438
-		},
-		"rotation": 4,
-		"main_text_uid": "main_0060"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a935c"
-		},
-		"uid": "sub_0061",
-		"text": "이번에 견적이 이 정도니까 투입시간을 \n그에 맞게 조절하면 좋겠어요.",
-		"background_color": "light",
-		"position": {
-			"x": 637.7496339677891,
-			"y": 453.97218155197623
-		},
-		"rotation": -11,
-		"main_text_uid": "main_0061"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a935d"
-		},
-		"uid": "sub_0062",
-		"text": "열어 두었다면 모르겠지만, 원하는 게 있으면 \n그 방향으로 논의를 풀어 갈 준비를 해 두시면 좋겠어요.",
-		"background_color": "dark",
-		"position": {
-			"x": 547.2987737920935,
-			"y": 610.7403916544654
-		},
-		"rotation": -76,
-		"main_text_uid": "main_0062"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a935e"
-		},
-		"uid": "sub_0063",
-		"text": "인원이 많아서 선뜻 입을 여는 사람이 \n많지 않을 것 같아서요.",
-		"background_color": "light",
-		"position": {
-			"x": 451.538799414349,
-			"y": 222.2142203513914
-		},
-		"rotation": -30,
-		"main_text_uid": "main_0063"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a935f"
-		},
-		"uid": "sub_0064",
-		"text": "대화를 이끌어내기 어려운 팀원에게는 \n질문을 단순하게 만들어 보기",
-		"background_color": "dark",
-		"position": {
-			"x": 1158.6349743777444,
-			"y": 808.4612920937045
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0064"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9360"
-		},
-		"uid": "sub_0065",
-		"text": "고객사의 결정된 내용보다 그 논의 과정에 \n단서가 있는 경우가 종종 있다.",
-		"background_color": "light",
-		"position": {
-			"x": 1756.9073023426054,
-			"y": 225.15281844802342
-		},
-		"rotation": 16,
-		"main_text_uid": "main_0065"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9361"
-		},
-		"uid": "sub_0066",
-		"text": "때론 전형적인 관계 구도 밖에 있는 \n질문을 해서 분위기를 환기하기",
-		"background_color": "light",
-		"position": {
-			"x": 1426.3416910688136,
-			"y": 427.5666178623721
-		},
-		"rotation": 30,
-		"main_text_uid": "main_0066"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9362"
-		},
-		"uid": "sub_0067",
-		"text": "목적은 설득이지만 \n표면은 질문의 형식을 빌리기",
-		"background_color": "light",
-		"position": {
-			"x": 1232.9736456808207,
-			"y": 946.8975109809666
-		},
-		"rotation": -30.90000000000009,
-		"main_text_uid": "main_0067"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9363"
-		},
-		"uid": "sub_0068",
-		"text": "고객사가 추구하는 상과 함께 \n원하지 않는 상 또한 확인하기",
-		"background_color": "dark",
-		"position": {
-			"x": 227.81250000000003,
-			"y": 670.8083821376283
-		},
-		"rotation": -55,
-		"main_text_uid": "main_0068"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9364"
-		},
-		"uid": "sub_0069",
-		"text": "고객사가 언급한 사례에는 다양한 면이 존재하기 때문에 \n구체적으로 무엇에 끌리셨는지 확인해야 할 수도.",
-		"background_color": "dark",
-		"position": {
-			"x": 725.3932101024891,
-			"y": 697.2194363103955
-		},
-		"rotation": 94,
-		"main_text_uid": "main_0069"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9365"
-		},
-		"uid": "sub_0070",
-		"text": "고객사가 혹시 답정너라면 힘 빼지 \n말고 결론으로 직진하자.",
-		"background_color": "light",
-		"position": {
-			"x": 1276.162975841874,
-			"y": 74.0907759882865
-		},
-		"rotation": 36,
-		"main_text_uid": "main_0070"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9366"
-		},
-		"uid": "sub_0071",
-		"text": "디자인 용어나 프로세스에 과하게 맞춰서 \n내용을 전달하려는 고객을 만났을 때",
-		"background_color": "light",
-		"position": {
-			"x": 1279.651171303076,
-			"y": 473.85551057203924
-		},
-		"rotation": -35,
-		"main_text_uid": "main_0071"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9367"
-		},
-		"uid": "sub_0072",
-		"text": "입 디자인에 너무 말려들지 말고 \n적당한 시점에 잘라주기",
-		"background_color": "light",
-		"position": {
-			"x": 1582.3203696925325,
-			"y": 415.8102122986823
-		},
-		"rotation": -46,
-		"main_text_uid": "main_0072"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9368"
-		},
-		"uid": "sub_0073",
-		"text": "고객사 브랜드가 추구하는 인상과 고객사 내부 \n구성원의 DNA는 때로 같기도, 다르기도 하다.",
-		"background_color": "dark",
-		"position": {
-			"x": 627.6682833089313,
-			"y": 603.2764458272327
-		},
-		"rotation": 77,
-		"main_text_uid": "main_0073"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9369"
-		},
-		"uid": "sub_0074",
-		"text": "요청해 주신 대로 새로운 시도를 하겠지만, \n커머스로서 기본적으로 지켜야 하는 바운더리 안에서 해보겠습니다. ",
-		"background_color": "dark",
-		"position": {
-			"x": 988.8142386530016,
-			"y": 556.6847547584189
-		},
-		"rotation": 0,
-		"main_text_uid": "main_0074"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a936a"
-		},
-		"uid": "sub_0075",
-		"text": "주관적일 수밖에 없는 언어를 벗어나서 \n구체적인 케이스를 통해 서로 싱크를 맞추기",
-		"background_color": "dark",
-		"position": {
-			"x": 667.6369875549046,
-			"y": 803.6368045387989
-		},
-		"rotation": 79,
-		"main_text_uid": "main_0075"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a936b"
-		},
-		"uid": "sub_0076",
-		"text": "고객사의 언어 습관을 파악해서 \n웬만하면 워딩을 맞춰드리기",
-		"background_color": "light",
-		"position": {
-			"x": 460.4917642752564,
-			"y": 358.64403367496305
-		},
-		"rotation": -11,
-		"main_text_uid": "main_0076"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a936c"
-		},
-		"uid": "sub_0077",
-		"text": "고객사 논의가 어느 쪽으로 흐르는 중인지 \n아는 것도 때로는 큰 단서.",
-		"background_color": "light",
-		"position": {
-			"x": 1428.355417276721,
-			"y": 929.1136530014642
-		},
-		"rotation": 31,
-		"main_text_uid": "main_0077"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a936d"
-		},
-		"uid": "sub_0078",
-		"text": "안 계신다면 이번 결과물 파일은 \n어떤 포맷으로 드려야 할까요?",
-		"background_color": "light",
-		"position": {
-			"x": 1353.143484626649,
-			"y": 308.2534773060034
-		},
-		"rotation": 6,
-		"main_text_uid": "main_0078"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a936e"
-		},
-		"uid": "sub_0079",
-		"text": "결과물이 놓일 외부 환경에 따라 \n그에 맞는 종이 두께, 후가공 등을 체크해 보기",
-		"background_color": "light",
-		"position": {
-			"x": 1608.9781295754017,
-			"y": 309.50109809663263
-		},
-		"rotation": -31,
-		"main_text_uid": "main_0079"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a936f"
-		},
-		"uid": "sub_0080",
-		"text": "시안 작업 시 폰트 선택 폭을 \n미리 확인해 보기",
-		"background_color": "dark",
-		"position": {
-			"x": 907.2278191321968,
-			"y": 594.9336775670522
-		},
-		"rotation": 55,
-		"main_text_uid": "main_0080"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9370"
-		},
-		"uid": "sub_0081",
-		"text": "외부 사인 작업 시 법적인 부분에 대해 체크하기",
-		"background_color": "dark",
-		"position": {
-			"x": 1012.0820827232792,
-			"y": 340.44436310395326
-		},
-		"rotation": 87,
-		"main_text_uid": "main_0081"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9371"
-		},
-		"uid": "sub_0082",
-		"text": "예를 들면 유지, 확장, 강화, \n축소 중 어떤 방향?",
-		"background_color": "light",
-		"position": {
-			"x": 1557.50259116392,
-			"y": 244.44516946978507
-		},
-		"rotation": 17,
-		"main_text_uid": "main_0082"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9372"
-		},
-		"uid": "sub_0083",
-		"text": "종종 놓치는, 기초적인 질문 던지기",
-		"background_color": "dark",
-		"position": {
-			"x": 908.2486273792094,
-			"y": 359.4871388169338
-		},
-		"rotation": 48,
-		"main_text_uid": "main_0083"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9373"
-		},
-		"uid": "sub_0084",
-		"text": "때로는 ‘최종 데드라인’ 같은 딱딱한 단어보다 \n구어체를 빌려와 쓰는 게 좋을 상황도 있다.",
-		"background_color": "dark",
-		"position": {
-			"x": 1718.8334553440702,
-			"y": 835.456838364046
-		},
-		"rotation": 0,
-		"main_text_uid": "main_0084"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9374"
-		},
-		"uid": "sub_0085",
-		"text": "물었을 때 답해주는 경우가 의외로 많다.",
-		"background_color": "dark",
-		"position": {
-			"x": 690.9347547584184,
-			"y": 202.63735358711563
-		},
-		"rotation": -27,
-		"main_text_uid": "main_0085"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9375"
-		},
-		"uid": "sub_0086",
-		"text": "견적 산출과 제안 시 프로젝트별 \n원가 감각 탑재하기",
-		"background_color": "light",
-		"position": {
-			"x": 238.6556551976576,
-			"y": 476.80234260614975
-		},
-		"rotation": -16,
-		"main_text_uid": "main_0086"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9376"
-		},
-		"uid": "sub_0087",
-		"text": "고객사가 찜찜해하는 부분이 있는 것 \n같다면 짐작하지 말고 직접 묻기",
-		"background_color": "light",
-		"position": {
-			"x": 1087.8275988286978,
-			"y": 494.4721815519766
-		},
-		"rotation": 18.159999999999968,
-		"main_text_uid": "main_0087"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9377"
-		},
-		"uid": "sub_0088",
-		"text": "문장 속의 키워드 뽑아내기. 한편, 자사 브랜드를 객관적으로 \n보지 못하는 경우도 많아서 그 부분도 체크할 겸.",
-		"background_color": "dark",
-		"position": {
-			"x": 394.6012994143488,
-			"y": 801.4278916544657
-		},
-		"rotation": 64,
-		"main_text_uid": "main_0088"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9378"
-		},
-		"uid": "sub_0089",
-		"text": "담당자는 이미 정해져 있겠지만 꺼내서 확인하기",
-		"background_color": "dark",
-		"position": {
-			"x": 618.8994170076708,
-			"y": 307.65914032486154
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0089"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9379"
-		},
-		"uid": "sub_0090",
-		"text": "미팅 시작 시점에 논의의 구성과 흐름 먼저 잡기",
-		"background_color": "dark",
-		"position": {
-			"x": 1131.4000732064412,
-			"y": 194.91242679355767
-		},
-		"rotation": 0,
-		"main_text_uid": "main_0090"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a937a"
-		},
-		"uid": "sub_0091",
-		"text": "자리와 음료 세팅, \n출력물 준비!\n",
-		"background_color": "dark",
-		"position": {
-			"x": 1188.292575490231,
-			"y": 569.8974859531227
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0091"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a937b"
-		},
-		"uid": "sub_0092",
-		"text": "7월쯤부턴 상대의 휴가 일정 체크하기",
-		"background_color": "dark",
-		"position": {
-			"x": 1020.2682101024886,
-			"y": 214.45808931185937
-		},
-		"rotation": 90,
-		"main_text_uid": "main_0092"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a937c"
-		},
-		"uid": "sub_0093",
-		"text": "타겟 페르소나와 함께 \n브랜드 페르소나도 잡아 보기",
-		"background_color": "dark",
-		"position": {
-			"x": 897.2932833089312,
-			"y": 815.2486273792086
-		},
-		"rotation": -47,
-		"main_text_uid": "main_0093"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a937d"
-		},
-		"uid": "sub_0094",
-		"text": "미팅 막바지라 빨리 끝내고 집에 \n가고 싶겠지만 꼭 물어보자.",
-		"background_color": "dark",
-		"position": {
-			"x": 631.4780380673496,
-			"y": 702.1404648609087
-		},
-		"rotation": 0,
-		"main_text_uid": "main_0094"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a937e"
-		},
-		"uid": "sub_0095",
-		"text": "어떤 고객사들은 괜히 미안해하시니까 \n먼저 언급해 드리기",
-		"background_color": "light",
-		"position": {
-			"x": 606.2602489019033,
-			"y": 943.1888726207904
-		},
-		"rotation": -10,
-		"main_text_uid": "main_0095"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a937f"
-		},
-		"uid": "sub_0096",
-		"text": "웬만하면 4시 전에 강남을 빠져나오자.",
-		"background_color": "dark",
-		"position": {
-			"x": 780.7417642752566,
-			"y": 236.3235216365707
-		},
-		"rotation": 54.480000000000246,
-		"main_text_uid": "main_0096"
-	},
-	{
-		"_id": {
-			"$oid": "66e14d897a4f72744e9a9380"
-		},
-		"uid": "sub_0097",
-		"text": "대표님의 지난 커리어를 단서 삼아 \n조직의 DNA를 짐작해 보기",
-		"background_color": "light",
-		"position": {
-			"x": 1517.935578330893,
-			"y": 52.67789165446559
-		},
-		"rotation": -18.860000000000127,
-		"main_text_uid": "main_0097"
-	},
-	{
-		"_id": {
-			"$oid": "66e250ad2689e9cb64609e0d"
-		},
-		"uid": "ljs2g1s1y1726107821800",
-		"text": "자료가 윗분들까지 올라가려면 \n몇시에는 보내야 되려나?",
-		"background_color": "dark",
-		"position": {
-			"x": 1537.2431368960483,
-			"y": 691.8554172767208
-		},
-		"rotation": 0,
-		"main_text_uid": "hh995dg8b1726107821779",
-		"__v": 0
-	}
-]
+[{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a931f"
+  },
+  "uid": "sub_0000",
+  "text": "참석 인원에 따라 고객사에 전달되는 \n인상이 달라지는 점을 인식하기",
+  "background_color": "light",
+  "position": {
+    "x": 240.00759516837468,
+    "y": 225.92029648609093
+  },
+  "rotation": -13.819999999999823,
+  "main_text_uid": "main_0000"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9320"
+  },
+  "uid": "sub_0001",
+  "text": "세 개 제안하면 한가해 보이려나?",
+  "background_color": "dark",
+  "position": {
+    "x": 1193.2015922401154,
+    "y": 383.3846083455343
+  },
+  "rotation": -60.12348804500709,
+  "main_text_uid": "main_0001"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9321"
+  },
+  "uid": "sub_0002",
+  "text": "고객사의 의사결정 문화에 맞게 \n제안과 진행의 전략을 짜 보기",
+  "background_color": "light",
+  "position": {
+    "x": 895.7481698389461,
+    "y": 690.1127379209365
+  },
+  "rotation": 28,
+  "main_text_uid": "main_0002"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9322"
+  },
+  "uid": "sub_0003",
+  "text": "그쪽에 약간 양해를 구하고 싶은 건이 있는데 \n우리 요즘 밑지고 있는 상황은 아니죠?",
+  "background_color": "dark",
+  "position": {
+    "x": 788.0683565153738,
+    "y": 569.5054904831627
+  },
+  "rotation": -18.640225035161848,
+  "main_text_uid": "main_0003"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9323"
+  },
+  "uid": "sub_0004",
+  "text": "자료에 인쇄 관련 전문용어가 좀 들어가는데 \n기획직군이라면 용어 설명을 좀 넣어야 하지 않나 싶어서요. ",
+  "background_color": "dark",
+  "position": {
+    "x": 1427.2791021043352,
+    "y": 785.5705467736352
+  },
+  "rotation": 86.57158931082972,
+  "main_text_uid": "main_0004"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9324"
+  },
+  "uid": "sub_0005",
+  "text": "예를 들면 선생님처럼 정해주는 느낌으로? \n아니면 약간 비서처럼 옵션을 드리는 느낌으로? ",
+  "background_color": "light",
+  "position": {
+    "x": 366.8127745241581,
+    "y": 918.7355417276721
+  },
+  "rotation": 43,
+  "main_text_uid": "main_0005"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9325"
+  },
+  "uid": "sub_0006",
+  "text": "고객사의 의사결정 문화와 담당자의 특성을 고려해서 \n시각적 갈래를 미리 보여드릴지 여부를 판단해 보기",
+  "background_color": "light",
+  "position": {
+    "x": 857.6632503660326,
+    "y": 940.8272327964861
+  },
+  "rotation": 13,
+  "main_text_uid": "main_0006"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9326"
+  },
+  "uid": "sub_0007",
+  "text": "이분은 어떤 채널로 연락했을 때 \n가장 감도가 좋은가?",
+  "background_color": "light",
+  "position": {
+    "x": 111.0369692532951,
+    "y": 295.98416910688115
+  },
+  "rotation": -44.75625000000002,
+  "main_text_uid": "main_0007"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9327"
+  },
+  "uid": "sub_0008",
+  "text": "예전에 브랜드 인지도와 견적에만 \n혹했다가 데인 적이 좀 있어서.",
+  "background_color": "light",
+  "position": {
+    "x": 241.44051976573957,
+    "y": 342.2754392386529
+  },
+  "rotation": -45,
+  "main_text_uid": "main_0008"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9328"
+  },
+  "uid": "sub_0009",
+  "text": "그런 사람으로 보이고 싶진 않지만 \n상황이 좀 급한데 어떻게 할까?",
+  "background_color": "dark",
+  "position": {
+    "x": 324.86676427525595,
+    "y": 713.114019033675
+  },
+  "rotation": 7.38762306610397,
+  "main_text_uid": "main_0009"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9329"
+  },
+  "uid": "sub_0010",
+  "text": "목소리가 잘 들리는 게 중요하니 앞쪽에 앉으실 거라면\n 화면보단 사람을 보고 발표하는 연습을 하시는 게 좋겠어요.",
+  "background_color": "dark",
+  "position": {
+    "x": 1570.8722547584173,
+    "y": 796.0624999999993
+  },
+  "rotation": 84,
+  "main_text_uid": "main_0010"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a932a"
+  },
+  "uid": "sub_0011",
+  "text": "고객사와 담당자의 캐주얼한 정도가 \n어느 정도인지 짐작해 보기",
+  "background_color": "dark",
+  "position": {
+    "x": 430.4876464128848,
+    "y": 667.2778184480235
+  },
+  "rotation": -28.933924050632925,
+  "main_text_uid": "main_0011"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a932b"
+  },
+  "uid": "sub_0012",
+  "text": "큰 기업들은 클라우드 서비스가 종종 차단되어 있던데.",
+  "background_color": "dark",
+  "position": {
+    "x": 608.1304904831617,
+    "y": 158.80527086383591
+  },
+  "rotation": 100.25007032348822,
+  "main_text_uid": "main_0012"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a932c"
+  },
+  "uid": "sub_0013",
+  "text": "덜 세련되어 보이더라도 정확한 의미 전달을 위해 \n동어 반복을 해야 하는 자료인지 생각해 보기",
+  "background_color": "dark",
+  "position": {
+    "x": 1662.125947929573,
+    "y": 604.6664462750014
+  },
+  "rotation": 96.45963431786208,
+  "main_text_uid": "main_0013"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a932d"
+  },
+  "uid": "sub_0014",
+  "text": "상대와의 원활한 소통을 위해 내가 사용할 수 있는 \n다양한 소통 방식을 고민해 보기\n",
+  "background_color": "light",
+  "position": {
+    "x": 981.5153733528551,
+    "y": 72.28891888195395
+  },
+  "rotation": -21,
+  "main_text_uid": "main_0014"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a932e"
+  },
+  "uid": "sub_0015",
+  "text": "회의 때 꼭 필요한 사람이 있어야 하는 만큼 \n불필요한 사람이 없는지도 확인해 보면 어때요?",
+  "background_color": "light",
+  "position": {
+    "x": 1387.4860907759892,
+    "y": 176.17862371888714
+  },
+  "rotation": 72,
+  "main_text_uid": "main_0015"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a932f"
+  },
+  "uid": "sub_0016",
+  "text": "지금 우리에게 필요한 게 열어두고 하는 리서치? \n아니면 우리가 원하는 결론을 위한 근거 만들기?",
+  "background_color": "light",
+  "position": {
+    "x": 465.25768667642745,
+    "y": 76.6298499267936
+  },
+  "rotation": -21.680000000000064,
+  "main_text_uid": "main_0016"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9330"
+  },
+  "uid": "sub_0017",
+  "text": "이곳과는 업무 외적인 무언가가 약간 있어 주면 \n총체적으로 더 잘 돌아가게 될 거 같네요.",
+  "background_color": "dark",
+  "position": {
+    "x": 1541.8293374816978,
+    "y": 592.8234809663247
+  },
+  "rotation": 88.07651195499284,
+  "main_text_uid": "main_0017"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9331"
+  },
+  "uid": "sub_0018",
+  "text": "사전 미팅에 많이 오실수록, 직급이 높을수록 \n계약 성사 가능성은 올라간다고 보시면 되어요.",
+  "background_color": "light",
+  "position": {
+    "x": 39.95946193265006,
+    "y": 86.59718155197656
+  },
+  "rotation": 11.679999999999836,
+  "main_text_uid": "main_0018"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9332"
+  },
+  "uid": "sub_0019",
+  "text": "누가 봐도 뿌린 메일이라면 가볍게 기초 정보 수집 중일 가능성이 \n높으니 견적서 굳이 만들지 말고 금액만 전달해도 되겠어요.",
+  "background_color": "dark",
+  "position": {
+    "x": 494.3932101024886,
+    "y": 786.6833821376277
+  },
+  "rotation": -93.13052039381148,
+  "main_text_uid": "main_0019"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9333"
+  },
+  "uid": "sub_0020",
+  "text": "이런 분들이 의외로 자기 말이 끊겨도 \n개의치 않아 하시던데. 나도 그냥 끊고 들어가자.",
+  "background_color": "dark",
+  "position": {
+    "x": 1004.815611273792,
+    "y": 794.8434297218156
+  },
+  "rotation": 108.2565400843879,
+  "main_text_uid": "main_0020"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9334"
+  },
+  "uid": "sub_0021",
+  "text": "정말 궁금하신 걸까? 아니면 자신의 \n선택에 확신을 가지고자 하셔서인지?",
+  "background_color": "dark",
+  "position": {
+    "x": 115.41654465592951,
+    "y": 547.8111273792088
+  },
+  "rotation": 10.4120956399438,
+  "main_text_uid": "main_0021"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9335"
+  },
+  "uid": "sub_0022",
+  "text": "불필요해진 레거시 확실히 해 두기",
+  "background_color": "dark",
+  "position": {
+    "x": 1154.4249144163293,
+    "y": 132.794836922586
+  },
+  "rotation": -60.49676511955033,
+  "main_text_uid": "main_0022"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9336"
+  },
+  "uid": "sub_0023",
+  "text": "프로젝트 스케줄 잡을 때 공휴일은 꼭 체크하자. \n빨간날 일하고 싶지 않다면...",
+  "background_color": "dark",
+  "position": {
+    "x": 1005.1892386530014,
+    "y": 650.2349011713026
+  },
+  "rotation": 103.55443037974692,
+  "main_text_uid": "main_0023"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9337"
+  },
+  "uid": "sub_0024",
+  "text": "여기 피드백이 좀 느린 거 같던데. \n한 사흘 더 잡을까요?",
+  "background_color": "light",
+  "position": {
+    "x": 1766.346998535871,
+    "y": 927.9194729136163
+  },
+  "rotation": -19.320000000000164,
+  "main_text_uid": "main_0024"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9338"
+  },
+  "uid": "sub_0025",
+  "text": "각자 역할에 대해 애매하게 느낄 \n가능성이 있다면 딱 집어서 지정해 주기",
+  "background_color": "light",
+  "position": {
+    "x": 1550.477306002928,
+    "y": 893.4011748776082
+  },
+  "rotation": 21,
+  "main_text_uid": "main_0025"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9339"
+  },
+  "uid": "sub_0026",
+  "text": "때론 동료에게 무작정 도와달라고 \n말해야 할 때도 있다는 것을 잊지 않기",
+  "background_color": "dark",
+  "position": {
+    "x": 1372.3530380673494,
+    "y": 602.4598279648607
+  },
+  "rotation": 4.292545710267632,
+  "main_text_uid": "main_0026"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a933a"
+  },
+  "uid": "sub_0027",
+  "text": "작은 차이를 감지하실 줄 아는 분일까? 그게 아니라면 \n디테일한 설명은 오히려 논의를 복잡하게 만들 것 같다.",
+  "background_color": "dark",
+  "position": {
+    "x": 36.38460834553439,
+    "y": 644.243136896047
+  },
+  "rotation": 114.54430379746816,
+  "main_text_uid": "main_0027"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a933b"
+  },
+  "uid": "sub_0028",
+  "text": "고객사의 기대치를 고려해서 너무 넓거나 \n너무 좁지 않은 변별력의 범위를 잡아 보기",
+  "background_color": "dark",
+  "position": {
+    "x": 1152.509974377745,
+    "y": 675.720808931186
+  },
+  "rotation": 72.82362869198323,
+  "main_text_uid": "main_0028"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a933c"
+  },
+  "uid": "sub_0029",
+  "text": "먼저 안심시켜 드리고 시작할까? \n아니면 부동산 사장님처럼 정답은 맨 마지막에? ",
+  "background_color": "dark",
+  "position": {
+    "x": 1216.109901171304,
+    "y": 702.9083089311861
+  },
+  "rotation": 79.50773558368473,
+  "main_text_uid": "main_0029"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a933d"
+  },
+  "uid": "sub_0030",
+  "text": "팀원 스스로의 상황 인식과 나의 상황 인식이 \n겉으로 드러나서 그 차이가 발견되도록 만들기",
+  "background_color": "light",
+  "position": {
+    "x": 257.9845351390924,
+    "y": 62.51784407027817
+  },
+  "rotation": -30,
+  "main_text_uid": "main_0030"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a933e"
+  },
+  "uid": "sub_0031",
+  "text": "상대에 따라 때론 눈치 보지 말고 \n직접적으로 물어보자.",
+  "background_color": "dark",
+  "position": {
+    "x": 212.06524524158127,
+    "y": 576.065245241581
+  },
+  "rotation": 69.70829817158949,
+  "main_text_uid": "main_0031"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a933f"
+  },
+  "uid": "sub_0032",
+  "text": "과정 중엔 별로 의견이 없다가, 가결정이 되었다는 내용을 \n깔고 물어보면 의견이 잘 나오는 경우가 종종 있다.",
+  "background_color": "dark",
+  "position": {
+    "x": 29.78605417276715,
+    "y": 813.8307101024897
+  },
+  "rotation": 88.05257494651119,
+  "main_text_uid": "main_0032"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9340"
+  },
+  "uid": "sub_0033",
+  "text": "이분들은 디자인을 빨리 보고 싶어 하는 것 같으니 \n앞부분의 논리 파트 장표들은 스킵할까?",
+  "background_color": "light",
+  "position": {
+    "x": 355.75585651537307,
+    "y": 456.02269399707166
+  },
+  "rotation": 29.887500000000045,
+  "main_text_uid": "main_0033"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9341"
+  },
+  "uid": "sub_0034",
+  "text": "알아봐 주시면 좋겠다~",
+  "background_color": "dark",
+  "position": {
+    "x": 993.6765190336744,
+    "y": 374.6861273792096
+  },
+  "rotation": -24.72421940928234,
+  "main_text_uid": "main_0034"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9342"
+  },
+  "uid": "sub_0035",
+  "text": "프로젝트 회고할 때 개선할 점을 \n묻는 대신 다르게 해보고 싶은 것으로.",
+  "background_color": "dark",
+  "position": {
+    "x": 1269.2349011713034,
+    "y": 828.358528550512
+  },
+  "rotation": 60.73783403656785,
+  "main_text_uid": "main_0035"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9343"
+  },
+  "uid": "sub_0036",
+  "text": "컨셉 제안 때 우리가 과정에 들인 노력도 \n어필하면 더 잘 설득되실 것 같아요.",
+  "background_color": "light",
+  "position": {
+    "x": 1718.4543374816992,
+    "y": 85.40007320644213
+  },
+  "rotation": 29.056249999999977,
+  "main_text_uid": "main_0036"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9344"
+  },
+  "uid": "sub_0037",
+  "text": "고객사에서 기대하는 범위는?",
+  "background_color": "dark",
+  "position": {
+    "x": 703.4666910688139,
+    "y": 387.8736273792094
+  },
+  "rotation": 10.018340365680842,
+  "main_text_uid": "main_0037"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9345"
+  },
+  "uid": "sub_0038",
+  "text": "초기 스케치 중 만들어진 좋은 단서들. 본인은 \n모르지만, 동료가 발견해 주는 경우도 종종 있다.",
+  "background_color": "dark",
+  "position": {
+    "x": 263.55838213762826,
+    "y": 809.7015922401174
+  },
+  "rotation": 105.31392405063309,
+  "main_text_uid": "main_0038"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9346"
+  },
+  "uid": "sub_0039",
+  "text": "신입 디자이너의 경우 그리드 시스템에 대한 \n설계를 제대로 했는지 챙겨야.",
+  "background_color": "light",
+  "position": {
+    "x": 97.52159590043925,
+    "y": 914.6023060029283
+  },
+  "rotation": -29,
+  "main_text_uid": "main_0039"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9347"
+  },
+  "uid": "sub_0040",
+  "text": "작업자가 선호하는 안에 대한 논의 중에 \n새로운 매력과 단서가 발견될 때가 있다.",
+  "background_color": "light",
+  "position": {
+    "x": 34.58720717423131,
+    "y": 219.0096083455344
+  },
+  "rotation": 32,
+  "main_text_uid": "main_0040"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9348"
+  },
+  "uid": "sub_0041",
+  "text": "팀원에게 점진적으로 권한과 \n업무 범위를 넘기기",
+  "background_color": "light",
+  "position": {
+    "x": 185.98057675424397,
+    "y": 799.1013355008417
+  },
+  "rotation": -10.056222547584184,
+  "main_text_uid": "main_0041"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9349"
+  },
+  "uid": "sub_0042",
+  "text": "너무 기본적이고 당연한 얘기지만, \n그래도 팀장이니까 할 말은 해야겠지?",
+  "background_color": "dark",
+  "position": {
+    "x": 352.0666178623717,
+    "y": 542.2723279648604
+  },
+  "rotation": -9.52348804500707,
+  "main_text_uid": "main_0042"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a934a"
+  },
+  "uid": "sub_0043",
+  "text": "한 번 말해서는 팀원이 못 알아들을 수도 있다고 \n전제해야 하는 것이 팀장에게 필요한 태도.",
+  "background_color": "dark",
+  "position": {
+    "x": 278.76372620790585,
+    "y": 625.570735724744
+  },
+  "rotation": 77.66478551336127,
+  "main_text_uid": "main_0043"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a934b"
+  },
+  "uid": "sub_0044",
+  "text": "팀장이라면 내가 부족한 부분을 알리고 \n메꿔달라고 요청할 줄도 알아야.",
+  "background_color": "dark",
+  "position": {
+    "x": 139.68338213762806,
+    "y": 726.4612005856511
+  },
+  "rotation": 21.729395218003106,
+  "main_text_uid": "main_0044"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a934c"
+  },
+  "uid": "sub_0045",
+  "text": "찜찜한 예감은 보통 틀리지 않으니\n 바로바로 확인하기",
+  "background_color": "light",
+  "position": {
+    "x": 1771.6278985371239,
+    "y": 446.7333283277648
+  },
+  "rotation": 15,
+  "main_text_uid": "main_0045"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a934d"
+  },
+  "uid": "sub_0046",
+  "text": "생각보다 서로 다른 전제 위에서 \n얘기를 나누게 될 때가 많아서요.",
+  "background_color": "light",
+  "position": {
+    "x": 833.3455344070278,
+    "y": 461.44216691068823
+  },
+  "rotation": -29,
+  "main_text_uid": "main_0046"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a934e"
+  },
+  "uid": "sub_0047",
+  "text": "혹시 초기 방향성에서 너무 멀리 온 건 아닌가 싶어서요.",
+  "background_color": "dark",
+  "position": {
+    "x": 856.8375732064428,
+    "y": 236.54428989751096
+  },
+  "rotation": 108.09113924050666,
+  "main_text_uid": "main_0047"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a934f"
+  },
+  "uid": "sub_0048",
+  "text": "이걸 오늘 공유하면 이번 주 디자인팀 \n업무 흐름을 깰 것 같아요.",
+  "background_color": "dark",
+  "position": {
+    "x": 1364.204337481699,
+    "y": 818.9443631039534
+  },
+  "rotation": -35.35386779184262,
+  "main_text_uid": "main_0048"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9350"
+  },
+  "uid": "sub_0049",
+  "text": "이 건에 대해 논의되신 바가 있을까요? \n있다면 전달 부탁드립니다. 이 정도 쿠션 어때요?",
+  "background_color": "dark",
+  "position": {
+    "x": 1663.5195152827441,
+    "y": 746.499633967789
+  },
+  "rotation": 109.69676511954992,
+  "main_text_uid": "main_0049"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9351"
+  },
+  "uid": "sub_0050",
+  "text": "이 질문으로 그분들께서 상상의 나래를 \n다시 펴기 시작하면 일정상 어려워질 것 같아요.",
+  "background_color": "light",
+  "position": {
+    "x": 37.26098096632504,
+    "y": 437.79328330893105
+  },
+  "rotation": 31.981250000000045,
+  "main_text_uid": "main_0050"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9352"
+  },
+  "uid": "sub_0051",
+  "text": "상당히 귀찮지만 이왕이면 고객사가 \n검토하기에 익숙한 포맷으로?",
+  "background_color": "dark",
+  "position": {
+    "x": 449.9320095168374,
+    "y": 576.1207626700226
+  },
+  "rotation": 60.94739803094228,
+  "main_text_uid": "main_0051"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9353"
+  },
+  "uid": "sub_0052",
+  "text": "회의 중에 침묵이 이어질 때, 일단 넘어가기",
+  "background_color": "dark",
+  "position": {
+    "x": 761.3987005856517,
+    "y": 343.5624999999998
+  },
+  "rotation": -73.12911392405056,
+  "main_text_uid": "main_0052"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9354"
+  },
+  "uid": "sub_0053",
+  "text": "그에 따라 일이 되는 쪽으로 얘기할지, \n좀 중립적인 모드로 갈지 달라질 것 같아요. ",
+  "background_color": "dark",
+  "position": {
+    "x": 789.5432833089317,
+    "y": 825.6181368960471
+  },
+  "rotation": 32,
+  "main_text_uid": "main_0053"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9355"
+  },
+  "uid": "sub_0054",
+  "text": "궁금하긴 한데 계약 체결에 꼭 필요한 \n내용은 아니니 일단은 킵해만 둘까?\n",
+  "background_color": "light",
+  "position": {
+    "x": 1786.284681551976,
+    "y": 624.3977843047159
+  },
+  "rotation": 47.981250000000045,
+  "main_text_uid": "main_0054"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9356"
+  },
+  "uid": "sub_0055",
+  "text": "방향성을 위해 팀장님께 단서를 요청할지, \n아니면 SOS를 치고 솔루션을 요청할 지 고민.",
+  "background_color": "light",
+  "position": {
+    "x": 761.6132869692532,
+    "y": 53.985907759882835
+  },
+  "rotation": 11,
+  "main_text_uid": "main_0055"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9357"
+  },
+  "uid": "sub_0056",
+  "text": "텍스트양을 여기서 더 줄일 수 없다고 하시니, \n아무래도 잘 읽히는 거에 포커스를 둬야겠죠?",
+  "background_color": "dark",
+  "position": {
+    "x": 1274.1016654465607,
+    "y": 581.1651720351383
+  },
+  "rotation": -24.031504922644103,
+  "main_text_uid": "main_0056"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9358"
+  },
+  "uid": "sub_0057",
+  "text": "체계가 좀 잡힌 곳과 아직 잡아나가는 곳. \n일반화할 순 없지만 확실히 경향은 있더라고요.",
+  "background_color": "dark",
+  "position": {
+    "x": 1474.393210102489,
+    "y": 603.9457357247442
+  },
+  "rotation": 115.6840887702756,
+  "main_text_uid": "main_0057"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9359"
+  },
+  "uid": "sub_0058",
+  "text": "아, 그 정도라면 이 견적으로 제안하는 건 좀 무리가 있어 보여요.",
+  "background_color": "dark",
+  "position": {
+    "x": 1105.4680636896037,
+    "y": 299.77919106881393
+  },
+  "rotation": 87.62531645569607,
+  "main_text_uid": "main_0058"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a935a"
+  },
+  "uid": "sub_0059",
+  "text": "100% 진실은 아니지만 \n100% 거짓도 아닌 정보들",
+  "background_color": "light",
+  "position": {
+    "x": 1123.2680020585406,
+    "y": 921.5845534407022
+  },
+  "rotation": -39,
+  "main_text_uid": "main_0059"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a935b"
+  },
+  "uid": "sub_0060",
+  "text": "고객사의 특성에 맞게 여유 일정이 \n어느 정도 필요한지 판단해 보기",
+  "background_color": "light",
+  "position": {
+    "x": 254.69536969253272,
+    "y": 944.0707357247438
+  },
+  "rotation": 4,
+  "main_text_uid": "main_0060"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a935c"
+  },
+  "uid": "sub_0061",
+  "text": "이번에 견적이 이 정도니까 투입시간을 \n그에 맞게 조절하면 좋겠어요.",
+  "background_color": "light",
+  "position": {
+    "x": 637.7496339677891,
+    "y": 453.97218155197623
+  },
+  "rotation": -11,
+  "main_text_uid": "main_0061"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a935d"
+  },
+  "uid": "sub_0062",
+  "text": "열어 두었다면 모르겠지만, 원하는 게 있으면 \n그 방향으로 논의를 풀어 갈 준비를 해 두시면 좋겠어요.",
+  "background_color": "dark",
+  "position": {
+    "x": 542.2987737920935,
+    "y": 610.7403916544654
+  },
+  "rotation": -87,
+  "main_text_uid": "main_0062"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a935e"
+  },
+  "uid": "sub_0063",
+  "text": "인원이 많아서 선뜻 입을 여는 사람이 \n많지 않을 것 같아서요.",
+  "background_color": "light",
+  "position": {
+    "x": 451.538799414349,
+    "y": 222.2142203513914
+  },
+  "rotation": -30,
+  "main_text_uid": "main_0063"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a935f"
+  },
+  "uid": "sub_0064",
+  "text": "대화를 이끌어내기 어려운 팀원에게는 \n질문을 단순하게 만들어 보기",
+  "background_color": "dark",
+  "position": {
+    "x": 1154.6349743777444,
+    "y": 808.4612920937045
+  },
+  "rotation": 102.56765119549902,
+  "main_text_uid": "main_0064"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9360"
+  },
+  "uid": "sub_0065",
+  "text": "고객사의 결정된 내용보다 그 논의 과정에 \n단서가 있는 경우가 종종 있다.",
+  "background_color": "light",
+  "position": {
+    "x": 1756.9073023426054,
+    "y": 225.15281844802342
+  },
+  "rotation": 16,
+  "main_text_uid": "main_0065"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9361"
+  },
+  "uid": "sub_0066",
+  "text": "때론 전형적인 관계 구도 밖에 있는 \n질문을 해서 분위기를 환기하기",
+  "background_color": "light",
+  "position": {
+    "x": 1426.3416910688136,
+    "y": 427.5666178623721
+  },
+  "rotation": 30,
+  "main_text_uid": "main_0066"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9362"
+  },
+  "uid": "sub_0067",
+  "text": "목적은 설득이지만 \n표면은 질문의 형식을 빌리기",
+  "background_color": "light",
+  "position": {
+    "x": 1232.9736456808207,
+    "y": 946.8975109809666
+  },
+  "rotation": -30.90000000000009,
+  "main_text_uid": "main_0067"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9363"
+  },
+  "uid": "sub_0068",
+  "text": "고객사가 추구하는 상과 함께 \n원하지 않는 상 또한 확인하기",
+  "background_color": "dark",
+  "position": {
+    "x": 227.81250000000003,
+    "y": 670.8083821376283
+  },
+  "rotation": -66.04772617002084,
+  "main_text_uid": "main_0068"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9364"
+  },
+  "uid": "sub_0069",
+  "text": "고객사가 언급한 사례에는 다양한 면이 존재하기 때문에 \n구체적으로 무엇에 끌리셨는지 확인해야 할 수도.",
+  "background_color": "dark",
+  "position": {
+    "x": 725.3932101024891,
+    "y": 697.2194363103955
+  },
+  "rotation": 79.4357243319264,
+  "main_text_uid": "main_0069"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9365"
+  },
+  "uid": "sub_0070",
+  "text": "고객사가 혹시 답정너라면 힘 빼지 \n말고 결론으로 직진하자.",
+  "background_color": "light",
+  "position": {
+    "x": 1276.162975841874,
+    "y": 74.0907759882865
+  },
+  "rotation": 36,
+  "main_text_uid": "main_0070"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9366"
+  },
+  "uid": "sub_0071",
+  "text": "디자인 용어나 프로세스에 과하게 맞춰서 \n내용을 전달하려는 고객을 만났을 때",
+  "background_color": "light",
+  "position": {
+    "x": 1279.651171303076,
+    "y": 473.85551057203924
+  },
+  "rotation": -35,
+  "main_text_uid": "main_0071"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9367"
+  },
+  "uid": "sub_0072",
+  "text": "입 디자인에 너무 말려들지 말고 \n적당한 시점에 잘라주기",
+  "background_color": "light",
+  "position": {
+    "x": 1582.3203696925325,
+    "y": 415.8102122986823
+  },
+  "rotation": -46,
+  "main_text_uid": "main_0072"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9368"
+  },
+  "uid": "sub_0073",
+  "text": "고객사 브랜드가 추구하는 인상과 고객사 내부 \n구성원의 DNA는 때로 같기도, 다르기도 하다.",
+  "background_color": "dark",
+  "position": {
+    "x": 627.6682833089313,
+    "y": 611.2764458272327
+  },
+  "rotation": 87.62165963431801,
+  "main_text_uid": "main_0073"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9369"
+  },
+  "uid": "sub_0074",
+  "text": "요청해 주신 대로 새로운 시도를 하겠지만, \n커머스로서 기본적으로 지켜야 하는 바운더리 안에서 해보겠습니다. ",
+  "background_color": "dark",
+  "position": {
+    "x": 996.8142386530016,
+    "y": 556.6847547584189
+  },
+  "rotation": -11.030942334739848,
+  "main_text_uid": "main_0074"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a936a"
+  },
+  "uid": "sub_0075",
+  "text": "주관적일 수밖에 없는 언어를 벗어나서 \n구체적인 케이스를 통해 서로 싱크를 맞추기",
+  "background_color": "dark",
+  "position": {
+    "x": 661.6369875549046,
+    "y": 804.6368045387989
+  },
+  "rotation": 54.03178621659595,
+  "main_text_uid": "main_0075"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a936b"
+  },
+  "uid": "sub_0076",
+  "text": "고객사의 언어 습관을 파악해서 \n웬만하면 워딩을 맞춰드리기",
+  "background_color": "light",
+  "position": {
+    "x": 460.4917642752564,
+    "y": 358.64403367496305
+  },
+  "rotation": -11,
+  "main_text_uid": "main_0076"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a936c"
+  },
+  "uid": "sub_0077",
+  "text": "고객사 논의가 어느 쪽으로 흐르는 중인지 \n아는 것도 때로는 큰 단서.",
+  "background_color": "light",
+  "position": {
+    "x": 1428.355417276721,
+    "y": 929.1136530014642
+  },
+  "rotation": 31,
+  "main_text_uid": "main_0077"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a936d"
+  },
+  "uid": "sub_0078",
+  "text": "안 계신다면 이번 결과물 파일은 \n어떤 포맷으로 드려야 할까요?",
+  "background_color": "light",
+  "position": {
+    "x": 1353.143484626649,
+    "y": 308.2534773060034
+  },
+  "rotation": 6,
+  "main_text_uid": "main_0078"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a936e"
+  },
+  "uid": "sub_0079",
+  "text": "결과물이 놓일 외부 환경에 따라 \n그에 맞는 종이 두께, 후가공 등을 체크해 보기",
+  "background_color": "light",
+  "position": {
+    "x": 1608.9781295754017,
+    "y": 309.50109809663263
+  },
+  "rotation": -31,
+  "main_text_uid": "main_0079"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a936f"
+  },
+  "uid": "sub_0080",
+  "text": "시안 작업 시 폰트 선택 폭을 \n미리 확인해 보기",
+  "background_color": "dark",
+  "position": {
+    "x": 903.2278191321968,
+    "y": 588.9336775670522
+  },
+  "rotation": 69.63628691983126,
+  "main_text_uid": "main_0080"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9370"
+  },
+  "uid": "sub_0081",
+  "text": "외부 사인 작업 시 법적인 부분에 대해 체크하기",
+  "background_color": "dark",
+  "position": {
+    "x": 1007.1819420763031,
+    "y": 337.24464439790546
+  },
+  "rotation": 75.6337552742616,
+  "main_text_uid": "main_0081"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9371"
+  },
+  "uid": "sub_0082",
+  "text": "예를 들면 유지, 확장, 강화, \n축소 중 어떤 방향?",
+  "background_color": "light",
+  "position": {
+    "x": 1557.50259116392,
+    "y": 244.44516946978507
+  },
+  "rotation": 17,
+  "main_text_uid": "main_0082"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9372"
+  },
+  "uid": "sub_0083",
+  "text": "종종 놓치는, 기초적인 질문 던지기",
+  "background_color": "dark",
+  "position": {
+    "x": 909.2486273792094,
+    "y": 364.4871388169338
+  },
+  "rotation": 72.8767932489452,
+  "main_text_uid": "main_0083"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9373"
+  },
+  "uid": "sub_0084",
+  "text": "때로는 ‘최종 데드라인’ 같은 딱딱한 단어보다 \n구어체를 빌려와 쓰는 게 좋을 상황도 있다.",
+  "background_color": "dark",
+  "position": {
+    "x": 1725.8334553440702,
+    "y": 835.456838364046
+  },
+  "rotation": -14.37777777777751,
+  "main_text_uid": "main_0084"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9374"
+  },
+  "uid": "sub_0085",
+  "text": "물었을 때 답해주는 경우가 의외로 많다.",
+  "background_color": "dark",
+  "position": {
+    "x": 690.9347547584184,
+    "y": 202.63735358711563
+  },
+  "rotation": -26.188157524613075,
+  "main_text_uid": "main_0085"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9375"
+  },
+  "uid": "sub_0086",
+  "text": "견적 산출과 제안 시 프로젝트별 \n원가 감각 탑재하기",
+  "background_color": "light",
+  "position": {
+    "x": 238.6556551976576,
+    "y": 476.80234260614975
+  },
+  "rotation": -16,
+  "main_text_uid": "main_0086"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9376"
+  },
+  "uid": "sub_0087",
+  "text": "고객사가 찜찜해하는 부분이 있는 것 \n같다면 짐작하지 말고 직접 묻기",
+  "background_color": "light",
+  "position": {
+    "x": 1087.8275988286978,
+    "y": 494.4721815519766
+  },
+  "rotation": 18.159999999999968,
+  "main_text_uid": "main_0087"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9377"
+  },
+  "uid": "sub_0088",
+  "text": "문장 속의 키워드 뽑아내기. 한편, 자사 브랜드를 객관적으로 \n보지 못하는 경우도 많아서 그 부분도 체크할 겸.",
+  "background_color": "dark",
+  "position": {
+    "x": 395.6012994143488,
+    "y": 796.4278916544657
+  },
+  "rotation": 74.90970464134989,
+  "main_text_uid": "main_0088"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9378"
+  },
+  "uid": "sub_0089",
+  "text": "담당자는 이미 정해져 있겠지만 꺼내서 확인하기",
+  "background_color": "dark",
+  "position": {
+    "x": 618.8994170076708,
+    "y": 307.65914032486154
+  },
+  "rotation": 99.92939521800281,
+  "main_text_uid": "main_0089"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9379"
+  },
+  "uid": "sub_0090",
+  "text": "미팅 시작 시점에 논의의 구성과 흐름 먼저 잡기",
+  "background_color": "dark",
+  "position": {
+    "x": 1131.4000732064412,
+    "y": 194.91242679355767
+  },
+  "rotation": -9.403938115330448,
+  "main_text_uid": "main_0090"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a937a"
+  },
+  "uid": "sub_0091",
+  "text": "자리와 음료 세팅, \n출력물 준비!\n",
+  "background_color": "dark",
+  "position": {
+    "x": 1193.292575490231,
+    "y": 569.8974859531227
+  },
+  "rotation": 79.47988748241949,
+  "main_text_uid": "main_0091"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a937b"
+  },
+  "uid": "sub_0092",
+  "text": "7월쯤부턴 상대의 휴가 일정 체크하기",
+  "background_color": "dark",
+  "position": {
+    "x": 1016.2682101024886,
+    "y": 207.45808931185937
+  },
+  "rotation": 81.74008438818578,
+  "main_text_uid": "main_0092"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a937c"
+  },
+  "uid": "sub_0093",
+  "text": "타겟 페르소나와 함께 \n브랜드 페르소나도 잡아 보기",
+  "background_color": "dark",
+  "position": {
+    "x": 891.2932833089312,
+    "y": 807.2486273792086
+  },
+  "rotation": -68.05850914205337,
+  "main_text_uid": "main_0093"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a937d"
+  },
+  "uid": "sub_0094",
+  "text": "미팅 막바지라 빨리 끝내고 집에 \n가고 싶겠지만 꼭 물어보자.",
+  "background_color": "dark",
+  "position": {
+    "x": 641.4780380673496,
+    "y": 713.1404648609087
+  },
+  "rotation": -15.858790436005393,
+  "main_text_uid": "main_0094"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a937e"
+  },
+  "uid": "sub_0095",
+  "text": "어떤 고객사들은 괜히 미안해하시니까 \n먼저 언급해 드리기",
+  "background_color": "light",
+  "position": {
+    "x": 606.2602489019033,
+    "y": 943.1888726207904
+  },
+  "rotation": -10,
+  "main_text_uid": "main_0095"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a937f"
+  },
+  "uid": "sub_0096",
+  "text": "웬만하면 4시 전에 강남을 빠져나오자.",
+  "background_color": "dark",
+  "position": {
+    "x": 776.7417642752566,
+    "y": 231.3235216365707
+  },
+  "rotation": 39.75369901547174,
+  "main_text_uid": "main_0096"
+},
+{
+  "_id": {
+    "$oid": "66e14d897a4f72744e9a9380"
+  },
+  "uid": "sub_0097",
+  "text": "대표님의 지난 커리어를 단서 삼아 \n조직의 DNA를 짐작해 보기",
+  "background_color": "light",
+  "position": {
+    "x": 1517.935578330893,
+    "y": 52.67789165446559
+  },
+  "rotation": -18.860000000000127,
+  "main_text_uid": "main_0097"
+},
+{
+  "_id": {
+    "$oid": "66e250ad2689e9cb64609e0d"
+  },
+  "uid": "ljs2g1s1y1726107821800",
+  "text": "자료가 윗분들까지 올라가려면 \n몇시에는 보내야 되려나?",
+  "background_color": "dark",
+  "position": {
+    "x": 1542.2431368960483,
+    "y": 690.8554172767208
+  },
+  "rotation": -7.657665260196609,
+  "main_text_uid": "hh995dg8b1726107821779",
+  "__v": 0
+}]

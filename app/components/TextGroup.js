@@ -1,3 +1,4 @@
+import { set } from "mongoose";
 import new_subtexts from "../utils/subtexts_completed.json";
 import { useState, useEffect } from "react";
 
@@ -22,6 +23,11 @@ export default function TextGroup({
 				if (subtext) {
 					setSubPosition(subtext.position);
 					setSubRotation(subtext.rotation);
+
+					// 1초 후 다시 원래 위치로
+					// setTimeout(() => {
+					// 	setSubRotation(subText.rotation);
+					// }, 1000);
 				}
 			}, 500);
 		} else {
@@ -65,11 +71,13 @@ export default function TextGroup({
 							height: !isVisible ? 0 : "auto",
 							left: subPosition?.x || 0,
 							top: subPosition?.y || 0,
-							transform: `rotate(${subRotation || 0}deg)`,
+							transform: `rotate(${subText?.rotation || 0}deg)`,
 							"--new-x": subPosition?.x || 0,
 							"--new-y": subPosition?.y || 0,
 							"--og-x": subText.position?.x || 0,
 							"--og-y": subText.position?.y || 0,
+							"--og-rotation": subText?.rotation || 0,
+							"--new-rotation": subRotation || 0,
 						}}
 					>
 						{subText.text}
