@@ -74,7 +74,7 @@ export default function SharedPage() {
 
 	useEffect(() => {
 		if (typeof window !== "undefined") {
-			audioRef.current = new Audio("/audio/mixkit-typewriter-click.wav");
+			audioRef.current = new Audio("/audio/mixkit-message-pop.mp3");
 		}
 
 		let userId = localStorage.getItem("userId");
