@@ -43,7 +43,7 @@ module.exports = {
 			animation: {
 				"fade-in": "fadeIn 0.5s ease-in-out forwards",
 				"fade-out": "fadeOut 0.5s ease-in-out forwards",
-				move: "move 2s ease-in-out backwards",
+				move: "move 2s ease-in-out forwards",
 			},
 			screens: {
 				lg: "2500px",

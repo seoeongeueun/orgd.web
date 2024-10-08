@@ -24,10 +24,10 @@ export default function TextGroup({
 					setSubPosition(subtext.position);
 					setSubRotation(subtext.rotation);
 
-					// 1초 후 다시 원래 위치로
+					// 2초 후 다시 원래 위치로
 					// setTimeout(() => {
 					// 	setSubRotation(subText.rotation);
-					// }, 1000);
+					// }, 2000);
 				}
 			}, 500);
 		} else {
@@ -56,7 +56,7 @@ export default function TextGroup({
 				{subText && (
 					<div
 						className={`absolute text-sub cursor-pointer text-center transition-opacity duration-500 opacity-100 ${
-							isComplete && "animate-move transition-transform"
+							isComplete && "animate-move"
 						} ${
 							subText.background_color.startsWith("light")
 								? isComplete
@@ -69,8 +69,8 @@ export default function TextGroup({
 						style={{
 							visibility: isVisible ? "visible" : "hidden",
 							height: !isVisible ? 0 : "auto",
-							left: subPosition?.x || 0,
-							top: subPosition?.y || 0,
+							left: `${subPosition?.x || 0}px`,
+							top: `${subPosition?.y || 0}px`,
 							transform: `rotate(${subText?.rotation || 0}deg)`,
 							"--new-x": subPosition?.x || 0,
 							"--new-y": subPosition?.y || 0,
