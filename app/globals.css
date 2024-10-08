@@ -116,3 +116,16 @@ body, html {
     opacity: 0;
   }
 }
+
+@keyframes move {
+  0% {
+    left: calc(var(--og-x) * 1px);
+    top: calc(var(--og-y) * 1px);
+  }
+  100% {
+    left: calc(var(--new-x) * 1px);
+    top: calc(var(--new-y) * 1px);
+  }
+}
+
+  

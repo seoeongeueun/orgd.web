@@ -1,3 +1,6 @@
+import new_subtexts from "../utils/subtexts_completed.json";
+import { useState, useEffect } from "react";
+
 export default function TextGroup({
 	mainText,
 	subText = null,
@@ -5,6 +8,30 @@ export default function TextGroup({
 	onMainTextClick,
 	isComplete,
 }) {
+	const [subPosition, setSubPosition] = useState(subText?.position);
+	const [subRotation, setSubRotation] = useState(subText?.rotation);
+
+	useEffect(() => {
+		if (
+			isComplete &&
+			subText &&
+			!subText.background_color.startsWith("light")
+		) {
+			setTimeout(() => {
+				const subtext = new_subtexts.find((sub) => sub.uid === subText.uid);
+				if (subtext) {
+					setSubPosition(subtext.position);
+					setSubRotation(subtext.rotation);
+				}
+			}, 500);
+		} else {
+			if (subText) {
+				setSubPosition(subText.position);
+				setSubRotation(subText.rotation);
+			}
+		}
+	}, [isComplete, subText]);
+
 	if (mainText)
 		return (
 			<>
@@ -23,6 +50,8 @@ export default function TextGroup({
 				{subText && (
 					<div
 						className={`absolute text-sub cursor-pointer text-center transition-opacity duration-500 opacity-100 ${
+							isComplete && "animate-move transition-transform"
+						} ${
 							subText.background_color.startsWith("light")
 								? isComplete
 									? "bg-sub-light !opacity-0"
@@ -34,9 +63,13 @@ export default function TextGroup({
 						style={{
 							visibility: isVisible ? "visible" : "hidden",
 							height: !isVisible ? 0 : "auto",
-							left: subText.position?.x,
-							top: subText.position?.y,
-							transform: `rotate(${subText.rotation || 0}deg)`,
+							left: subPosition?.x || 0,
+							top: subPosition?.y || 0,
+							transform: `rotate(${subRotation || 0}deg)`,
+							"--new-x": subPosition?.x || 0,
+							"--new-y": subPosition?.y || 0,
+							"--og-x": subText.position?.x || 0,
+							"--og-y": subText.position?.y || 0,
 						}}
 					>
 						{subText.text}
