@@ -32,7 +32,6 @@ export default function SharedPage() {
 	const [subTextVisibility, setSubTextVisibility] = useState({});
 	const [userFrames, setUserFrames] = useState({});
 	const [scale, setScale] = useState(1); // 어떤 기기 너비든 너비가 가득 차도록 조정
-	const [message, setMessage] = useState(0);
 	const [showLoading, setShowLoading] = useState(true);
 	const [isConnected, setIsConnected] = useState(false);
 	const [darkCount, setDarkCount] = useState(0); // 전체 오픈된 다크 해설 텍스트 개수
@@ -49,7 +48,7 @@ export default function SharedPage() {
 	const START_DARK_COUNT = 5; // 초기 다크 텍스트 개수
 	const START_LIGHT_COUNT = 10; // 초기 라이트 텍스트 개수
 	const END_DARK_COUNT = 54; // 완성 기준 다크 텍스트 개수
-	const END_LIGHT_COUNT = 37; // 완성 기준 라이트 텍스트 개수
+	const END_LIGHT_COUNT = 34; // 완성 기준 라이트 텍스트 개수 (37 => 34로 바꿈)
 
 	const audioRef = useRef(null);
 	const timerRef = useRef(null);
@@ -390,20 +389,20 @@ export default function SharedPage() {
 		}
 	}, [isMain, socket, uids]);
 
-	useEffect(() => {
-		if (socket && texts) {
-			socket.on("enable_all_visibility", () => {
-				const newVisibility = {};
-				if (texts?.length > 0) {
-					texts.forEach((text) => {
-						newVisibility[text.uid] = true;
-					});
-				}
-				setSubTextVisibility(newVisibility);
-				setDarkCount(ALL_DARK_COUNT);
-			});
-		}
-	}, [socket, texts]);
+	// useEffect(() => {
+	// 	if (socket && texts) {
+	// 		socket.on("enable_all_visibility", () => {
+	// 			const newVisibility = {};
+	// 			if (texts?.length > 0) {
+	// 				texts.forEach((text) => {
+	// 					newVisibility[text.uid] = true;
+	// 				});
+	// 			}
+	// 			setSubTextVisibility(newVisibility);
+	// 			setDarkCount(ALL_DARK_COUNT);
+	// 		});
+	// 	}
+	// }, [socket, texts]);
 
 	const getRandomSubtextUids = () => {
 		if (uids.dark.length < 5 || uids.light.length < 5)
@@ -553,7 +552,7 @@ export default function SharedPage() {
 				style={{ transform: `scale(${scale})`, transformOrigin: "top left" }}
 			>
 				<div id="canvas" className="w-full h-full">
-					<button
+					{/* <button
 						onClick={() => handleRefreshVisibility()}
 						className="fixed right-28 top-4 text-black"
 					>
@@ -564,7 +563,7 @@ export default function SharedPage() {
 						className="fixed right-4 top-4 text-black"
 					>
 						전체 보이기
-					</button>
+					</button> */}
 					{texts?.length > 0 &&
 						texts.map((text) => (
 							<TextGroup
