@@ -13,7 +13,6 @@ export default function LoginPage() {
 		setError("");
 
 		try {
-			// Send the key to the API for validation
 			const response = await apiRequest("/api/auth", "POST", { key });
 
 			if (response.success) {
